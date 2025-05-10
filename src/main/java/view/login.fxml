@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="your.package.RegisterController">
+    <children>
+        <!-- Top Bar -->
+        <HBox alignment="CENTER_LEFT" prefHeight="60.0" style="-fx-background-color: #1EE6C3;" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <padding>
+                <Insets left="20.0"/>
+            </padding>
+            <children>
+                <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <!-- IMPORTANT: Replace with your actual logo image path -->
+                        <Image url="@pet_house_logo.png" />
+                    </image>
+                </ImageView>
+                <!-- The image already contains "Pet House", so no extra Label needed here according to the image.
+                     If "Pet House" was separate text next to the logo, add a Label here. -->
+            </children>
+        </HBox>
+
+        <!-- Main Content Area -->
+        <VBox alignment="TOP_CENTER" layoutY="60.0" spacing="30.0" AnchorPane.topAnchor="80.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.bottomAnchor="20.0">
+            <padding>
+                <Insets top="20.0" />
+            </padding>
+            <children>
+                <Label text="Đăng ký tài khoản mới" textFill="#E55848">
+                    <font>
+                        <Font name="System Bold" size="26.0" />
+                    </font>
+                </Label>
+
+                <!-- Form Container -->
+                <VBox alignment="CENTER" spacing="20.0"
+                      style="-fx-background-color: #FFFFFF; -fx-padding: 30 40 30 40; -fx-background-radius: 30; -fx-border-color: #B0E0E6; -fx-border-width: 2; -fx-border-radius: 30; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0.5, 0, 0);"
+                      maxWidth="550.0">
+                    <children>
+                        <GridPane hgap="10" vgap="15">
+                            <columnConstraints>
+                                <ColumnConstraints halignment="RIGHT" prefWidth="150.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" prefWidth="300.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="40.0" prefHeight="40.0" />
+                                <RowConstraints minHeight="40.0" prefHeight="40.0" />
+                                <RowConstraints minHeight="40.0" prefHeight="40.0" />
+                            </rowConstraints>
+                            <children>
+                                <Label text="E-mail:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                    <font><Font size="14.0"/></font>
+                                </Label>
+                                <TextField fx:id="emailField" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #CCCCCC;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                                <Label text="Mật khẩu:" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                    <font><Font size="14.0"/></font>
+                                </Label>
+                                <PasswordField fx:id="passwordField" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #CCCCCC;" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                                <Label text="Nhập lại mật khẩu:" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                    <font><Font size="14.0"/></font>
+                                </Label>
+                                <PasswordField fx:id="confirmPasswordField" style="-fx-background-radius: 8; -fx-border-radius: 8; -fx-border-color: #CCCCCC;" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                            </children>
+                        </GridPane>
+
+                        <Button fx:id="registerButton" text="Đăng ký"
+                                style="-fx-background-color: #00AEEF; -fx-text-fill: white; -fx-font-size: 15px; -fx-font-weight: bold; -fx-background-radius: 20; -fx-padding: 10 40;"
+                                onAction="#handleRegisterAction">
+                            <VBox.margin>
+                                <Insets top="10.0" bottom="10.0"/>
+                            </VBox.margin>
+                        </Button>
+
+                        <HBox alignment="CENTER" spacing="5.0">
+                            <children>
+                                <Label text="Bạn đã có tài khoản?"/>
+                                <Hyperlink text="Đăng nhập ngay" onAction="#handleLoginLinkAction" style="-fx-text-fill: #00AEEF;"/>
+                            </children>
+                        </HBox>
+                    </children>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </VBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
