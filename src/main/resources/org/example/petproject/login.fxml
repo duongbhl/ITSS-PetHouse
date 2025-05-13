@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.171"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.petproject.controller.LoginController"
+            prefWidth="800" prefHeight="500">
+
+  <!-- Top header -->
+  <top>
+    <HBox styleClass="header-bar" alignment="CENTER_LEFT" spacing = "10">
+      <!-- 1. ImageView -->
+      <ImageView fx:id="logoView" fitWidth="40" fitHeight="40"  preserveRatio="true" smooth = "true" />
+      <!-- 2. Label chữ Pet House -->
+      <Label text="Pet House" styleClass="label-header"/>
+    </HBox>
+  </top>
+
+  <!-- Center: canh giữa form, với padding trên/dưới -->
+  <center>
+    <StackPane style="-fx-padding: 40 0 40 0;">
+      <VBox fx:id="formContainer"
+            alignment="CENTER"
+            spacing="20"
+            styleClass="login-form-container">
+        <!-- Title -->
+        <Label text="Đăng nhập" styleClass="form-title"/>
+
+        <!-- Form grid -->
+        <GridPane hgap="10" vgap="10" maxWidth="Infinity">
+          <columnConstraints>
+            <ColumnConstraints halignment="RIGHT" minWidth="80"/>
+            <ColumnConstraints hgrow="ALWAYS"/>
+          </columnConstraints>
+          <rowConstraints>
+            <RowConstraints/>
+            <RowConstraints/>
+          </rowConstraints>
+
+          <Label text="E-mail:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+          <TextField fx:id="emailField"
+                     promptText="Nhập email"
+                     GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+          <Label text="Mật khẩu:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+          <PasswordField fx:id="passwordField"
+                         promptText="Nhập mật khẩu"
+                         GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        </GridPane>
+
+        <!-- Button container -->
+        <HBox alignment="CENTER" styleClass="button-container">
+             <Button text="Đăng nhập"
+            onAction="#handleLogin"
+            styleClass="login-button"/>
+        </HBox>
+
+
+        <!-- Link -->
+        <HBox alignment="CENTER" spacing="5">
+          <Label text="Bạn chưa có tài khoản?"/>
+          <Hyperlink text="Đăng ký ngay"
+                     onAction="#showRegister"
+                     styleClass="hyperlink"/>
+        </HBox>
+      </VBox>
+    </StackPane>
+  </center>
+
+</BorderPane>

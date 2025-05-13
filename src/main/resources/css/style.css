@@ -1,0 +1,106 @@
+/* ===== Phần đã có ===== */
+
+.header-bar {
+    -fx-background-color: #00C4CC;
+    background-color: #00C4CC;
+    -fx-padding: 10 20;
+    padding: 10 20;
+}
+.label-header {
+    -fx-font-size: 20px;
+    font-size: 20px;
+    -fx-text-fill: white;
+
+}
+.form-title {
+    -fx-font-size: 24px;
+    font-size: 24px;
+    -fx-text-fill: #FF5722;
+}
+
+.button-container {
+    -fx-padding: 10 0;
+    padding: 10 0;
+}
+.login-button {
+    /* Giới hạn độ rộng để cân đối */
+    -fx-max-width: 200px;
+    max-width: 200px;
+    -fx-min-width: 150px;
+    min-width: 150px;
+
+    /* Chiều cao cố định, bo tròn */
+    -fx-pref-height: 45px;
+    -fx-background-radius: 22px;
+
+    /* Gradient đẹp mắt từ trên xuống dưới */
+    -fx-background-color:
+      linear-gradient(from 0% 0% to 0% 100%, #4fc3f7 0%, #0288d1 100%);
+    background-color: #0288d1; /* Fallback for compatibility */
+    background-color: #0288d1; /* Fallback for compatibility */
+    background-color: #0288d1; /* Fallback for compatibility */
+    background-color: #0288d1; /* Fallback for compatibility */
+    -fx-text-fill: white;
+
+    /* Typography */
+    -fx-font-size: 16px;
+    font-size: 16px;
+    -fx-font-weight: bold;
+    font-weight: bold;
+
+    /* Đổ bóng nhẹ */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);
+
+    /* Con trỏ pointer khi hover */
+    -fx-cursor: hand;
+    cursor: pointer;
+}
+/* Hiệu ứng hover */
+.login-button:hover {
+    -fx-background-color:
+      linear-gradient(from 0% 0% to 0% 100%, #6ec6ff 0%, #039be5 100%);
+    background-color: #039be5; /* Fallback for compatibility */
+}
+
+.hyperlink {
+    -fx-text-fill: #00A8FF;
+}
+
+/* ===== Thêm mới để điều chỉnh height & spacing ===== */
+
+/* Container toàn form: 
+   - pref-width 30% màn hình, giữ trong [300–600px]
+   - pref-height 60% màn hình, giới hạn [300–600px]
+*/
+.login-form-container {
+    -fx-pref-width: 30%;
+    -fx-min-width: 200px;
+    min-width: 200px;
+    -fx-max-width: 450px;
+    max-width: 450px;
+
+    -fx-pref-height: 60%;
+    -fx-min-height: 200px;
+    min-height: 200px;
+    -fx-max-height: 450px;
+    max-height: 450px;
+
+    -fx-background-color: white;
+    background-color: white;
+    -fx-border-color: #00A8FF;
+    border-color: #00A8FF; /* Standard property for compatibility */
+    -fx-border-width: 2;
+    border-width: 2; /* Standard property for compatibility */
+    -fx-border-radius: 20;
+    border-radius: 20; /* Standard property for compatibility */
+    -fx-background-radius: 20;
+    -fx-padding: 30;
+    padding: 30px; /* Standard property for compatibility */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+/* Các trường input giãn vừa đủ chiều ngang container */
+.login-form-container .text-field,
+.login-form-container .password-field {
+    -fx-pref-width: 100%;
+}
