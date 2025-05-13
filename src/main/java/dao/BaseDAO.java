@@ -13,10 +13,10 @@ public abstract class BaseDAO<T, ID extends Serializable> {
     public boolean save(T entity) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction tx = session.beginTransaction();
-            session.save(entity);
+            session.persist(entity);
             tx.commit();
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
@@ -25,10 +25,10 @@ public abstract class BaseDAO<T, ID extends Serializable> {
     public boolean update(T entity) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction tx = session.beginTransaction();
-            session.update(entity);
+            session.merge(entity);
             tx.commit();
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
@@ -37,10 +37,10 @@ public abstract class BaseDAO<T, ID extends Serializable> {
     public boolean delete(T entity) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction tx = session.beginTransaction();
-            session.delete(entity);
+            session.remove(entity);
             tx.commit();
             return true;
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
