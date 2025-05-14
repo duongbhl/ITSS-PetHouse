@@ -8,8 +8,15 @@ module org.example.petproject {
 
     requires org.kordamp.bootstrapfx.core;
 
-    opens model to org.hibernate.orm.core;
-    exports model;
+    // Cho phép FXMLLoader truy cập reflect vào package chứa controller
+    opens org.example.petproject.controller to javafx.fxml;
+
+    // Nếu FXML nằm trong cùng package với AppLauncher, hoặc controller tham chiếu
+    // tới các @FXML trong package gốc, bạn cũng có thể mở thêm:
+
+
+    opens org.example.petproject.model to org.hibernate.orm.core;
+    exports org.example.petproject.model;
 
 
     opens org.example.petproject to javafx.fxml;
