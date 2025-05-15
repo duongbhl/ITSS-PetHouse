@@ -1,0 +1,391 @@
+/* ===== Phần đã có ===== */
+
+.header-bar {
+    -fx-background-color: #00C4CC;
+    background-color: #00C4CC;
+    -fx-padding: 10 20;
+    padding: 10 20;
+}
+.label-header {
+    -fx-font-size: 20px;
+    font-size: 20px;
+    -fx-text-fill: white;
+
+}
+.form-title {
+    -fx-font-size: 24px;
+    font-size: 24px;
+    -fx-text-fill: #FF5722;
+}
+
+.button-container {
+    -fx-padding: 10 0;
+    padding: 10 0;
+}
+.login-button {
+    /* Giới hạn độ rộng để cân đối */
+    -fx-max-width: 200px;
+    max-width: 200px;
+    -fx-min-width: 150px;
+    min-width: 150px;
+
+    /* Chiều cao cố định, bo tròn */
+    -fx-pref-height: 45px;
+    -fx-background-radius: 22px;
+
+    /* Gradient đẹp mắt từ trên xuống dưới */
+    -fx-background-color:
+      linear-gradient(from 0% 0% to 0% 100%, #4fc3f7 0%, #0288d1 100%);
+ 
+    -fx-text-fill: white;
+
+    /* Typography */
+    -fx-font-size: 16px;
+    font-size: 16px;
+    -fx-font-weight: bold;
+    font-weight: bold;
+
+    /* Đổ bóng nhẹ */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);
+
+    /* Con trỏ pointer khi hover */
+    -fx-cursor: hand;
+}
+/* Hiệu ứng hover */
+.login-button:hover {
+    -fx-background-color:
+      linear-gradient(from 0% 0% to 0% 100%, #6ec6ff 0%, #039be5 100%);
+}
+
+.hyperlink {
+    -fx-text-fill: #00A8FF;
+}
+
+/* ===== Thêm mới để điều chỉnh height & spacing ===== */
+
+.login-form-container {
+    -fx-pref-width: 30%;
+    -fx-min-width: 200px;
+    min-width: 200px;
+    -fx-max-width: 450px;
+    max-width: 450px;
+
+    -fx-pref-height: 60%;
+    -fx-min-height: 200px;
+    min-height: 200px;
+    -fx-max-height: 450px;
+    max-height: 450px;
+
+    -fx-background-color: white;
+    background-color: white;
+    -fx-border-color: #00A8FF;
+    border-color: #00A8FF; /* Standard property for compatibility */
+    -fx-border-width: 2;
+    border-width: 2; /* Standard property for compatibility */
+    -fx-border-radius: 20;
+    border-radius: 20; /* Standard property for compatibility */
+    -fx-background-radius: 20;
+    -fx-padding: 30;
+    padding: 30px; /* Standard property for compatibility */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 2);
+}
+
+/* Các trường input giãn vừa đủ chiều ngang container */
+.login-form-container .text-field,
+.login-form-container .password-field {
+    -fx-pref-width: 100%;
+}
+
+.dashboard-button {
+    -fx-background-color: transparent;
+    background-color: transparent; /* Standard property for compatibility */
+    -fx-cursor: hand;
+}
+
+.dashboard-button .graphic {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);
+}
+
+.dashboard-button:hover .graphic {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+.dashboard-button .text {
+    -fx-font-size: 14px;
+    font-size: 14px; /* Standard property for compatibility */
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* sidebar bên trái */
+.sidebar-logo {
+    -fx-background-color: #00C4CC;
+    -fx-pref-width: 60;
+    -fx-min-width: 60;
+    -fx-max-width: 60;
+}
+/* tên user bên phải */
+.user-name {
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+    -fx-padding: 0 10 0 0;
+}
+/* avatar user */
+.avatar-image {
+    -fx-background-color: #cccccc; /* hoặc trong suốt nếu thích */
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+}
+
+/* nút trên dashboard (giữ nguyên hoặc tuỳ chỉnh thêm) */
+.dashboard-button {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+.dashboard-button .graphic {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);
+}
+.dashboard-button:hover .graphic {
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+.dashboard-button .text {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+/* Logo trong header */
+.logo-image {
+    -fx-cursor: hand; /* nếu muốn hover */
+}
+
+
+
+/* =========================
+   ScrollPane chỉnh cho cuộn ngang
+   ========================= */
+.scroll-pane {
+  -fx-background-color: transparent;
+}
+.scroll-pane .viewport {
+  -fx-background-color: transparent;
+}
+.scroll-pane .hbar {
+  -fx-background-color: transparent;
+}
+
+/* =========================
+   Card thú cưng
+   ========================= */
+/* Card container */
+.pet-card {
+  -fx-background-color: white;
+  -fx-padding: 12;
+  -fx-spacing: 8;
+  -fx-alignment: top-left;
+  -fx-border-color: #DDD;
+  -fx-border-radius: 12;
+  -fx-background-radius: 12;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5,0,0,1);
+  -fx-pref-width: 200;      /* đủ rộng cho nội dung */
+}
+
+/* Ảnh thú cưng */
+.pet-card ImageView {
+  -fx-fit-width: 80;
+  -fx-fit-height: 80;
+  -fx-preserve-ratio: true;
+  -fx-background-radius: 10;
+}
+
+/* Tên thú cưng */
+.pet-card .pet-name {
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #00A8FF;
+  -fx-padding: 0 0 4 0;
+}
+
+/* Thông tin loài / ngày sinh */
+.pet-card .info-line {
+  -fx-font-size: 12px;
+  -fx-text-fill: #555;
+}
+
+/* HBox chứa icon + text */
+.info-box {
+  -fx-spacing: 4;
+  -fx-alignment: center-left;
+}
+
+/* Icon trong info-box */
+.info-box ImageView {
+  -fx-fit-width: 14;
+  -fx-fit-height: 14;
+}
+
+/* Nút xem chi tiết */
+.pet-card .detail-button {
+  -fx-background-color: #0095D1;
+  -fx-text-fill: white;
+  -fx-font-size: 12px;
+  -fx-padding: 6 12;
+  -fx-background-radius: 6;
+  -fx-cursor: hand;
+}
+.pet-card .detail-button:hover {
+  -fx-background-color: #0079A1;
+}
+/* Nút “Thêm thú cưng” đặt riêng nếu cần style khác */
+.add-button {
+  -fx-background-color: #4CAF50;
+}
+.add-button:hover {
+  -fx-background-color: #43A047;
+}
+/* Tiêu đề dialog */
+.dialog-title {
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #FF9800;
+  -fx-alignment: center;
+}
+
+/* Khung upload ảnh bo tròn và viền xanh */
+.upload-pane {
+  -fx-background-color: white;
+  -fx-border-color: #00A8FF;
+  -fx-border-width: 2;
+  -fx-border-radius: 15;
+  -fx-background-radius: 15;
+  -fx-padding: 20;
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+}
+
+/* Nút “Upload ảnh” */
+.upload-button {
+  -fx-background-color: #00C4CC;
+  -fx-text-fill: white;
+  -fx-font-size: 14px;
+  -fx-padding: 8 20;
+  -fx-background-radius: 20;
+  -fx-cursor: hand;
+}
+.upload-button:hover {
+  -fx-background-color: #00A9AA;
+}
+
+/* Nút “Thêm thú cưng” ở cuối form */
+.save-button {
+  -fx-background-color: #4CAF50;
+  -fx-text-fill: white;
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+  -fx-padding: 10 30;
+  -fx-background-radius: 25;
+  -fx-cursor: hand;
+}
+.save-button:hover {
+  -fx-background-color: #43A047;
+}
+
+/* GridPane spacing để form không quá dính */
+GridPane {
+  -fx-hgap: 15;
+  -fx-vgap: 12;
+}
+/* Dialog root padding */
+.dialog-root {
+  -fx-padding: 20;
+}
+
+/* Cancel button style */
+.cancel-button {
+  -fx-background-color: #757575;
+  -fx-text-fill: white;
+  -fx-font-size: 14px;
+  -fx-padding: 8 20;
+  -fx-background-radius: 20;
+  -fx-cursor: hand;
+}
+.cancel-button:hover {
+  -fx-background-color: #616161;
+}
+
+.blue-button {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8 20;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+}
+.blue-button:hover {
+    -fx-background-color: #1976D2;
+}
+
+.secondary-button {
+    -fx-background-color: #E0E0E0;
+    -fx-text-fill: #333;
+    -fx-font-size: 14px;
+    -fx-padding: 8 20;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+}
+.profile-root {
+  -fx-background-color: white;
+}
+
+.profile-title {
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #333;
+}
+
+.profile-avatar {
+  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 2);
+  -fx-background-radius: 60;
+  -fx-padding: 5;
+}
+
+.profile-name {
+  -fx-font-size: 18px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #222;
+}
+
+.profile-role {
+  -fx-font-size: 14px;
+  -fx-text-fill: #666;
+}
+
+.profile-info {
+  -fx-font-size: 13px;
+  -fx-text-fill: #555;
+}
+
+.primary-button {
+  -fx-background-color: #00C4CC;
+  -fx-text-fill: white;
+  -fx-font-weight: bold;
+  -fx-background-radius: 5;
+  -fx-padding: 8 15;
+  -fx-cursor: hand;
+}
+
+.primary-button:hover {
+  -fx-background-color: #00A0B0;
+}
+
+.secondary-button {
+  -fx-background-color: #EEEEEE;
+  -fx-text-fill: #333;
+  -fx-background-radius: 5;
+  -fx-padding: 8 15;
+  -fx-cursor: hand;
+}
+
+.secondary-button:hover {
+  -fx-background-color: #DDDDDD;
+}

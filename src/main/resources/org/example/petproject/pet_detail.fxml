@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+
+<BorderPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.petproject.controller.PetDetailController"
+            styleClass="detail-dialog">
+
+    <!-- NỘI DUNG CHÍNH -->
+<center>
+    <HBox spacing="30" style="-fx-padding:20;">
+        <!-- Cột trái: Ảnh và nút sửa -->
+        <VBox spacing="15" alignment="TOP_CENTER">
+            <ImageView fx:id="ivPhoto"
+                       fitWidth="200" fitHeight="200"
+                       preserveRatio="true"
+                       styleClass="detail-image"/>
+           <Button fx:id="btnEdit"
+        text="Thay đổi thông tin"
+        styleClass="save-button">
+                            <VBox.margin>
+                        <Insets top="15.0" />
+                    </VBox.margin>
+            </Button>
+
+        </VBox>
+
+        <!-- Cột phải: thông tin chi tiết -->
+        <GridPane hgap="10" vgap="12">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT" minWidth="120"/>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="200"/>
+            </columnConstraints>
+
+            <Label text="Tên thú cưng:"       GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <Label fx:id="lblName"           GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Loài thú cưng:"      GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <Label fx:id="lblSpecies"        GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Ngày sinh:"         GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <Label fx:id="lblDob"            GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label text="Tuổi:"              GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+            <Label fx:id="lblAge"            GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+            <Label text="Giới tính:"         GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+            <Label fx:id="lblGender"         GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+            <Label text="Cân nặng:"          GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+            <Label fx:id="lblWeight"         GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+            <Label text="Chế độ ăn:"         GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+            <Label fx:id="lblDiet"           GridPane.rowIndex="6" GridPane.columnIndex="1" wrapText="true"/>
+
+            <Label text="Ghi chú đặc biệt:"  GridPane.rowIndex="7" GridPane.columnIndex="0"/>
+            <Label fx:id="lblHealthNotes"    GridPane.rowIndex="7" GridPane.columnIndex="1" wrapText="true"/>
+        </GridPane>
+    </HBox>
+</center>
+</BorderPane>

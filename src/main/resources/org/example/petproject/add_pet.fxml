@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+
+<StackPane xmlns="http://javafx.com/javafx/8"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="org.example.petproject.controller.AddPetController"
+           style="-fx-background-color: transparent;">
+  <VBox spacing="20" alignment="TOP_CENTER" styleClass="dialog-root">
+
+    <!-- Tiêu đề -->
+    <Label text="Thêm thú cưng" styleClass="dialog-title"/>
+
+    <!-- Nội dung chính: upload pane + form -->
+    <HBox spacing="30" alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
+
+      <!-- Khung upload ảnh -->
+      <VBox alignment="CENTER" styleClass="upload-pane" prefWidth="280">
+        <ImageView fx:id="ivPetPhoto"
+                   fitWidth="240" fitHeight="160"
+                   preserveRatio="true" style="-fx-background-color:#E0E0E0;"/>
+        <Button text="Upload ảnh" onAction="#onUploadPhoto"
+                styleClass="upload-button">   <VBox.margin>
+                        <Insets top="15.0" />
+                    </VBox.margin></Button>
+      </VBox>
+
+      <!-- Form nhập liệu -->
+      <VBox spacing="15" HBox.hgrow="ALWAYS" prefWidth="520">
+        <GridPane hgap="10" vgap="12">
+          <columnConstraints>
+            <ColumnConstraints percentWidth="30" halignment="RIGHT"/>
+            <ColumnConstraints percentWidth="70" hgrow="ALWAYS"/>
+          </columnConstraints>
+
+          <Label text="Tên thú cưng:"      GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+          <TextField fx:id="tfName"       GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+          <Label text="Loài thú cưng:"     GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+          <TextField fx:id="tfSpecies"    GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+          <Label text="Ngày sinh:"         GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+          <DatePicker fx:id="dpBirth"      GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <!-- Row 3: Giới tính -->
+        <Label text="Giới tính:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <ChoiceBox fx:id="cbGender"
+                GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+
+          <Label text="Cân nặng (kg):"     GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+          <TextField fx:id="tfWeight"     GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+          <Label text="Diet:"               GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+          <TextArea fx:id="taDiet"         GridPane.rowIndex="5" GridPane.columnIndex="1" prefRowCount="3" wrapText="true"/>
+
+          <Label text="Health Notes:"      GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+          <TextArea fx:id="taHealthNotes"  GridPane.rowIndex="6" GridPane.columnIndex="1" prefRowCount="3" wrapText="true"/>
+        </GridPane>
+
+        <!-- Nút Hủy và Lưu -->
+        <HBox spacing="15" alignment="CENTER_RIGHT" style="-fx-padding:10 0 0 0;">
+          <Button fx:id="btnCancel" text="Hủy" onAction="#close" styleClass="cancel-button"/>
+          <Button fx:id="btnSave"   text="Thêm thú cưng" styleClass="save-button"/>
+        </HBox>
+      </VBox>
+    </HBox>
+  </VBox>
+</StackPane>
