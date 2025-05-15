@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="900.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <!-- Top Bar -->
+      <HBox alignment="CENTER_LEFT" prefHeight="60.0" style="-fx-background-color: #1EE6C3;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+         <children>
+            <Button onAction="#arrowpressedButton" prefHeight="46.0" prefWidth="42.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: bold; -fx-padding: 0 10 0 5;" text="←">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="5.0" /> <!-- Optional: space between arrow and logo -->
+               </HBox.margin>
+            </Button>
+            <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../asssets/pngtree-pet-house-business-logo-image_82846.jpg" />
+               </image>
+            </ImageView>
+            <Label text="Dịch vụ làm đẹp &amp; vệ sinh" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="ownerName" text="TenUser" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Label>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../asssets/6858504.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+
+      <!-- Main Content Area -->
+      <VBox alignment="TOP_CENTER" layoutY="60.0" spacing="20.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="80.0">
+         <padding>
+            <Insets top="15.0" />
+         </padding>
+         <children>
+            <Label text="Đăng ký dịch vụ làm đẹp &amp; vệ sinh" textFill="#F5A623">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Label>
+
+            <!-- Form Container -->
+            <VBox maxWidth="750.0" spacing="20.0" style="-fx-background-color: #FFFFFF; -fx-padding: 30 40 30 40; -fx-background-radius: 25; -fx-border-color: #DCDCDC; -fx-border-width: 1.5; -fx-border-radius: 25; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0.3, 0, 0);">
+               <children>
+                  <!-- Pet Selection -->
+                  <GridPane hgap="10.0" vgap="5.0">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" prefWidth="130.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" prefWidth="300.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="35.0" prefHeight="35.0" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="Chọn thú cưng:" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                           <font><Font size="14.0" /></font>
+                        </Label>
+                        <ComboBox fx:id="petSelected" prefWidth="350.0" promptText="Select" style="-fx-font-size: 13px;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </GridPane>
+
+                  <!-- Main Form Grid: Services/Date/Time on Left | Price/Notes on Right -->
+                  <GridPane hgap="30.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints prefWidth="280.0" /> <!-- Left column: Services, Date, Time -->
+                        <ColumnConstraints hgrow="ALWAYS" />    <!-- Right column: Price, Notes -->
+                     </columnConstraints>
+                     <rowConstraints>
+                         <RowConstraints /> <!-- Row for Services / Price -->
+                         <RowConstraints /> <!-- Row for Date / Notes part 1 -->
+                         <RowConstraints /> <!-- Row for Time / Notes part 2 -->
+                     </rowConstraints>
+                     <children>
+                        <!-- Column 0, Row 0: Services Checkboxes -->
+                        <VBox spacing="12.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                           <padding>
+                              <Insets left="10.0" top="5.0" />
+                           </padding>
+                           <children>
+                              <CheckBox fx:id="tamSelected" text="Tắm">
+                                 <font><Font size="14.0" /></font>
+                              </CheckBox>
+                              <CheckBox fx:id="catSelected" text="Cắt, tỉa lông">
+                                 <font><Font size="14.0" /></font>
+                              </CheckBox>
+                              <CheckBox fx:id="vstaiSelected" text="Vệ sinh tai">
+                                 <font><Font size="14.0" /></font>
+                              </CheckBox>
+                              <CheckBox fx:id="vsmongSelected" text="Vệ sinh móng">
+                                 <font><Font size="14.0" /></font>
+                              </CheckBox>
+                           </children>
+                        </VBox>
+
+                        <!-- Column 1, Row 0: Price -->
+                        <VBox alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                            <padding>
+                                <!-- Adjust this padding to vertically align price as desired -->
+                                <Insets top="60.0" />
+                            </padding>
+                           <children>
+                              <HBox alignment="CENTER_LEFT" spacing="8.0">
+                                 <children>
+                                    <Label text="Tổng giá:" textFill="#D32F2F">
+                                       <font><Font name="System Bold" size="15.0" /></font>
+                                    </Label>
+                                    <Label fx:id="totalPrice" style="-fx-background-color: #FFEBEE; -fx-text-fill: #C62828; -fx-padding: 8 20; -fx-background-radius: 5; -fx-font-weight: bold; -fx-font-size: 14px;" text="0 VNĐ" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+
+                        <!-- Column 0, Row 1: Date Picker -->
+                        <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" prefHeight="20.0" prefWidth="84.0" text="Ngày:">
+                                 <font><Font size="14.0" /></font>
+                              </Label>
+                              <DatePicker fx:id="scheduleSelected" prefWidth="200.0" promptText="Chọn ngày" style="-fx-font-size: 13px;" />
+                           </children>
+                           <GridPane.margin>
+                              <Insets top="10.0" /> <!-- Add some top margin if services VBox is tall -->
+                           </GridPane.margin>
+                        </HBox>
+
+                        <!-- Column 0, Row 2: Time Picker -->
+                        <HBox alignment="CENTER_LEFT" spacing="10.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                           <children>
+                              <Label alignment="CENTER_RIGHT" prefWidth="70.0" text="Giờ:">
+                                 <font><Font size="14.0" /></font>
+                              </Label>
+                              <ComboBox prefWidth="200.0" promptText="Chọn giờ" style="-fx-font-size: 13px;" />
+                           </children>
+                        </HBox>
+
+                        <!-- Column 1, Row 1 (spanning 2 rows): Notes -->
+                        <VBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
+                           <children>
+                              <Label text="Ghi chú:">
+                                 <font><Font size="14.0" /></font>
+                              </Label>
+                              <TextArea fx:id="noteBox" prefHeight="90.0" style="-fx-font-size: 13px;" wrapText="true" />
+                           </children>
+                           <GridPane.margin>
+                              <Insets top="10.0" /> <!-- Align with DatePicker HBox's top margin -->
+                           </GridPane.margin>
+                        </VBox>
+                     </children>
+                  </GridPane>
+
+                  <!-- Button -->
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Button onAction="#bookAppointmentButton" style="-fx-background-color: #007AFF; -fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold; -fx-background-radius: 8; -fx-padding: 10 45;" text="Đặt dịch vụ">
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>
