@@ -2,11 +2,19 @@ package org.example.petproject.model;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "Users")
 public class User {
     @Id
     private String userId;
+    @PrePersist
+    public void generateId() {
+        if (this.userId == null) {
+            this.userId = UUID.randomUUID().toString();
+        }
+    }
 
     @Column(unique = true, nullable = false)
     private String email;

@@ -11,18 +11,18 @@ public class Service {
     private String serviceId;
 
     private String name;
-    private BigDecimal price;
+    private Double price;
 
     @Enumerated(EnumType.STRING)
     private Type type;
 
     public enum Type {
-        lưu_trú, làm_đẹp_vệ_sinh
+        luu_tru, lam_dep_va_ve_sinh
     }
 
     // Getters, setters, and constructors
 
-    public Service(String serviceId, Type type, BigDecimal price, String name) {
+    public Service(String serviceId, Type type, Double price, String name) {
         this.serviceId = serviceId;
         this.type = type;
         this.price = price;
@@ -48,11 +48,11 @@ public class Service {
         this.type = type;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

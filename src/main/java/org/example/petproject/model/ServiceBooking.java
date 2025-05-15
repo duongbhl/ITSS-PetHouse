@@ -1,14 +1,24 @@
 package org.example.petproject.model;
 
 import jakarta.persistence.*;
+import org.example.petproject.dao.PetDAO;
+import org.example.petproject.dao.ServiceDAO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "ServiceBooking")
 public class ServiceBooking {
     @Id
     private String bookingId;
+    @PrePersist
+    public void generateId() {
+        if (this.bookingId == null) {
+            this.bookingId = UUID.randomUUID().toString();
+        }
+    }
 
     @ManyToOne
     @JoinColumn(name = "pet_id")
@@ -18,8 +28,8 @@ public class ServiceBooking {
     @JoinColumn(name = "service_id")
     private Service service;
 
-    private LocalDateTime checkInTime;
-    private LocalDateTime checkOutTime;
+    private LocalDate checkInTime;
+    private LocalDate checkOutTime;
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.pending;
@@ -36,8 +46,7 @@ public class ServiceBooking {
 
     // Getters, setters, and constructors
 
-    public ServiceBooking(String bookingId, Pet pet, Service service, LocalDateTime checkInTime,
-            LocalDateTime checkOutTime, Status status, String note, User handledBy) {
+    public ServiceBooking(String bookingId, Pet pet, Service service, LocalDate checkInTime, LocalDate checkOutTime, Status status, String note, User handledBy) {
         this.bookingId = bookingId;
         this.pet = pet;
         this.service = service;
@@ -48,7 +57,23 @@ public class ServiceBooking {
         this.handledBy = handledBy;
     }
 
-    public ServiceBooking() {
+    public ServiceBooking() {}
+
+    public ServiceBooking(LocalDate checkInTime, String note,Status status,String petname,String service_id) {
+        this.checkInTime = checkInTime;
+        this.note = note;
+        this.status = status;
+        this.pet = new PetDAO().findpetbyName(petname);
+        this.service = new ServiceDAO().findservicebyID(service_id);
+    }
+
+    public ServiceBooking(LocalDate checkInTime,LocalDate checkOutTime ,String note, ServiceBooking.Status status, String petname, String service_id){
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+        this.note = note;
+        this.status = status;
+        this.pet = new PetDAO().findpetbyName(petname);
+        this.service = new ServiceDAO().findservicebyID(service_id);
     }
 
     public String getBookingId() {
@@ -75,19 +100,19 @@ public class ServiceBooking {
         this.service = service;
     }
 
-    public LocalDateTime getCheckInTime() {
+    public LocalDate getCheckInTime() {
         return checkInTime;
     }
 
-    public void setCheckInTime(LocalDateTime checkInTime) {
+    public void setCheckInTime(LocalDate checkInTime) {
         this.checkInTime = checkInTime;
     }
 
-    public LocalDateTime getCheckOutTime() {
+    public LocalDate getCheckOutTime() {
         return checkOutTime;
     }
 
-    public void setCheckOutTime(LocalDateTime checkOutTime) {
+    public void setCheckOutTime(LocalDate checkOutTime) {
         this.checkOutTime = checkOutTime;
     }
 
@@ -120,7 +145,7 @@ public class ServiceBooking {
         return "ServiceBooking{" +
                 "bookingId='" + bookingId + '\'' +
                 ", pet=" + pet +
-                ", service=" + service +
+                ", org.example.petproject.service=" + service +
                 ", checkInTime=" + checkInTime +
                 ", checkOutTime=" + checkOutTime +
                 ", status=" + status +

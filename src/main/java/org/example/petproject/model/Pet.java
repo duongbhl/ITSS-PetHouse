@@ -3,6 +3,7 @@ package org.example.petproject.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Pet")
@@ -10,6 +11,12 @@ public class Pet {
     @Id
     @Column(columnDefinition = "varchar(36)")
     private String petId;
+    @PrePersist
+    public void generateId() {
+        if (this.petId == null) {
+            this.petId = UUID.randomUUID().toString();
+        }
+    }
 
     @ManyToOne
     @JoinColumn(name = "owner_id")

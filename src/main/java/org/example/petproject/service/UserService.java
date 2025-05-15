@@ -4,10 +4,23 @@ import org.example.petproject.dao.HibernateUtil;
 import org.example.petproject.model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.example.petproject.dao.*;
+import org.example.petproject.model.Appointment;
+import org.example.petproject.model.PetBoarding;
+import org.example.petproject.model.ServiceBooking;
 
 import java.util.UUID;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Stack;
 
 public class UserService {
+    UserDAO userDAO=new UserDAO();
+    PetDAO petDAO=new PetDAO();
+    AppointmentDAO appointmentDAO=new AppointmentDAO();
+    ServiceBookingDAO serviceBookingDAO=new ServiceBookingDAO();
+    PetBoardingDAO petBoardingDAO=new PetBoardingDAO();
 
     /**
      * Thử đăng nhập với email & mật khẩu.
@@ -53,7 +66,11 @@ public class UserService {
             throw ex;
         }
     }
+    public UserService() {}
 
+    public void datlichkham(String name, LocalDate appointmenttime, String type, Appointment.Status status) {
+        Appointment appointment=new Appointment(name,appointmenttime,type,status);
+        appointmentDAO.save(appointment);
     /**
      * Kiểm tra xem email đã có trong DB chưa.
      */
@@ -70,6 +87,17 @@ public class UserService {
         return count != null && count > 0;
     }
 
+    public void dkdvvesinh(LocalDate checkInTime, String note, ServiceBooking.Status status, String petname, String service_id){
+        ServiceBooking serviceBooking=new ServiceBooking(checkInTime,note, status,petname,service_id);
+        serviceBookingDAO.save(serviceBooking);
+    }
+    public void dkdvluutru(LocalDate checkInTime,LocalDate checkoutTime ,String note, ServiceBooking.Status status, String petname, String service_id,String roomname){
+        ServiceBooking serviceBooking=new ServiceBooking(checkInTime,checkoutTime,note, status,petname,service_id);
+        serviceBookingDAO.save(serviceBooking);
+        PetBoarding petBoarding=new PetBoarding(serviceBooking,roomname);
+        petBoardingDAO.save(petBoarding);
+    }
+}
     /**
      * Cập nhật thông tin User đã tồn tại.
      */

@@ -18,7 +18,7 @@ public class Room {
     private BigDecimal pricePerDay;
 
     public enum Type {
-        thường, vip
+        thuong, vip
     }
 
     // Getters, setters, and constructors

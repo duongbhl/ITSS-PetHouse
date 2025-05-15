@@ -1,20 +1,29 @@
 package org.example.petproject.model;
 
 import jakarta.persistence.*;
+import org.example.petproject.dao.PetDAO;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "Appointment")
 public class Appointment {
     @Id
     private String appointmentId;
+    @PrePersist
+    public void generateId() {
+        if (this.appointmentId == null) {
+            this.appointmentId = UUID.randomUUID().toString();
+        }
+    }
 
     @ManyToOne
     @JoinColumn(name = "pet_id")
-    private Pet pet;
+    private Pet pet ;
 
-    private LocalDateTime appointmentTime;
+    private LocalDate appointmentTime;
     private String type;
 
     @Enumerated(EnumType.STRING)
@@ -34,8 +43,7 @@ public class Appointment {
 
     // Getters, setters, and constructors
 
-    public Appointment(String appointmentId, Pet pet, LocalDateTime appointmentTime, String type, Status status,
-            String note, User confirmedBy, LocalDateTime confirmedAt) {
+    public Appointment(String appointmentId, Pet pet, LocalDate appointmentTime, String type, Status status, String note, User confirmedBy, LocalDateTime confirmedAt) {
         this.appointmentId = appointmentId;
         this.pet = pet;
         this.appointmentTime = appointmentTime;
@@ -46,7 +54,13 @@ public class Appointment {
         this.confirmedAt = confirmedAt;
     }
 
-    public Appointment() {
+    public Appointment() {}
+
+    public Appointment(String pet_name, LocalDate appointmentTime, String type, Status status) {
+        this.pet=new PetDAO().findpetbyName(pet_name);
+        this.appointmentTime = appointmentTime;
+        this.type = type;
+        this.status = status;
     }
 
     public String getAppointmentId() {
@@ -65,11 +79,11 @@ public class Appointment {
         this.pet = pet;
     }
 
-    public LocalDateTime getAppointmentTime() {
+    public LocalDate getAppointmentTime() {
         return appointmentTime;
     }
 
-    public void setAppointmentTime(LocalDateTime appointmentTime) {
+    public void setAppointmentTime(LocalDate appointmentTime) {
         this.appointmentTime = appointmentTime;
     }
 

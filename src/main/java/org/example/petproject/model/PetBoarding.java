@@ -1,12 +1,22 @@
 package org.example.petproject.model;
 
 import jakarta.persistence.*;
+import org.example.petproject.dao.RoomDAO;
+import org.example.petproject.dao.ServiceBookingDAO;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "PetBoarding")
 public class PetBoarding {
     @Id
     private String boardingId;
+    @PrePersist
+    public void generateId() {
+        if (this.boardingId == null) {
+            this.boardingId = UUID.randomUUID().toString();
+        }
+    }
 
     @OneToOne
     @JoinColumn(name = "booking_id")
@@ -24,7 +34,11 @@ public class PetBoarding {
         this.room = room;
     }
 
-    public PetBoarding() {
+    public PetBoarding() {}
+
+    public PetBoarding(ServiceBooking serviceBooking,String roomname) {
+        this.booking = serviceBooking;
+        this.room = new RoomDAO().findByName(roomname);
     }
 
     public String getBoardingId() {
