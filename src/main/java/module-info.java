@@ -26,5 +26,6 @@ module org.example.petproject {
     exports org.example.petproject.model;
     exports org.example.petproject.controller;
     exports org.example.petproject.controller.Dashboard;
+    exports org.example.petproject;
 
 }

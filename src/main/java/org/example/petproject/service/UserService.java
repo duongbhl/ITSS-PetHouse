@@ -1,26 +1,30 @@
 package org.example.petproject.service;
 
 import org.example.petproject.dao.HibernateUtil;
-import org.example.petproject.model.User;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.example.petproject.dao.*;
+import org.example.petproject.dao.AppointmentDAO;
+import org.example.petproject.dao.PetBoardingDAO;
+import org.example.petproject.dao.PetDAO;
+import org.example.petproject.dao.ServiceBookingDAO;
+import org.example.petproject.dao.UserDAO;
 import org.example.petproject.model.Appointment;
 import org.example.petproject.model.PetBoarding;
 import org.example.petproject.model.ServiceBooking;
+import org.example.petproject.model.User;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import java.util.UUID;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Stack;
+import java.util.UUID;
 
 public class UserService {
-    UserDAO userDAO=new UserDAO();
-    PetDAO petDAO=new PetDAO();
-    AppointmentDAO appointmentDAO=new AppointmentDAO();
-    ServiceBookingDAO serviceBookingDAO=new ServiceBookingDAO();
-    PetBoardingDAO petBoardingDAO=new PetBoardingDAO();
+    private final UserDAO userDAO = new UserDAO();
+    private final PetDAO petDAO = new PetDAO();
+    private final AppointmentDAO appointmentDAO = new AppointmentDAO();
+    private final ServiceBookingDAO serviceBookingDAO = new ServiceBookingDAO();
+    private final PetBoardingDAO petBoardingDAO = new PetBoardingDAO();
+
+    public UserService() {
+    }
 
     /**
      * Thử đăng nhập với email & mật khẩu.
@@ -28,14 +32,11 @@ public class UserService {
     public User login(String email, String password) {
         Session session = HibernateUtil.getCurrentSession();
         Transaction tx = session.beginTransaction();
-
         User u = session.createQuery(
-                "FROM User u WHERE u.email = :e", User.class)
+                        "FROM User u WHERE u.email = :e", User.class)
                 .setParameter("e", email)
                 .uniqueResult();
-
         tx.commit();
-
         if (u != null && u.getPassword().equals(password)) {
             return u;
         }
@@ -43,17 +44,12 @@ public class UserService {
     }
 
     /**
-     * Đăng ký user mới:
-     * - Nếu userId chưa set, sẽ cấp UUID.
-     * - Role, email, password… đều đã set sẵn trước khi gọi.
+     * Đăng ký user mới; cấp UUID nếu cần.
      */
     public void register(User user) {
-        // 1) Nếu chưa có PK, cấp UUID
         if (user.getUserId() == null || user.getUserId().isBlank()) {
             user.setUserId(UUID.randomUUID().toString());
         }
-
-        // 2) Bắt transaction, persist rồi commit
         Session session = HibernateUtil.getCurrentSession();
         Transaction tx = session.beginTransaction();
         try {
@@ -66,58 +62,74 @@ public class UserService {
             throw ex;
         }
     }
-    public UserService() {}
 
-    public void datlichkham(String name, LocalDate appointmenttime, String type, Appointment.Status status) {
-        Appointment appointment=new Appointment(name,appointmenttime,type,status);
-        appointmentDAO.save(appointment);
     /**
      * Kiểm tra xem email đã có trong DB chưa.
      */
     public boolean isEmailTaken(String email) {
         Session session = HibernateUtil.getCurrentSession();
         Transaction tx = session.beginTransaction();
-
         Long count = session.createQuery(
-                "SELECT count(u.userId) FROM User u WHERE u.email = :email", Long.class)
+                        "SELECT count(u.userId) FROM User u WHERE u.email = :email", Long.class)
                 .setParameter("email", email)
                 .uniqueResult();
-
         tx.commit();
         return count != null && count > 0;
     }
 
-    public void dkdvvesinh(LocalDate checkInTime, String note, ServiceBooking.Status status, String petname, String service_id){
-        ServiceBooking serviceBooking=new ServiceBooking(checkInTime,note, status,petname,service_id);
+    /**
+     * Đặt lịch khám cho thú cưng.
+     */
+    public void datlichkham(String name, LocalDate appointmentTime,
+                            String type, Appointment.Status status) {
+        Appointment appointment = new Appointment(name, appointmentTime, type, status);
+        appointmentDAO.save(appointment);
+    }
+
+    /**
+     * Đăng ký dịch vụ vệ sinh cho thú cưng.
+     */
+    public void dkdvvesinh(LocalDate checkInTime, String note,
+                           ServiceBooking.Status status, String petName, String serviceId) {
+        ServiceBooking serviceBooking = new ServiceBooking(checkInTime, note, status, petName, serviceId);
         serviceBookingDAO.save(serviceBooking);
     }
-    public void dkdvluutru(LocalDate checkInTime,LocalDate checkoutTime ,String note, ServiceBooking.Status status, String petname, String service_id,String roomname){
-        ServiceBooking serviceBooking=new ServiceBooking(checkInTime,checkoutTime,note, status,petname,service_id);
+
+    /**
+     * Đăng ký dịch vụ lưu trú và tạo bản ghi boarding.
+     */
+    public void dkdvluutru(LocalDate checkInTime, LocalDate checkOutTime,
+                           String note, ServiceBooking.Status status,
+                           String petName, String serviceId, String roomName) {
+        ServiceBooking serviceBooking = new ServiceBooking(checkInTime, checkOutTime, note, status, petName, serviceId);
         serviceBookingDAO.save(serviceBooking);
-        PetBoarding petBoarding=new PetBoarding(serviceBooking,roomname);
+        PetBoarding petBoarding = new PetBoarding(serviceBooking, roomName);
         petBoardingDAO.save(petBoarding);
     }
-}
+
     /**
      * Cập nhật thông tin User đã tồn tại.
      */
     public void update(User user) {
-        // Nếu chưa có ID, không cho cập nhật
         if (user.getUserId() == null) {
             throw new IllegalArgumentException("User chưa có ID, không thể update.");
         }
         Session session = HibernateUtil.getCurrentSession();
         Transaction tx = session.beginTransaction();
         try {
-            session.merge(user); // hoặc session.update(user);
+            session.merge(user);
             tx.commit();
         } catch (Exception ex) {
-            if (tx.isActive())
+            if (tx.isActive()) {
                 tx.rollback();
+            }
             throw ex;
         }
     }
 
+    /**
+     * Đổi mật khẩu của user.
+     */
     public boolean changePassword(String userId, String oldPwd, String newPwd) {
         Session session = HibernateUtil.getCurrentSession();
         Transaction tx = session.beginTransaction();
@@ -131,5 +143,4 @@ public class UserService {
         tx.commit();
         return true;
     }
-
 }
