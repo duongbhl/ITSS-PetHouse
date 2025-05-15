@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.petproject.controller.MedicalHistoryController"
-            style="-fx-font-family: 'Segoe UI'; -fx-background-color: #F5F5F5;">
+<BorderPane style="-fx-font-family: 'Segoe UI'; -fx-background-color: #F5F5F5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petproject.controller.MedicalHistoryController">
 
     <!-- HEADER với tên user -->
     <top>
-        <HBox spacing="10" alignment="CENTER_LEFT"
-              style="-fx-background-color: #00ACC1; -fx-padding: 10;">
-            <Label text="Lịch sử khám bệnh"
-                   style="-fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold;"/>
-            <Region HBox.hgrow="ALWAYS"/>
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #00C4CC; -fx-padding: 10;">
+            <Button onAction="#arrowPressedButton" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 22px; -fx-font-weight: bold; -fx-padding: 0 10 0 5;">
+                <font>
+                    <Font name="System Bold" size="22.0" />
+                </font>
+                <HBox.margin>
+                    <Insets right="5.0" />
+                </HBox.margin>
+                <graphic>
+                    <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                            <Image url="@../../../assets/logo.png" />
+                        </image>
+                    </ImageView>
+                </graphic>
+            </Button>
+            <Label style="-fx-text-fill: black; -fx-font-size: 18; -fx-font-weight: bold;" text="Lịch sử khám bệnh" />
+            <Region HBox.hgrow="ALWAYS" />
             <!-- DÒNG này show tên user hiện tại -->
-            <Label fx:id="lblUsername"
-                   style="-fx-text-fill: white; -fx-font-size: 14;"/>
-            <ImageView fx:id="avatarImageView"
-                       fitHeight="32" fitWidth="32"
-                       style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 4,0,0,0);"/>
+            <Label fx:id="lblUsername" style="-fx-text-fill: black;" text="TenUser">
+            <font>
+               <Font name="System Bold" size="12.0" />
+            </font></Label>
+            <ImageView fx:id="avatarImageView" fitHeight="32" fitWidth="32" style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 4,0,0,0);" />
         </HBox>
     </top>
 
@@ -30,35 +50,26 @@
         <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #FAFAFA;" BorderPane.alignment="CENTER">
 
             <!-- DÒNG NÀY CHứa 2 KHỐI: tìm kiếm (trái) & chọn thú cưng (phải) -->
-            <HBox spacing="8" alignment="CENTER_LEFT">
+            <HBox alignment="CENTER_LEFT" spacing="8">
                 <!-- Khối trái: TextField + Button -->
-                <HBox spacing="8" alignment="CENTER_LEFT">
-                    <TextField fx:id="txtPetName"
-                               promptText="Tìm kiếm thú cưng"
-                               prefWidth="300"/>
-                    <Button fx:id="btnSearchPet"
-                            text="Tìm Thú Cưng"
-                            onAction="#handleSearchPet"/>
+                <HBox alignment="CENTER_LEFT" spacing="8">
+                    <TextField fx:id="txtPetName" prefWidth="300" promptText="Tìm kiếm thú cưng" />
+                    <Button fx:id="btnSearchPet" onAction="#handleSearchPet" text="Tìm Thú Cưng" />
                 </HBox>
 
                 <!-- spacer đẩy khối kế tiếp về sát phải -->
-                <Region HBox.hgrow="ALWAYS"/>
+                <Region HBox.hgrow="ALWAYS" />
 
                 <!-- Khối phải: ComboBox -->
-                <HBox spacing="8" alignment="CENTER_RIGHT">
-                    <ComboBox fx:id="comboPets"
-                              promptText="Chọn thú cưng"
-                              prefWidth="160"
-                              onAction="#handlePetSelected"/>
+                <HBox alignment="CENTER_RIGHT" spacing="8">
+                    <ComboBox fx:id="comboPets" onAction="#handlePetSelected" prefWidth="160" promptText="Chọn thú cưng" />
                 </HBox>
             </HBox>
 
             <!-- ScrollPane auto co giãn -->
-            <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS">
+            <ScrollPane fitToHeight="true" fitToWidth="true" VBox.vgrow="ALWAYS">
                 <content>
-                    <VBox fx:id="cardContainer"
-                          spacing="10"
-                          style="-fx-padding: 5;"/>
+                    <VBox fx:id="cardContainer" spacing="10" style="-fx-padding: 5;" />
                 </content>
             </ScrollPane>
         </VBox>

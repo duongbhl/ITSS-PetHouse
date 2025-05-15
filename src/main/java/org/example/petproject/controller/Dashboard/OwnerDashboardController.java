@@ -128,27 +128,27 @@ public class OwnerDashboardController implements DashboardControllerBase, javafx
 
     @FXML
     private void onBook(ActionEvent evt) {
-        navigateTo("/org/example/petproject/owner_book.fxml", evt);
+        navigateTo("/org/example/petproject/datlichkhamScreen.fxml", evt);
     }
 
     @FXML
     private void onHistory(ActionEvent evt) {
-        navigateTo("/org/example/petproject/owner_history.fxml", evt);
+        navigateTo("/org/example/petproject/MedicalHistoryView.fxml", evt);
     }
 
     @FXML
     private void onGrooming(ActionEvent evt) {
-        navigateTo("/org/example/petproject/owner_grooming.fxml", evt);
+        navigateTo("/org/example/petproject/dslamdepScreen.fxml", evt);
     }
 
     @FXML
     private void onBoarding(ActionEvent evt) {
-        navigateTo("/org/example/petproject/owner_boarding.fxml", evt);
+        navigateTo("/org/example/petproject/luutruScreen.fxml", evt);
     }
 
     @FXML
     private void onNotify(ActionEvent evt) {
-        navigateTo("/org/example/petproject/owner_notifications.fxml", evt);
+        navigateTo("/org/example/petproject/NotificationView.fxml", evt);
     }
 
     /**

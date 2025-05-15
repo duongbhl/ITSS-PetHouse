@@ -5,31 +5,30 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.example.petproject.controller.Dashboard.DashboardControllerBase;
 import org.example.petproject.dao.ServiceBookingDAO;
 import org.example.petproject.dao.UserDAO;
 import org.example.petproject.model.PetBoardingInfo;
 import org.example.petproject.model.ServiceBooking;
+import org.example.petproject.util.SessionManager;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 
 public class dslamdepController {
 
     ServiceBookingDAO serviceBookingDAO = new ServiceBookingDAO();
 
-    private String ownerID;
-
-    public dslamdepController() {}
-
-    public dslamdepController(String ownerID) {
-        this.ownerID = ownerID;
-    }
+    private String ownerID = SessionManager.getCurrentUser().getUserId();
 
     @FXML
     private FlowPane cardsContainer;
@@ -38,25 +37,77 @@ public class dslamdepController {
     private Label ownerName;
 
     @FXML
-    void arrowPressedButton(ActionEvent event) {
-        //main
+    void arrowPressedButton(ActionEvent evt) {
+        String fxmlPath="/org/example/petproject/owner_dashboard.fxml";
+        URL fxmlUrl = getClass().getResource(fxmlPath);
+        if (fxmlUrl == null) {
+            showError("Không tìm thấy màn hình " + fxmlPath);
+            return;
+        }
+        try {
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            Parent newRoot = loader.load();
+
+            // initUser nếu cần
+            Object ctrl = loader.getController();
+            if (ctrl instanceof DashboardControllerBase dcb) {
+                dcb.initUser(SessionManager.getCurrentUser());
+            }
+
+            // Lấy Scene hiện tại từ bất kỳ node nào (ví dụ button)
+            Scene scene = ((Node) evt.getSource()).getScene();
+            // Chuyển root thành root mới
+            scene.setRoot(newRoot);
+
+            // Nếu muốn, vẫn có thể maximize stage
+            Stage stage = (Stage) scene.getWindow();
+            stage.setMaximized(true);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            showError("Lỗi khi mở màn hình: " + fxmlPath);
+        }
+    }
+
+    private void showError(String msg) {
+        Alert a = new Alert(Alert.AlertType.ERROR);
+        a.setTitle("Lỗi");
+        a.setHeaderText(null);
+        a.setContentText(msg);
+        a.showAndWait();
     }
 
     @FXML
-    void handleAddCard(ActionEvent event) {
-        dkdvlamdepController controller = new dkdvlamdepController("U002");
-        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/org/example/petproject/dkdvlamdepScreeen.fxml"));
-        fxmlLoader.setController(controller);
-        Parent root = null;
-        try{
-            root=fxmlLoader.load();
-        }catch(IOException e){
-            e.printStackTrace();
+    void handleAddCard(ActionEvent evt) {
+        String fxmlPath="/org/example/petproject/dkdvlamdepScreeen.fxml";
+        URL fxmlUrl = getClass().getResource(fxmlPath);
+        if (fxmlUrl == null) {
+            showError("Không tìm thấy màn hình " + fxmlPath);
+            return;
         }
-        Stage newStage =(Stage) this.ownerName.getScene().getWindow();
-        Scene scene = new Scene(root);
-        newStage.setScene(scene);
-        newStage.show();
+        try {
+            FXMLLoader loader = new FXMLLoader(fxmlUrl);
+            Parent newRoot = loader.load();
+
+            // initUser nếu cần
+            Object ctrl = loader.getController();
+            if (ctrl instanceof DashboardControllerBase dcb) {
+                dcb.initUser(SessionManager.getCurrentUser());
+            }
+
+            // Lấy Scene hiện tại từ bất kỳ node nào (ví dụ button)
+            Scene scene = ((Node) evt.getSource()).getScene();
+            // Chuyển root thành root mới
+            scene.setRoot(newRoot);
+
+            // Nếu muốn, vẫn có thể maximize stage
+            Stage stage = (Stage) scene.getWindow();
+            stage.setMaximized(true);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            showError("Lỗi khi mở màn hình: " + fxmlPath);
+        }
     }
 
     private ObservableList<PetBoardingInfo> boardedPetsData = FXCollections.observableArrayList();
