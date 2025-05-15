@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class PetService {
-    // Lấy SessionFactory một lần
+    // Sử dụng SessionFactory chung
     private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
     /**
@@ -20,7 +20,7 @@ public class PetService {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();
             List<Pet> pets = session.createQuery(
-                    "FROM Pet p WHERE p.owner.userId = :oid", Pet.class)
+                            "FROM Pet p WHERE p.owner.userId = :oid", Pet.class)
                     .setParameter("oid", ownerId)
                     .list();
             tx.commit();
@@ -42,13 +42,13 @@ public class PetService {
 
     /**
      * Tạo mới hoặc cập nhật Pet.
-     * Nếu pet.petId == null -> sinh UUID + persist.
+     * Nếu pet.petId == null -> sinh UUID + persist,
      * Ngược lại -> merge.
      */
     public void save(Pet pet) {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();
-            if (pet.getPetId() == null) {
+            if (pet.getPetId() == null || pet.getPetId().isBlank()) {
                 pet.setPetId(UUID.randomUUID().toString());
                 session.persist(pet);
             } else {
@@ -66,6 +66,22 @@ public class PetService {
             Transaction tx = session.beginTransaction();
             session.merge(pet);
             tx.commit();
+        }
+    }
+
+    /**
+     * Tìm Pet theo tên (like) và ownerId.
+     */
+    public List<Pet> searchByName(String name, String ownerId) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            List<Pet> results = session.createQuery(
+                            "FROM Pet p WHERE p.owner.userId = :ownerId AND lower(p.name) like :nm", Pet.class)
+                    .setParameter("ownerId", ownerId)
+                    .setParameter("nm", "%" + name.toLowerCase() + "%")
+                    .getResultList();
+            tx.commit();
+            return results;
         }
     }
 

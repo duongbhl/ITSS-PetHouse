@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.petproject.controller.MedicalHistoryController"
+            style="-fx-font-family: 'Segoe UI'; -fx-background-color: #F5F5F5;">
+
+    <!-- HEADER với tên user -->
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT"
+              style="-fx-background-color: #00ACC1; -fx-padding: 10;">
+            <Label text="Lịch sử khám bệnh"
+                   style="-fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <!-- DÒNG này show tên user hiện tại -->
+            <Label fx:id="lblUsername"
+                   style="-fx-text-fill: white; -fx-font-size: 14;"/>
+            <ImageView fx:id="avatarImageView"
+                       fitHeight="32" fitWidth="32"
+                       style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 4,0,0,0);"/>
+        </HBox>
+    </top>
+
+    <!-- CENTER: toàn bộ phần tìm kiếm + scroll history -->
+    <center>
+        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #FAFAFA;" BorderPane.alignment="CENTER">
+
+            <!-- DÒNG NÀY CHứa 2 KHỐI: tìm kiếm (trái) & chọn thú cưng (phải) -->
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <!-- Khối trái: TextField + Button -->
+                <HBox spacing="8" alignment="CENTER_LEFT">
+                    <TextField fx:id="txtPetName"
+                               promptText="Tìm kiếm thú cưng"
+                               prefWidth="300"/>
+                    <Button fx:id="btnSearchPet"
+                            text="Tìm Thú Cưng"
+                            onAction="#handleSearchPet"/>
+                </HBox>
+
+                <!-- spacer đẩy khối kế tiếp về sát phải -->
+                <Region HBox.hgrow="ALWAYS"/>
+
+                <!-- Khối phải: ComboBox -->
+                <HBox spacing="8" alignment="CENTER_RIGHT">
+                    <ComboBox fx:id="comboPets"
+                              promptText="Chọn thú cưng"
+                              prefWidth="160"
+                              onAction="#handlePetSelected"/>
+                </HBox>
+            </HBox>
+
+            <!-- ScrollPane auto co giãn -->
+            <ScrollPane fitToWidth="true" fitToHeight="true" VBox.vgrow="ALWAYS">
+                <content>
+                    <VBox fx:id="cardContainer"
+                          spacing="10"
+                          style="-fx-padding: 5;"/>
+                </content>
+            </ScrollPane>
+        </VBox>
+    </center>
+
+</BorderPane>
