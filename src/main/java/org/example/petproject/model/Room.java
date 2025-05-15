@@ -1,6 +1,7 @@
 package org.example.petproject.model;
 
 import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -12,24 +13,26 @@ public class Room {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private RoomType type;
+    private Type type;
 
-    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal pricePerDay;
 
-    // Constructors
-    public Room() {
+    public enum Type {
+        thường, vip
     }
 
-    public Room(String roomId, String name, RoomType type, BigDecimal pricePerDay) {
+    // Getters, setters, and constructors
+
+    public Room(String roomId, String name, Type type, BigDecimal pricePerDay) {
         this.roomId = roomId;
         this.name = name;
         this.type = type;
         this.pricePerDay = pricePerDay;
     }
 
-    // Getters and setters
+    public Room() {
+    }
+
     public String getRoomId() {
         return roomId;
     }
@@ -46,11 +49,11 @@ public class Room {
         this.name = name;
     }
 
-    public RoomType getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(RoomType type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
@@ -70,20 +73,5 @@ public class Room {
                 ", type=" + type +
                 ", pricePerDay=" + pricePerDay +
                 '}';
-    }
-
-    public enum RoomType {
-        STANDARD("Thường"),
-        VIP("VIP");
-
-        private final String label;
-
-        RoomType(String label) {
-            this.label = label;
-        }
-
-        public String getLabel() {
-            return label;
-        }
     }
 }

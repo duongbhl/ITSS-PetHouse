@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+  "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+  "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
         <!-- Database connection settings -->
@@ -9,20 +9,22 @@
         <property name="hibernate.connection.password">123456</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/petproject</property>
         <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
         <property name="hibernate.use_sql_comments">true</property>
 
+        <property name="hibernate.current_session_context_class">thread</property>
+
+
         <!-- Add your model classes here -->
-        <mapping class="model.User"/>
-        <mapping class="model.Pet"/>
-        <mapping class="model.Service"/>
-        <mapping class="model.ServiceBooking"/>
-        <mapping class="model.Room"/>
-        <mapping class="model.PetBoarding"/>
-        <mapping class="model.Appointment"/>
-        <mapping class="model.MedicalRecord"/>
+        <mapping class="org.example.petproject.model.User"/>
+        <mapping class="org.example.petproject.model.Pet"/>
+        <mapping class="org.example.petproject.model.Service"/>
+        <mapping class="org.example.petproject.model.ServiceBooking"/>
+        <mapping class="org.example.petproject.model.Room"/>
+        <mapping class="org.example.petproject.model.PetBoarding"/>
+        <mapping class="org.example.petproject.model.Appointment"/>
+        <mapping class="org.example.petproject.model.MedicalRecord"/>
     </session-factory>
 </hibernate-configuration>

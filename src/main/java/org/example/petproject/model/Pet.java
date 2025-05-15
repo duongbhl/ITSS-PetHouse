@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Table(name = "Pet")
 public class Pet {
     @Id
+    @Column(columnDefinition = "varchar(36)")
     private String petId;
 
     @ManyToOne
@@ -26,8 +27,22 @@ public class Pet {
     private String healthNotes;
 
     public enum Gender {
-        male, female
+        male("Đực"),
+        female("Cái");
+
+        private final String label;
+
+        Gender(String label) {
+            this.label = label;
+        }
+
+        public String getLabel() {
+            return label;
+        }
     }
+
+    @Column(name = "photo_url")
+    private String photoUrl;
 
     // Getters, setters, and constructors
     public Pet() {
@@ -116,6 +131,14 @@ public class Pet {
 
     public void setHealthNotes(String healthNotes) {
         this.healthNotes = healthNotes;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     @Override

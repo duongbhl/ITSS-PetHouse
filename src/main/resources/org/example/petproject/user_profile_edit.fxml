@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/8"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="org.example.petproject.controller.EditProfileController"
+           styleClass="dialog-root">
+    <VBox spacing="15" alignment="CENTER">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <Label text="Chỉnh sửa hồ sơ" styleClass="dialog-title"/>
+
+        <ImageView fx:id="ivAvatar"
+                   fitWidth="100" fitHeight="100"
+                   preserveRatio="true"
+                   styleClass="profile-avatar"/>
+
+        <Button text="Upload ảnh"
+                onAction="#onUploadAvatar"
+                styleClass="secondary-button"/>
+
+        <!-- Bắt đầu GridPane -->
+        <GridPane hgap="10" vgap="10">
+            <columnConstraints>
+                <ColumnConstraints halignment="RIGHT"/>
+                <ColumnConstraints hgrow="ALWAYS"/>
+            </columnConstraints>
+
+            <Label text="Họ và tên:"      GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfFullName" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label text="Email:"          GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfEmail"    GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label text="Số điện thoại:"  GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+            <TextField fx:id="tfPhone"    GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+        </GridPane>
+        <!-- Kết thúc GridPane -->
+
+        <HBox spacing="10" alignment="CENTER_RIGHT">
+            <Button fx:id="btnCancel"
+                    text="Hủy"
+                    onAction="#onCancel"
+                    styleClass="secondary-button"/>
+            <Button fx:id="btnSave"
+                    text="Lưu"
+                    onAction="#onSave"
+                    styleClass="primary-button"/>
+        </HBox>
+    </VBox>
+</StackPane>

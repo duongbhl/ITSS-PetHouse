@@ -12,7 +12,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import org.example.petproject.model.User;
 import org.example.petproject.model.User.Role;
 import org.example.petproject.service.UserService;
@@ -100,8 +99,8 @@ public class RegisterController implements javafx.fxml.Initializable {
         try {
             Parent loginRoot = FXMLLoader.load(
                     getClass().getResource("/org/example/petproject/login.fxml"));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(loginRoot));
+            Scene scene = ((Node) event.getSource()).getScene(); // lấy Scene hiện tại
+            scene.setRoot(loginRoot); // chỉ thay root
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Không thể mở màn Đăng nhập.");
         }

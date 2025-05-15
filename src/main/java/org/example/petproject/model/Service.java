@@ -1,6 +1,7 @@
 package org.example.petproject.model;
 
 import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 
 @Entity
@@ -10,25 +11,27 @@ public class Service {
     private String serviceId;
 
     private String name;
-    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ServiceType type;
+    private Type type;
 
-    // Constructors
+    public enum Type {
+        lưu_trú, làm_đẹp_vệ_sinh
+    }
+
+    // Getters, setters, and constructors
+
+    public Service(String serviceId, Type type, BigDecimal price, String name) {
+        this.serviceId = serviceId;
+        this.type = type;
+        this.price = price;
+        this.name = name;
+    }
+
     public Service() {
     }
 
-    public Service(String serviceId, String name, BigDecimal price, ServiceType type) {
-        this.serviceId = serviceId;
-        this.name = name;
-        this.price = price;
-        this.type = type;
-    }
-
-    // Getters and setters
     public String getServiceId() {
         return serviceId;
     }
@@ -37,12 +40,12 @@ public class Service {
         this.serviceId = serviceId;
     }
 
-    public String getName() {
-        return name;
+    public Type getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public BigDecimal getPrice() {
@@ -53,12 +56,12 @@ public class Service {
         this.price = price;
     }
 
-    public ServiceType getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
-    public void setType(ServiceType type) {
-        this.type = type;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
@@ -69,20 +72,5 @@ public class Service {
                 ", price=" + price +
                 ", type=" + type +
                 '}';
-    }
-
-    public enum ServiceType {
-        BOARDING("Lưu trú"),
-        GROOMING("Làm đẹp & Vệ sinh");
-
-        private final String label;
-
-        ServiceType(String label) {
-            this.label = label;
-        }
-
-        public String getLabel() {
-            return label;
-        }
     }
 }
