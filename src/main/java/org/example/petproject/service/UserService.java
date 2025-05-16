@@ -5,9 +5,11 @@ import org.example.petproject.dao.AppointmentDAO;
 import org.example.petproject.dao.PetBoardingDAO;
 import org.example.petproject.dao.PetDAO;
 import org.example.petproject.dao.ServiceBookingDAO;
-import org.example.petproject.dao.UserDAO;
+import org.example.petproject.dao.ServiceDAO;
 import org.example.petproject.model.Appointment;
+import org.example.petproject.model.Pet;
 import org.example.petproject.model.PetBoarding;
+import org.example.petproject.model.Service;
 import org.example.petproject.model.ServiceBooking;
 import org.example.petproject.model.User;
 import org.hibernate.Session;
@@ -17,8 +19,9 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class UserService {
-    private final UserDAO userDAO = new UserDAO();
+
     private final PetDAO petDAO = new PetDAO();
+    private final ServiceDAO serviceDAO = new ServiceDAO();
     private final AppointmentDAO appointmentDAO = new AppointmentDAO();
     private final ServiceBookingDAO serviceBookingDAO = new ServiceBookingDAO();
     private final PetBoardingDAO petBoardingDAO = new PetBoardingDAO();
@@ -33,7 +36,7 @@ public class UserService {
         Session session = HibernateUtil.getCurrentSession();
         Transaction tx = session.beginTransaction();
         User u = session.createQuery(
-                        "FROM User u WHERE u.email = :e", User.class)
+                "FROM User u WHERE u.email = :e", User.class)
                 .setParameter("e", email)
                 .uniqueResult();
         tx.commit();
@@ -70,7 +73,7 @@ public class UserService {
         Session session = HibernateUtil.getCurrentSession();
         Transaction tx = session.beginTransaction();
         Long count = session.createQuery(
-                        "SELECT count(u.userId) FROM User u WHERE u.email = :email", Long.class)
+                "SELECT count(u.userId) FROM User u WHERE u.email = :email", Long.class)
                 .setParameter("email", email)
                 .uniqueResult();
         tx.commit();
@@ -81,7 +84,7 @@ public class UserService {
      * Đặt lịch khám cho thú cưng.
      */
     public void datlichkham(String name, LocalDate appointmentTime,
-                            String type, Appointment.Status status) {
+            String type, Appointment.Status status) {
         Appointment appointment = new Appointment(name, appointmentTime, type, status);
         appointmentDAO.save(appointment);
     }
@@ -89,18 +92,36 @@ public class UserService {
     /**
      * Đăng ký dịch vụ vệ sinh cho thú cưng.
      */
-    public void dkdvvesinh(LocalDate checkInTime, String note,
-                           ServiceBooking.Status status, String petName, String serviceId) {
-        ServiceBooking serviceBooking = new ServiceBooking(checkInTime, note, status, petName, serviceId);
-        serviceBookingDAO.save(serviceBooking);
+    // UserService.java
+    public void dkdvvesinh(LocalDate checkInDate,
+            String note,
+            ServiceBooking.Status status,
+            String petId,
+            String serviceId) {
+        // 1) Lấy entity Pet và Service từ DB
+        Pet pet = petDAO.findById(petId);
+        Service svc = serviceDAO.findById(serviceId);
+
+        // 2) Khởi tạo booking
+        ServiceBooking sb = new ServiceBooking();
+        sb.setBookingId(UUID.randomUUID().toString());
+        sb.setPet(pet);
+        sb.setService(svc);
+        // Lưu LocalDate (không atStartOfDay nữa!)
+        sb.setCheckInTime(checkInDate);
+        sb.setNote(note);
+        sb.setStatus(status);
+
+        // 3) Lưu
+        serviceBookingDAO.save(sb);
     }
 
     /**
      * Đăng ký dịch vụ lưu trú và tạo bản ghi boarding.
      */
     public void dkdvluutru(LocalDate checkInTime, LocalDate checkOutTime,
-                           String note, ServiceBooking.Status status,
-                           String petName, String serviceId, String roomName) {
+            String note, ServiceBooking.Status status,
+            String petName, String serviceId, String roomName) {
         ServiceBooking serviceBooking = new ServiceBooking(checkInTime, checkOutTime, note, status, petName, serviceId);
         serviceBookingDAO.save(serviceBooking);
         PetBoarding petBoarding = new PetBoarding(serviceBooking, roomName);

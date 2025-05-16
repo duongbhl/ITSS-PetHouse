@@ -14,8 +14,8 @@ public class MedicalRecordService {
     public static List<MedicalRecord> getByPet(String petId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.createQuery(
-                            "from MedicalRecord m where m.pet.petId = :petId order by m.examDate desc",
-                            MedicalRecord.class)
+                    "from MedicalRecord m where m.pet.petId = :petId order by m.examDate desc",
+                    MedicalRecord.class)
                     .setParameter("petId", petId)
                     .getResultList();
         }

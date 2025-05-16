@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.petproject.controller.MakeAppointmentController"
+            style="-fx-background-color: #FFFFFF; -fx-font-family: 'Segoe UI';">
+
+    <!-- HEADER chung -->
+    <top>
+        <HBox styleClass="header-bar" alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #1EE6C3; -fx-padding: 0 20;">
+            <!-- Back arrow -->
+            <!-- Logo (click về trang chủ) -->
+            <ImageView fx:id="imgLogo" fitWidth="45" fitHeight="45"
+                       preserveRatio="true" styleClass="logo-image"
+                       onMouseClicked="#handleLogoClick" />
+            <Region HBox.hgrow="ALWAYS" />
+            <!-- Tên user -->
+            <Label fx:id="ownerName" styleClass="user-name" />
+            <!-- Avatar người dùng -->
+            <ImageView fx:id="ownerAvatar" fitWidth="32" fitHeight="32"
+                       preserveRatio="true" styleClass="avatar-image" />
+        </HBox>
+    </top>
+
+    <!-- Nội dung chính -->
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="30" style="-fx-padding: 20;">
+            <Label text="Đặt lịch khám" style="-fx-font-size: 28; -fx-font-weight: bold; -fx-text-fill: #F39C12;" />
+            <VBox alignment="CENTER" maxWidth="550" spacing="25"
+                  style="-fx-background-color: #FFFFFF; -fx-background-radius: 25; -fx-padding: 40 50; -fx-border-color: #DCDCDC; -fx-border-radius: 25;">
+                <GridPane hgap="15" vgap="20">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" prefWidth="140" />
+                        <ColumnConstraints hgrow="ALWAYS" prefWidth="250" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints prefHeight="40" />
+                        <RowConstraints prefHeight="40" />
+                        <RowConstraints prefHeight="40" />
+                    </rowConstraints>
+
+                    <Label text="Chọn thú cưng:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                    <ComboBox fx:id="petSelected" prefWidth="250" promptText="Select"
+                              style="-fx-background-radius:5;" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+
+                    <Label text="Loại khám:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                    <ComboBox fx:id="examSelected" prefWidth="250" promptText="Select"
+                              style="-fx-background-radius:5;" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+
+                    <Label text="Lịch khám:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                    <DatePicker fx:id="scheduleSelected" prefWidth="250"
+                                style="-fx-background-radius:5;" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                </GridPane>
+
+                <Button onAction="#bookAppointmentButton"
+                        style="-fx-background-color: #00BFFF; -fx-text-fill: white; -fx-font-size:16; -fx-font-weight:bold; -fx-background-radius:20; -fx-padding:10 50;"
+                        text="Đặt lịch" />
+            </VBox>
+        </VBox>
+    </center>
+</BorderPane>

@@ -84,7 +84,7 @@ public class PetDetailController implements Initializable {
     private void openEditPet() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/add_pet.fxml"));
+                    getClass().getResource("/org/example/petproject/AddPetView.fxml"));
             Parent root = loader.load();
 
             // chuyền pet cũ vào form AddPet để edit

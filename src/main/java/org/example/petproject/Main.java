@@ -12,7 +12,7 @@ import java.io.IOException;
 
 public class Main extends Application {
     private static final String APP_TITLE = "Pet House";
-    private static final String LOGIN_FXML = "/org/example/petproject/login.fxml";
+    private static final String LOGIN_FXML = "/org/example/petproject/LoginView.fxml";
     private static final String CSS_RESOURCE = "/css/style.css";
     private static final String LOGO = "/assets/logo.png";
 

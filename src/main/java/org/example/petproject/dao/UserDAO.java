@@ -11,13 +11,12 @@ public class UserDAO extends BaseDAO<User, Long> {
     }
 
     public User getUserByOwnerID(String ownerID) {
-        try(Session session=HibernateUtil.getSessionFactory().openSession()){
-            Query<User> query=session.createQuery("from User t where t.userId=:ownerID");
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<User> query = session.createQuery("from User t where t.userId=:ownerID", User.class);
             query.setParameter("ownerID", ownerID);
             return query.uniqueResult();
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

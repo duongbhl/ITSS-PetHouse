@@ -20,7 +20,7 @@ public class PetService {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();
             List<Pet> pets = session.createQuery(
-                            "FROM Pet p WHERE p.owner.userId = :oid", Pet.class)
+                    "FROM Pet p WHERE p.owner.userId = :oid", Pet.class)
                     .setParameter("oid", ownerId)
                     .list();
             tx.commit();
@@ -76,7 +76,7 @@ public class PetService {
         try (Session session = sessionFactory.openSession()) {
             Transaction tx = session.beginTransaction();
             List<Pet> results = session.createQuery(
-                            "FROM Pet p WHERE p.owner.userId = :ownerId AND lower(p.name) like :nm", Pet.class)
+                    "FROM Pet p WHERE p.owner.userId = :ownerId AND lower(p.name) like :nm", Pet.class)
                     .setParameter("ownerId", ownerId)
                     .setParameter("nm", "%" + name.toLowerCase() + "%")
                     .getResultList();

@@ -123,32 +123,32 @@ public class OwnerDashboardController implements DashboardControllerBase, javafx
 
     @FXML
     private void onMyPets(ActionEvent evt) {
-        navigateTo("/org/example/petproject/owner_pets.fxml", evt);
+        navigateTo("/org/example/petproject/OwnerPetsView.fxml", evt);
     }
 
     @FXML
     private void onBook(ActionEvent evt) {
-        navigateTo("/org/example/petproject/owner_book.fxml", evt);
+        navigateTo("/org/example/petproject/MakeAppointmentView.fxml", evt);
     }
 
     @FXML
     private void onHistory(ActionEvent evt) {
-        navigateTo("/org/example/petproject/owner_history.fxml", evt);
+        navigateTo("/org/example/petproject/MedicalHistoryView.fxml", evt);
     }
 
     @FXML
     private void onGrooming(ActionEvent evt) {
-        navigateTo("/org/example/petproject/owner_grooming.fxml", evt);
+        navigateTo("/org/example/petproject/OwnerGroomingView.fxml", evt);
     }
 
     @FXML
     private void onBoarding(ActionEvent evt) {
-        navigateTo("/org/example/petproject/owner_boarding.fxml", evt);
+        navigateTo("/org/example/petproject/BoardingView.fxml", evt);
     }
 
     @FXML
     private void onNotify(ActionEvent evt) {
-        navigateTo("/org/example/petproject/owner_notifications.fxml", evt);
+        navigateTo("/org/example/petproject/NotificationView.fxml", evt);
     }
 
     /**
@@ -206,7 +206,7 @@ public class OwnerDashboardController implements DashboardControllerBase, javafx
 
     private void openUserProfile() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/user_profile.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/UserProfileView.fxml"));
             Parent root = loader.load();
             UserProfileController ctrl = loader.getController();
             ctrl.setUser(currentUser);
@@ -230,7 +230,7 @@ public class OwnerDashboardController implements DashboardControllerBase, javafx
     private void performLogout() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/login.fxml"));
+                    getClass().getResource("/org/example/petproject/LoginView.fxml"));
             Parent root = loader.load();
 
             // Lấy stylesheets của scene hiện tại

@@ -9,6 +9,7 @@ import java.util.UUID;
 public class User {
     @Id
     private String userId;
+
     @PrePersist
     public void generateId() {
         if (this.userId == null) {
@@ -106,16 +107,4 @@ public class User {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId='" + userId + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", phone='" + phone + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
-                ", role=" + role +
-                '}';
-    }
 }

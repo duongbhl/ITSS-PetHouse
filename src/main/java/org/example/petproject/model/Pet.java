@@ -11,6 +11,7 @@ public class Pet {
     @Id
     @Column(columnDefinition = "varchar(36)")
     private String petId;
+
     @PrePersist
     public void generateId() {
         if (this.petId == null) {
@@ -148,18 +149,4 @@ public class Pet {
         this.photoUrl = photoUrl;
     }
 
-    @Override
-    public String toString() {
-        return "Pet{" +
-                "petId='" + petId + '\'' +
-                ", owner=" + owner +
-                ", name='" + name + '\'' +
-                ", species='" + species + '\'' +
-                ", gender=" + gender +
-                ", birthDate=" + birthDate +
-                ", weight=" + weight +
-                ", diet='" + diet + '\'' +
-                ", healthNotes='" + healthNotes + '\'' +
-                '}';
-    }
 }

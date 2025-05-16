@@ -75,7 +75,7 @@ public class UserProfileController implements Initializable {
     private void onEdit() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/user_profile_edit.fxml"));
+                    getClass().getResource("/org/example/petproject/EditUserProfileView.fxml"));
             Parent root = loader.load();
             EditProfileController ctrl = loader.getController();
             ctrl.setUser(currentUser);

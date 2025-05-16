@@ -2,8 +2,6 @@ package org.example.petproject.model;
 
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
-
 @Entity
 @Table(name = "Service")
 public class Service {
@@ -64,13 +62,4 @@ public class Service {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Service{" +
-                "serviceId='" + serviceId + '\'' +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", type=" + type +
-                '}';
-    }
 }

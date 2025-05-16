@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.petproject.controller.RegisterGroomingController"
+            style="-fx-background-color: #FFFFFF; -fx-font-family: 'Segoe UI';">
+
+<!-- HEADER chung -->
+<top>
+    <HBox style="-fx-background-color: #1EE6C3; -fx-padding: 0 20;"
+          alignment="CENTER_LEFT" spacing="10">
+        <ImageView fx:id="imgLogo"
+                   fitWidth="45" fitHeight="45"
+                   preserveRatio="true"
+                   onMouseClicked="#handleLogoClick"/>
+        <Label text="Đăng ký dịch vụ làm đẹp &amp; vệ sinh"
+               style="-fx-font-size:26; -fx-font-weight:bold; -fx-text-fill:#F5A623;"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Label fx:id="ownerName"
+               style="-fx-font-size:18px; -fx-text-fill:white;"/>
+        <ImageView fx:id="ownerAvatar"
+                   fitWidth="32" fitHeight="32"
+                   preserveRatio="true"/>
+    </HBox>
+</top>
+
+<!-- FORM chính -->
+<center>
+    <VBox alignment="TOP_CENTER" spacing="20" style="-fx-padding:20;">
+        <VBox maxWidth="750" spacing="20"
+              style="-fx-background-color:#FFFFFF; -fx-padding:30 40; -fx-background-radius:25;
+                     -fx-border-color:#DCDCDC; -fx-border-radius:25;
+                     -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.1),10,0.3,0,0);">
+
+            <!-- Chọn thú cưng -->
+            <GridPane hgap="10" vgap="5">
+                <columnConstraints>
+                    <ColumnConstraints halignment="RIGHT" prefWidth="130"/>
+                    <ColumnConstraints hgrow="ALWAYS" prefWidth="300"/>
+                </columnConstraints>
+                <children>
+                    <Label text="Chọn thú cưng:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <ComboBox fx:id="petSelected"
+                              prefWidth="350"
+                              promptText="Select"
+                              style="-fx-font-size:13px;"
+                              GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                </children>
+            </GridPane>
+
+            <!-- Dịch vụ & Ghi chú -->
+            <GridPane hgap="30" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints prefWidth="280"/>
+                    <ColumnConstraints hgrow="ALWAYS"/>
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints/>
+                    <RowConstraints/>
+                </rowConstraints>
+
+                <!-- Dịch vụ checkboxes + hình -->
+                <VBox spacing="12" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <ImageView fx:id="imgTam" fitWidth="24" fitHeight="24"/>
+                        <CheckBox fx:id="tamSelected" text="Tắm"/>
+                    </HBox>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <ImageView fx:id="imgCat" fitWidth="24" fitHeight="24"/>
+                        <CheckBox fx:id="catSelected" text="Cắt, tỉa lông"/>
+                    </HBox>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <ImageView fx:id="imgVstai" fitWidth="24" fitHeight="24"/>
+                        <CheckBox fx:id="vstaiSelected" text="Vệ sinh tai"/>
+                    </HBox>
+                    <HBox spacing="8" alignment="CENTER_LEFT">
+                        <ImageView fx:id="imgVsmong" fitWidth="24" fitHeight="24"/>
+                        <CheckBox fx:id="vsmongSelected" text="Vệ sinh móng"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Tổng giá -->
+                <VBox alignment="TOP_LEFT" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                    <HBox alignment="CENTER_LEFT" spacing="8">
+                        <Label text="Tổng giá:" textFill="#D32F2F"
+                               style="-fx-font-weight:bold;"/>
+                        <Label fx:id="totalPriceLabel"
+                               style="-fx-background-color:#FFEBEE; -fx-text-fill:#C62828;
+                                      -fx-padding:8 20; -fx-background-radius:5;
+                                      -fx-font-weight:bold;"
+                               text="0 VNĐ"/>
+                    </HBox>
+                </VBox>
+
+                <!-- Ngày -->
+                <HBox alignment="CENTER_LEFT" spacing="10"
+                      GridPane.rowIndex="1" GridPane.columnIndex="0">
+                    <Label text="Ngày:"/>
+                    <DatePicker fx:id="scheduleSelected"
+                                prefWidth="200"
+                                promptText="Chọn ngày"
+                                style="-fx-font-size:13px;"/>
+                </HBox>
+
+                <!-- Ghi chú -->
+                <VBox spacing="5" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                    <Label text="Ghi chú:"/>
+                    <TextArea fx:id="noteBox"
+                              prefHeight="90"
+                              wrapText="true"
+                              style="-fx-font-size:13px;"/>
+                </VBox>
+            </GridPane>
+
+            <!-- Button Đăng ký -->
+            <HBox alignment="CENTER">
+                <Button fx:id="bookAppointmentButton"
+                        onAction="#bookAppointmentButton"
+                        text="Đăng ký"
+                        style="-fx-background-color:#007AFF; -fx-text-fill:white;
+                               -fx-font-size:16px; -fx-font-weight:bold;
+                               -fx-background-radius:8; -fx-padding:10 45;"/>
+            </HBox>
+
+        </VBox>
+    </VBox>
+</center>
+</BorderPane>

@@ -16,7 +16,6 @@ import javafx.stage.Stage;
 import org.example.petproject.controller.Dashboard.DashboardControllerBase;
 import org.example.petproject.model.User;
 import org.example.petproject.service.UserService;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -88,7 +87,12 @@ public class LoginController implements Initializable {
         loginTask.setOnFailed(e -> {
             loader.setVisible(false);
             loginButton.setDisable(false);
-            showError("Lỗi kết nối cơ sở dữ liệu. Vui lòng thử lại sau.");
+
+            // Lấy exception gốc
+            Throwable ex = loginTask.getException();
+            ex.printStackTrace(); // In stacktrace ra console
+            // Hiện dialog với chi tiết lỗi
+            showError("Lỗi kết nối cơ sở dữ liệu:\n" + ex.getMessage());
         });
 
         new Thread(loginTask).start();
@@ -101,16 +105,16 @@ public class LoginController implements Initializable {
         String fxmlPath;
         switch (user.getRole()) {
             case owner:
-                fxmlPath = "/org/example/petproject/owner_dashboard.fxml";
+                fxmlPath = "/org/example/petproject/OwnerDashboardView.fxml";
                 break;
             case doctor:
-                fxmlPath = "/org/example/petproject/doctor_dashboard.fxml";
+                fxmlPath = "/org/example/petproject/DoctorDashboardView.fxml";
                 break;
             case staff:
-                fxmlPath = "/org/example/petproject/staff_dashboard.fxml";
+                fxmlPath = "/org/example/petproject/StaffDashboardView.fxml";
                 break;
             case admin:
-                fxmlPath = "/org/example/petproject/admin_dashboard.fxml";
+                fxmlPath = "/org/example/petproject/AdminDashboardView.fxml";
                 break;
             default:
                 showError("Role không hợp lệ.");
@@ -139,7 +143,7 @@ public class LoginController implements Initializable {
     private void showRegister(ActionEvent evt) {
         try {
             Parent root = FXMLLoader.load(
-                    getClass().getResource("/org/example/petproject/register.fxml"));
+                    getClass().getResource("/org/example/petproject/RegisterView.fxml"));
             ((Node) evt.getSource()).getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();

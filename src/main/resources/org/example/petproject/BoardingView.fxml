@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="850.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <!-- Top Bar -->
+      <HBox alignment="CENTER_LEFT" prefHeight="60.0" style="-fx-background-color: #1EE6C3;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <padding>
+            <Insets left="20.0" right="20.0" />
+         </padding>
+         <children>
+            <Button onAction="#arrowPressedButton" prefHeight="46.0" prefWidth="42.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: bold; -fx-padding: 0 10 0 5;" text="←">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="5.0" /> <!-- Optional: space between arrow and logo -->
+               </HBox.margin>
+            </Button>
+            <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../asssets/pngtree-pet-house-business-logo-image_82846.jpg" />
+               </image>
+            </ImageView>
+            <Label prefHeight="27.0" prefWidth="221.0" text="Dịch vụ lưu trú thú cưng" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+            <Label fx:id="ownerName" text="TenUser" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Label>
+            <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../asssets/6858504.png" />
+               </image>
+            </ImageView>
+         </children>
+      </HBox>
+
+      <!-- Main Content Area -->
+      <HBox alignment="CENTER" spacing="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="120.0">
+         <children>
+            <!-- Option 1: Xem thông tin chi tiết các phòng -->
+            <VBox alignment="CENTER" spacing="20.0">
+               <children>
+                  <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <!-- IMPORTANT: Replace with your actual icon image path -->
+                        <Image url="@../../../asssets/Screenshot%202025-05-11%20120727.png" />
+                     </image>
+                  </ImageView>
+                  <Button onAction="#roomlistButton" style="-fx-background-color: white; -fx-border-color: #D3D3D3; -fx-border-width: 1.5; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 25; -fx-font-size: 13px;" text="Xem thông tin chi tiết các phòng">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+
+            <!-- Option 2: Danh sách thú cưng lưu trú -->
+            <VBox alignment="CENTER" spacing="20.0">
+               <children>
+                  <ImageView fitHeight="185.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <!-- IMPORTANT: Replace with your actual icon image path -->
+                        <Image url="@../../../asssets/Screenshot%202025-05-11%20120744.png" />
+                     </image>
+                  </ImageView>
+                  <Button onAction="#petlistButton" style="-fx-background-color: white; -fx-border-color: #D3D3D3; -fx-border-width: 1.5; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 25; -fx-font-size: 13px;" text="Danh sách thú cưng lưu trú">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

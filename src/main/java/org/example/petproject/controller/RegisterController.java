@@ -98,7 +98,7 @@ public class RegisterController implements javafx.fxml.Initializable {
     private void showLogin(ActionEvent event) {
         try {
             Parent loginRoot = FXMLLoader.load(
-                    getClass().getResource("/org/example/petproject/login.fxml"));
+                    getClass().getResource("/org/example/petproject/LoginView.fxml"));
             Scene scene = ((Node) event.getSource()).getScene(); // lấy Scene hiện tại
             scene.setRoot(loginRoot); // chỉ thay root
         } catch (IOException e) {

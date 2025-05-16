@@ -2,105 +2,62 @@ package org.example.petproject.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 import org.example.petproject.dao.ServiceBookingDAO;
-import org.example.petproject.dao.UserDAO;
 import org.example.petproject.model.PetBoardingInfo;
+import org.example.petproject.model.ServiceBooking;
 
-public class petCardController {
+import java.net.URL;
 
+/**
+ * Controller cho ô hiển thị dịch vụ làm đẹp & vệ sinh.
+ */
+public class PetCardController {
 
-    UserDAO userDAO = new UserDAO();
-    ServiceBookingDAO serviceBookingDAO = new ServiceBookingDAO();
+    @FXML
+    private ImageView imgPet;
+    @FXML
+    private Label lblPetName;
+    @FXML
+    private Label lblEmpName;
+    @FXML
+    private Label lblEmpPhone;
+    @FXML
+    private TextArea txtServiceInfo;
+    @FXML
+    private Label lblPrice;
 
+    /**
+     * Thiết lập dữ liệu cho card.
+     */
+    public void setData(PetBoardingInfo info) {
+        // Lấy đầy đủ booking từ DB để lấy ảnh
+        ServiceBooking sb = new ServiceBookingDAO().findBookingById(info.getBookingId());
+        String imgUrl = null;
+        if (sb != null && sb.getPet().getPhotoUrl() != null && !sb.getPet().getPhotoUrl().isBlank()) {
+            imgUrl = sb.getPet().getPhotoUrl();
+        }
+        // Ảnh pet, nếu null thì dùng default
+        if (imgUrl != null) {
+            imgPet.setImage(new Image(imgUrl, true));
+        } else {
+            URL defaultUrl = getClass().getResource("/assets/icons/pets.png");
+            if (defaultUrl != null) {
+                imgPet.setImage(new Image(defaultUrl.toExternalForm(), true));
+            }
+        }
 
-    private String servicebookingid;
+        // Tên thú cưng
+        lblPetName.setText(info.getPetName());
 
-    private Double price;
+        // Nhân viên phụ trách
+        lblEmpName.setText(info.getStaffName());
+        lblEmpPhone.setText(info.getStaffPhone());
 
-    public petCardController() {}
-
-    public petCardController(String servicebookingid, Double price) {
-        this.servicebookingid = servicebookingid;
-        this.price = price;
+        // Nội dung chi tiết: các dịch vụ con & ghi chú
+        txtServiceInfo.setText(info.getDetail());
     }
-
-    @FXML
-    private Label staffLabel;
-
-    @FXML
-    private Label staffnameLabel;
-
-    @FXML
-    private Label staffphoneLabel;
-
-    @FXML
-    private Label roomnameLabel;
-
-    @FXML
-    private Label roomtypeLabel;
-
-    @FXML
-    private Label checkinLabel;
-
-    @FXML
-    private Label checkoutLabel;
-
-    @FXML
-    private Label priceLabel;
-
-    @FXML
-    private Label petNameLabel;
-
-    @FXML
-    private TextField staffNameField;
-
-    @FXML
-    private TextField staffPhoneField;
-
-    @FXML
-    private TextField roomNumberField;
-
-    @FXML
-    private TextField roomTypeField;
-
-    @FXML
-    private TextField checkInDateField;
-
-    @FXML
-    private TextField checkOutDateField;
-
-    @FXML
-    private TextField priceField;
-
-    private PetBoardingInfo currentPetInfo;
-    private dslamdepController listlamdepController;// Reference to the main list controller
-    private  dsluutruController listluutruController;
-
-    public void setDataDSLamDep(PetBoardingInfo petInfo, dslamdepController listlamdepController) {
-        this.currentPetInfo = petInfo;
-        this.listlamdepController = listlamdepController; // Store reference to call update methods if needed
-        petNameLabel.setText(currentPetInfo.getPetName());
-        staffNameField.setText(petInfo.getStaffName() != null ? petInfo.getStaffName() : "");
-        staffPhoneField.setText(petInfo.getStaffPhone() != null ? petInfo.getStaffPhone() : "");
-        roomNumberField.setText(petInfo.getRoomName() != null ? petInfo.getRoomName() : "");
-        roomTypeField.setText(petInfo.getRoomType() != null ? petInfo.getRoomType() : "");
-        checkInDateField.setText(petInfo.getCheckInDate() != null ? petInfo.getCheckInDate() : "");
-        checkOutDateField.setText(petInfo.getCheckOutDate() != null ? petInfo.getCheckOutDate() : "");
-        priceField.setText(petInfo.getPrice() != null ? petInfo.getPrice() : "");
-    }
-
-    public void setDataDSLuuTru(PetBoardingInfo petInfo, dsluutruController listluutruController) {
-        this.currentPetInfo = petInfo;
-        this.listluutruController = listluutruController; // Store reference to call update methods if needed
-        petNameLabel.setText(currentPetInfo.getPetName());
-        staffNameField.setText(petInfo.getStaffName() != null ? petInfo.getStaffName() : "");
-        staffPhoneField.setText(petInfo.getStaffPhone() != null ? petInfo.getStaffPhone() : "");
-        roomNumberField.setText(petInfo.getRoomName() != null ? petInfo.getRoomName() : "");
-        roomTypeField.setText(petInfo.getRoomType() != null ? petInfo.getRoomType() : "");
-        checkInDateField.setText(petInfo.getCheckInDate() != null ? petInfo.getCheckInDate() : "");
-        checkOutDateField.setText(petInfo.getCheckOutDate() != null ? petInfo.getCheckOutDate() : "");
-        priceField.setText(petInfo.getPrice() != null ? petInfo.getPrice() : "");
-    }
-
 }

@@ -2,8 +2,6 @@ package org.example.petproject.model;
 
 import jakarta.persistence.*;
 import org.example.petproject.dao.RoomDAO;
-import org.example.petproject.dao.ServiceBookingDAO;
-
 import java.util.UUID;
 
 @Entity
@@ -11,6 +9,7 @@ import java.util.UUID;
 public class PetBoarding {
     @Id
     private String boardingId;
+
     @PrePersist
     public void generateId() {
         if (this.boardingId == null) {
@@ -34,9 +33,10 @@ public class PetBoarding {
         this.room = room;
     }
 
-    public PetBoarding() {}
+    public PetBoarding() {
+    }
 
-    public PetBoarding(ServiceBooking serviceBooking,String roomname) {
+    public PetBoarding(ServiceBooking serviceBooking, String roomname) {
         this.booking = serviceBooking;
         this.room = new RoomDAO().findByName(roomname);
     }
@@ -65,12 +65,4 @@ public class PetBoarding {
         this.room = room;
     }
 
-    @Override
-    public String toString() {
-        return "PetBoarding{" +
-                "boardingId='" + boardingId + '\'' +
-                ", booking=" + booking +
-                ", room=" + room +
-                '}';
-    }
 }

@@ -12,6 +12,7 @@ import java.util.UUID;
 public class Appointment {
     @Id
     private String appointmentId;
+
     @PrePersist
     public void generateId() {
         if (this.appointmentId == null) {
@@ -21,7 +22,7 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "pet_id")
-    private Pet pet ;
+    private Pet pet;
 
     private LocalDate appointmentTime;
     private String type;
@@ -43,7 +44,8 @@ public class Appointment {
 
     // Getters, setters, and constructors
 
-    public Appointment(String appointmentId, Pet pet, LocalDate appointmentTime, String type, Status status, String note, User confirmedBy, LocalDateTime confirmedAt) {
+    public Appointment(String appointmentId, Pet pet, LocalDate appointmentTime, String type, Status status,
+            String note, User confirmedBy, LocalDateTime confirmedAt) {
         this.appointmentId = appointmentId;
         this.pet = pet;
         this.appointmentTime = appointmentTime;
@@ -54,10 +56,11 @@ public class Appointment {
         this.confirmedAt = confirmedAt;
     }
 
-    public Appointment() {}
+    public Appointment() {
+    }
 
     public Appointment(String pet_name, LocalDate appointmentTime, String type, Status status) {
-        this.pet=new PetDAO().findpetbyName(pet_name);
+        this.pet = new PetDAO().findpetbyName(pet_name);
         this.appointmentTime = appointmentTime;
         this.type = type;
         this.status = status;
@@ -127,17 +130,4 @@ public class Appointment {
         this.confirmedAt = confirmedAt;
     }
 
-    @Override
-    public String toString() {
-        return "Appointment{" +
-                "appointmentId='" + appointmentId + '\'' +
-                ", pet=" + pet +
-                ", appointmentTime=" + appointmentTime +
-                ", type='" + type + '\'' +
-                ", status=" + status +
-                ", note='" + note + '\'' +
-                ", confirmedBy=" + confirmedBy +
-                ", confirmedAt=" + confirmedAt +
-                '}';
-    }
 }
