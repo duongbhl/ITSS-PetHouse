@@ -5,7 +5,6 @@ import org.example.petproject.dao.PetDAO;
 import org.example.petproject.dao.ServiceDAO;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -13,6 +12,7 @@ import java.util.UUID;
 public class ServiceBooking {
     @Id
     private String bookingId;
+
     @PrePersist
     public void generateId() {
         if (this.bookingId == null) {
@@ -46,7 +46,8 @@ public class ServiceBooking {
 
     // Getters, setters, and constructors
 
-    public ServiceBooking(String bookingId, Pet pet, Service service, LocalDate checkInTime, LocalDate checkOutTime, Status status, String note, User handledBy) {
+    public ServiceBooking(String bookingId, Pet pet, Service service, LocalDate checkInTime, LocalDate checkOutTime,
+            Status status, String note, User handledBy) {
         this.bookingId = bookingId;
         this.pet = pet;
         this.service = service;
@@ -57,23 +58,25 @@ public class ServiceBooking {
         this.handledBy = handledBy;
     }
 
-    public ServiceBooking() {}
+    public ServiceBooking() {
+    }
 
-    public ServiceBooking(LocalDate checkInTime, String note,Status status,String petname,String service_id) {
+    public ServiceBooking(LocalDate checkInTime, String note, Status status, String petname, String service_id) {
         this.checkInTime = checkInTime;
         this.note = note;
         this.status = status;
         this.pet = new PetDAO().findpetbyName(petname);
-        this.service = new ServiceDAO().findservicebyID(service_id);
+        this.service = new ServiceDAO().findById(service_id);
     }
 
-    public ServiceBooking(LocalDate checkInTime,LocalDate checkOutTime ,String note, ServiceBooking.Status status, String petname, String service_id){
+    public ServiceBooking(LocalDate checkInTime, LocalDate checkOutTime, String note, ServiceBooking.Status status,
+            String petname, String service_id) {
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
         this.note = note;
         this.status = status;
         this.pet = new PetDAO().findpetbyName(petname);
-        this.service = new ServiceDAO().findservicebyID(service_id);
+        this.service = new ServiceDAO().findById(service_id);
     }
 
     public String getBookingId() {

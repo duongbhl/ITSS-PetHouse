@@ -3,69 +3,106 @@ package org.example.petproject.controller;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.example.petproject.controller.Dashboard.DashboardControllerBase;
 import org.example.petproject.dao.PetDAO;
-import org.example.petproject.dao.UserDAO;
 import org.example.petproject.model.Appointment;
 import org.example.petproject.model.User;
 import org.example.petproject.service.UserService;
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-
-public class datlichkhamController {
-
-    UserService userService = new UserService();
-
-    private PetDAO petDAO = new PetDAO();
-    private UserDAO userDao=new UserDAO();
-
-
-    private String ownerID;
-
-    public datlichkhamController() {
-        // Nếu bạn cần inject service nào đó thì để riêng qua setter hoặc sau đó mới xử lý
-    }
-
-    public datlichkhamController(String ownerID) {
-        this.ownerID = ownerID;
-    }
-
+public class datlichkhamController implements DashboardControllerBase, Initializable {
 
     @FXML
+    private ImageView imgLogo;
+    @FXML
     private Label ownerName;
+    @FXML
+    private ImageView ownerAvatar;
 
     @FXML
     private ComboBox<String> petSelected;
-
     @FXML
     private ComboBox<String> examSelected;
-
     @FXML
     private DatePicker scheduleSelected;
 
+    private final UserService userService = new UserService();
+    private final PetDAO petDAO = new PetDAO();
+    private User currentUser;
 
-    @FXML
-    void bookAppointmentButton(ActionEvent event) {
-        userService.datlichkham(petSelected.getValue(),scheduleSelected.getValue(),examSelected.getValue(), Appointment.Status.pending);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // ComboBox exam options
+        examSelected.setItems(FXCollections.observableArrayList(
+                "Khám tổng quát", "Tiêm phòng", "Siêu âm"));
+    }
+
+    @Override
+    public void initUser(User user) {
+        this.currentUser = user;
+        // Header: tên + avatar
+        ownerName.setText(user.getFullName());
+        if (user.getAvatarUrl() != null) {
+            ownerAvatar.setImage(new Image(user.getAvatarUrl()));
+        }
+        imgLogo.setImage(new Image(
+                getClass().getResource("/assets/logo.png").toExternalForm()));
+        // Load pets
+        List<String> pets = petDAO.findAllByOwnerId(user.getUserId());
+        petSelected.setItems(FXCollections.observableArrayList(pets));
     }
 
     @FXML
-    void arrowpressedButton(ActionEvent event) {
+    private void bookAppointmentButton(ActionEvent event) {
+        try {
+            // Gọi service đặt lịch
+            userService.datlichkham(
+                    petSelected.getValue(),
+                    scheduleSelected.getValue(),
+                    examSelected.getValue(),
+                    Appointment.Status.pending);
+            // Thông báo thành công
+            new Alert(Alert.AlertType.INFORMATION, "Đặt lịch thành công!").showAndWait();
 
+            // Reset form về trạng thái trắng
+            petSelected.getSelectionModel().clearSelection();
+            examSelected.getSelectionModel().clearSelection();
+            scheduleSelected.setValue(null);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            // Thông báo lỗi
+            new Alert(Alert.AlertType.ERROR,
+                    "Đặt lịch thất bại:\n" + ex.getMessage()).showAndWait();
+        }
     }
 
     @FXML
-    void initialize() {
-        petSelected.setItems(FXCollections.observableArrayList(petDAO.findAllByOwnerId(this.ownerID)));
-        examSelected.setItems(FXCollections.observableArrayList("Kham tong quat", "Tiem phong", "Sieu am"));
-        ownerName.setText(userDao.getUserByOwnerID(ownerID).getFullName());
-
-
+    private void handleLogoClick(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/owner_dashboard.fxml"));
+            Parent root = loader.load();
+            DashboardControllerBase ctrl = loader.getController();
+            ctrl.initUser(currentUser);
+            Scene scene = imgLogo.getScene();
+            root.getStylesheets().setAll(scene.getStylesheets());
+            scene.setRoot(root);
+            Stage stage = (Stage) scene.getWindow();
+            stage.setMaximized(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-
 }

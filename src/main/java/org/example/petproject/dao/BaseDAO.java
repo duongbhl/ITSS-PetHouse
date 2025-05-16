@@ -46,7 +46,7 @@ public abstract class BaseDAO<T, ID extends Serializable> {
         return false;
     }
 
-    public T findById(ID id) {
+    public T findById(String id) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             return session.get(getEntityClass(), id);
         }

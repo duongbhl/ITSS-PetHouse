@@ -20,14 +20,16 @@ public class ServiceBookingDAO extends BaseDAO<ServiceBooking, Long> {
         }
     }
 
-    public List<ServiceBooking> getBookingsByOwnerId(String ownerId, ServiceBooking.Status status,String serviceId) {
+    public List<ServiceBooking> getBookingsByOwnerId(String ownerId, ServiceBooking.Status status, String serviceId) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<ServiceBooking> query = session.createQuery("SELECT sb FROM ServiceBooking sb JOIN sb.pet p WHERE p.owner.userId = :ownerId and sb.status=:status and sb.service.serviceId=:serviceId");
+            Query<ServiceBooking> query = session.createQuery(
+                    "SELECT sb FROM ServiceBooking sb JOIN sb.pet p WHERE p.owner.userId = :ownerId and sb.status=:status and sb.service.serviceId=:serviceId",
+                    ServiceBooking.class);
             query.setParameter("ownerId", ownerId);
             query.setParameter("status", status);
             query.setParameter("serviceId", serviceId);
             return query.list();
-        }catch (HibernateException e) {
+        } catch (HibernateException e) {
             e.printStackTrace();
         }
         return Collections.emptyList();

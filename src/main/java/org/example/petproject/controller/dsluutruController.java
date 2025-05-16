@@ -28,7 +28,8 @@ public class dsluutruController {
 
     private String ownerID;
 
-    public dsluutruController() {}
+    public dsluutruController() {
+    }
 
     public dsluutruController(String ownerID) {
         this.ownerID = ownerID;
@@ -46,8 +47,8 @@ public class dsluutruController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/luutruScreen.fxml"));
         loader.setController(controller);
         Parent root = null;
-        try{
-            root=loader.load();
+        try {
+            root = loader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -61,15 +62,15 @@ public class dsluutruController {
     @FXML
     void handleAddCard(ActionEvent event) {
         dkdvluutruController controller = new dkdvluutruController("U002");
-        FXMLLoader fxmlLoader=new FXMLLoader(getClass().getResource("/org/example/petproject/dkdvluutruScreen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/petproject/dkdvluutruScreen.fxml"));
         fxmlLoader.setController(controller);
         Parent root = null;
-        try{
-            root=fxmlLoader.load();
-        }catch(IOException e){
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        Stage newStage =(Stage) this.ownerName.getScene().getWindow();
+        Stage newStage = (Stage) this.ownerName.getScene().getWindow();
         Scene scene = new Scene(root);
         newStage.setScene(scene);
         newStage.show();
@@ -84,8 +85,9 @@ public class dsluutruController {
         displayPetCards();
     }
 
-    private void loadPetData(){
-        List<ServiceBooking> list=serviceBookingDAO.getBookingsByOwnerId(this.ownerID, ServiceBooking.Status.in_progress,"S002");
+    private void loadPetData() {
+        List<ServiceBooking> list = serviceBookingDAO.getBookingsByOwnerId(this.ownerID,
+                ServiceBooking.Status.in_progress, "S002");
         for (ServiceBooking serviceBooking : list) {
             boardedPetsData.add(new PetBoardingInfo(
                     serviceBooking.getBookingId(),
@@ -93,11 +95,12 @@ public class dsluutruController {
                     serviceBooking.getHandledBy().getFullName(),
                     serviceBooking.getHandledBy().getPhone(),
                     petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId()).getRoom().getName(),
-                    petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId()).getRoom().getType().toString(),
+                    petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId()).getRoom().getType()
+                            .toString(),
                     serviceBooking.getCheckInTime().toString(),
                     serviceBooking.getCheckOutTime().toString(),
-                    roomDAO.findByName(petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId()).getRoom().getName()).getPricePerDay().toString()
-            ));
+                    roomDAO.findByName(petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId())
+                            .getRoom().getName()).getPricePerDay().toString()));
         }
     }
 
@@ -105,11 +108,12 @@ public class dsluutruController {
 
         for (PetBoardingInfo petInfo : boardedPetsData) {
             try {
-                petCardController controller=new petCardController();
+                petCardController controller = new petCardController();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/petCard.fxml"));
                 loader.setController(controller);
                 VBox petCardNode = loader.load();
-                controller.setDataDSLuuTru(petInfo, this);
+                petCardController ctrl = loader.getController();
+                ctrl.setData(petInfo);
                 cardsContainer.getChildren().add(petCardNode);
             } catch (IOException e) {
                 System.err.println("Error loading PetCard.fxml for " + petInfo.getPetName());

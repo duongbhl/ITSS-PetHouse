@@ -9,21 +9,28 @@
             fx:controller="org.example.petproject.controller.MedicalHistoryController"
             style="-fx-font-family: 'Segoe UI'; -fx-background-color: #F5F5F5;">
 
-    <!-- HEADER với tên user -->
+   <!-- HEADER chung với logo và avatar + tên user -->
     <top>
-        <HBox spacing="10" alignment="CENTER_LEFT"
-              style="-fx-background-color: #00ACC1; -fx-padding: 10;">
-            <Label text="Lịch sử khám bệnh"
-                   style="-fx-text-fill: white; -fx-font-size: 18; -fx-font-weight: bold;"/>
-            <Region HBox.hgrow="ALWAYS"/>
-            <!-- DÒNG này show tên user hiện tại -->
-            <Label fx:id="lblUsername"
-                   style="-fx-text-fill: white; -fx-font-size: 14;"/>
+        <HBox styleClass="header-bar" alignment="CENTER_LEFT" spacing="10" BorderPane.alignment="CENTER">
+            <!-- Logo -->
+            <ImageView fx:id="imgLogo"
+                       fitWidth="40" fitHeight="40"
+                       preserveRatio="true"
+                       styleClass="logo-image"
+                       onMouseClicked="#handleLogoClick"
+                        />
+            <!-- Tiêu đề màn hình -->
+            <Label text="Lịch sử khám bệnh" styleClass="label-header"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <!-- Tên user + avatar -->
+            <Label fx:id="lblUsername" styleClass="user-name"/>
             <ImageView fx:id="avatarImageView"
-                       fitHeight="32" fitWidth="32"
-                       style="-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 4,0,0,0);"/>
+                       fitWidth="32" fitHeight="32"
+                       preserveRatio="true"
+                       styleClass="avatar-image" />
         </HBox>
     </top>
+
 
     <!-- CENTER: toàn bộ phần tìm kiếm + scroll history -->
     <center>

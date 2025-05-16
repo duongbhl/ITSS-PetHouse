@@ -2,8 +2,6 @@ package org.example.petproject.model;
 
 import jakarta.persistence.*;
 
-import java.math.BigDecimal;
-
 @Entity
 @Table(name = "Service")
 public class Service {
