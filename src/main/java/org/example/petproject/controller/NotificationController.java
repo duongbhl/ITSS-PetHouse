@@ -68,7 +68,7 @@ public class NotificationController implements DashboardControllerBase, Initiali
     private void handleLogoClick(MouseEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/owner_dashboard.fxml"));
+                    getClass().getResource("/org/example/petproject/OwnerDashboardView.fxml"));
             Parent root = loader.load();
             DashboardControllerBase ctrl = loader.getController();
             ctrl.initUser(currentUser);

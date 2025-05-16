@@ -237,7 +237,7 @@ public class OwnerPetsController implements DashboardControllerBase, Initializab
     private void openAddPetDialog() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/add_pet.fxml"));
+                    getClass().getResource("/org/example/petproject/AddPetView.fxml"));
             Parent root = loader.load();
             AddPetController ctrl = loader.getController();
             ctrl.setOwner(currentUser);
@@ -265,7 +265,7 @@ public class OwnerPetsController implements DashboardControllerBase, Initializab
     private void showDetail(Pet pet) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/pet_detail.fxml"));
+                    getClass().getResource("/org/example/petproject/PetDetailView.fxml"));
             Parent root = loader.load();
             PetDetailController ctrl = loader.getController();
 
@@ -326,8 +326,7 @@ public class OwnerPetsController implements DashboardControllerBase, Initializab
     private void navigateToHome() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/owner_dashboard.fxml")); // ← file FXML của trang
-                                                                                             // chủ
+                    getClass().getResource("/org/example/petproject/OwnerDashboardView.fxml"));
             Parent root = loader.load();
 
             DashboardControllerBase ctrl = loader.getController();

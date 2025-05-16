@@ -15,23 +15,21 @@ public class RoomDAO extends BaseDAO<Room, Long> {
     }
 
     public List<String> findAllNames() {
-        try(Session session=HibernateUtil.getSessionFactory().openSession()) {
-            Query<String> query=session.createQuery("select t.name from Room t",String.class);
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<String> query = session.createQuery("select t.name from Room t", String.class);
             return query.getResultList();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             e.printStackTrace();
         }
         return Collections.emptyList();
     }
 
     public Room findByName(String name) {
-        try(Session session=HibernateUtil.getSessionFactory().openSession()) {
-            Query<Room> query=session.createQuery("from Room t where t.name=:name",Room.class);
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Query<Room> query = session.createQuery("from Room t where t.name=:name", Room.class);
             query.setParameter("name", name);
             return query.uniqueResult();
-        }
-        catch (HibernateException e) {
+        } catch (HibernateException e) {
             e.printStackTrace();
         }
         return findByName(name);

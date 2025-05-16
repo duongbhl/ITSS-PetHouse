@@ -11,13 +11,14 @@ import org.example.petproject.dao.UserDAO;
 
 import java.io.IOException;
 
-public class luutruController {
+public class BoardingController {
 
     private String ownerId;
 
-    public luutruController() {}
+    public BoardingController() {
+    }
 
-    public luutruController(String ownerId) {
+    public BoardingController(String ownerId) {
         this.ownerId = ownerId;
     }
 
@@ -26,18 +27,18 @@ public class luutruController {
 
     @FXML
     void arrowPressedButton(ActionEvent event) {
-        //main
+        // main
     }
 
     @FXML
     void roomlistButton(ActionEvent event) {
-        dsphongController controller = new dsphongController("U002");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/dsphongScreen.fxml"));
+        RoomListController controller = new RoomListController("U002");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/RoomListView.fxml"));
         loader.setController(controller);
         Parent root = null;
-        try{
-            root=loader.load();
-        }catch(IOException e){
+        try {
+            root = loader.load();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         Scene scene = new Scene(root);
@@ -49,13 +50,13 @@ public class luutruController {
 
     @FXML
     void petlistButton(ActionEvent event) {
-        dsluutruController controller = new dsluutruController("U002");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/dsluutruScreen.fxml"));
+        BoardingListController controller = new BoardingListController("U002");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/BoardingListView.fxml"));
         loader.setController(controller);
         Parent root = null;
-        try{
+        try {
             root = loader.load();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         Scene scene = new Scene(root);

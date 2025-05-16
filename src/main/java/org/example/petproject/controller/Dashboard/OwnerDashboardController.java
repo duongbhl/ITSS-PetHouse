@@ -123,12 +123,12 @@ public class OwnerDashboardController implements DashboardControllerBase, javafx
 
     @FXML
     private void onMyPets(ActionEvent evt) {
-        navigateTo("/org/example/petproject/owner_pets.fxml", evt);
+        navigateTo("/org/example/petproject/OwnerPetsView.fxml", evt);
     }
 
     @FXML
     private void onBook(ActionEvent evt) {
-        navigateTo("/org/example/petproject/datlichkhamScreen.fxml", evt);
+        navigateTo("/org/example/petproject/MakeAppointmentView.fxml", evt);
     }
 
     @FXML
@@ -138,12 +138,12 @@ public class OwnerDashboardController implements DashboardControllerBase, javafx
 
     @FXML
     private void onGrooming(ActionEvent evt) {
-        navigateTo("/org/example/petproject/dslamdepScreen.fxml", evt);
+        navigateTo("/org/example/petproject/OwnerGroomingView.fxml", evt);
     }
 
     @FXML
     private void onBoarding(ActionEvent evt) {
-        navigateTo("/org/example/petproject/dkdvluutruScreen.fxml", evt);
+        navigateTo("/org/example/petproject/BoardingView.fxml", evt);
     }
 
     @FXML
@@ -206,7 +206,7 @@ public class OwnerDashboardController implements DashboardControllerBase, javafx
 
     private void openUserProfile() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/user_profile.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/UserProfileView.fxml"));
             Parent root = loader.load();
             UserProfileController ctrl = loader.getController();
             ctrl.setUser(currentUser);
@@ -230,7 +230,7 @@ public class OwnerDashboardController implements DashboardControllerBase, javafx
     private void performLogout() {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/login.fxml"));
+                    getClass().getResource("/org/example/petproject/LoginView.fxml"));
             Parent root = loader.load();
 
             // Lấy stylesheets của scene hiện tại

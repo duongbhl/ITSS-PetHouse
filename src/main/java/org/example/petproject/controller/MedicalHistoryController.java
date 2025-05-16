@@ -100,7 +100,7 @@ public class MedicalHistoryController implements DashboardControllerBase, Initia
     private void handleLogoClick(MouseEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/owner_dashboard.fxml"));
+                    getClass().getResource("/org/example/petproject/OwnerDashboardView.fxml"));
             Parent root = loader.load();
             DashboardControllerBase ctrl = loader.getController();
             ctrl.initUser(currentUser);
@@ -144,7 +144,7 @@ public class MedicalHistoryController implements DashboardControllerBase, Initia
     // Phương thức buildCard giữ nguyên logic cũ
     private Label createIconLabel(String text, String iconFileName) {
         ImageView iv = new ImageView(
-                new Image(getClass().getResourceAsStream("/asetss/icons/" + iconFileName)));
+                new Image(getClass().getResourceAsStream("/assets/icons/" + iconFileName)));
         iv.setFitWidth(20);
         iv.setFitHeight(20);
         Label lbl = new Label(text, iv);

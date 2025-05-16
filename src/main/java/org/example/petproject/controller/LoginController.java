@@ -105,16 +105,16 @@ public class LoginController implements Initializable {
         String fxmlPath;
         switch (user.getRole()) {
             case owner:
-                fxmlPath = "/org/example/petproject/owner_dashboard.fxml";
+                fxmlPath = "/org/example/petproject/OwnerDashboardView.fxml";
                 break;
             case doctor:
-                fxmlPath = "/org/example/petproject/doctor_dashboard.fxml";
+                fxmlPath = "/org/example/petproject/DoctorDashboardView.fxml";
                 break;
             case staff:
-                fxmlPath = "/org/example/petproject/staff_dashboard.fxml";
+                fxmlPath = "/org/example/petproject/StaffDashboardView.fxml";
                 break;
             case admin:
-                fxmlPath = "/org/example/petproject/admin_dashboard.fxml";
+                fxmlPath = "/org/example/petproject/AdminDashboardView.fxml";
                 break;
             default:
                 showError("Role không hợp lệ.");
@@ -143,7 +143,7 @@ public class LoginController implements Initializable {
     private void showRegister(ActionEvent evt) {
         try {
             Parent root = FXMLLoader.load(
-                    getClass().getResource("/org/example/petproject/register.fxml"));
+                    getClass().getResource("/org/example/petproject/RegisterView.fxml"));
             ((Node) evt.getSource()).getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();

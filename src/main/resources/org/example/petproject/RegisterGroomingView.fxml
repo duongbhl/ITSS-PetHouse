@@ -7,7 +7,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.petproject.controller.dkdvlamdepController"
+            fx:controller="org.example.petproject.controller.RegisterGroomingController"
             style="-fx-background-color: #FFFFFF; -fx-font-family: 'Segoe UI';">
 
 <!-- HEADER chung -->

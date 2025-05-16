@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.example.petproject.controller.Dashboard.DashboardControllerBase;
 import org.example.petproject.dao.PetDAO;
+import org.example.petproject.model.Pet;
 import org.example.petproject.model.ServiceBooking;
 import org.example.petproject.model.User;
 import org.example.petproject.service.UserService;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class dkdvlamdepController implements DashboardControllerBase, Initializable {
+public class RegisterGroomingController implements DashboardControllerBase, Initializable {
     @FXML
     private ImageView imgLogo;
     @FXML
@@ -126,7 +127,7 @@ public class dkdvlamdepController implements DashboardControllerBase, Initializa
     private void handleLogoClick(MouseEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/owner_dashboard.fxml"));
+                    getClass().getResource("/org/example/petproject/OwnerDashboardView.fxml"));
             Parent root = loader.load();
             DashboardControllerBase ctrl = loader.getController();
             ctrl.initUser(currentUser);
@@ -142,35 +143,71 @@ public class dkdvlamdepController implements DashboardControllerBase, Initializa
 
     @FXML
     private void bookAppointmentButton(ActionEvent event) {
-        if (petSelected.getValue() == null) {
-            new Alert(Alert.AlertType.WARNING, "Vui lòng chọn thú cưng.").showAndWait();
+        // 1) Lấy tên pet và tìm Pet object
+        String petName = petSelected.getValue();
+        Pet pet = petDAO.findpetbyName(petName);
+        if (pet == null) {
+            new Alert(Alert.AlertType.ERROR, "Không tìm thấy thú cưng: " + petName)
+                    .showAndWait();
             return;
         }
-        if (scheduleSelected.getValue() == null) {
+        String petId = pet.getPetId();
+
+        // 2) Kiểm tra ngày
+        LocalDate checkIn = scheduleSelected.getValue();
+        if (checkIn == null) {
             new Alert(Alert.AlertType.WARNING, "Vui lòng chọn ngày.").showAndWait();
             return;
         }
-        try {
-            // Chuẩn bị dữ liệu
-            LocalDate checkIn = scheduleSelected.getValue();
-            String note = noteBox.getText();
-            String petName = petSelected.getValue();
-            // ID service làm đẹp của bạn (check lại trong DB, ví dụ "GROOM001")
-            String serviceId = "GROOM001";
+        // --- 3) Tính chi tiết và tổng tiền ---
+        StringBuilder detail = new StringBuilder();
+        int total = 0;
 
-            // Gọi UserService để lưu booking
+        if (tamSelected.isSelected()) {
+            detail.append("✔ Tắm\n");
+            total += 50000;
+        }
+        if (catSelected.isSelected()) {
+            detail.append("✔ Cắt lông\n");
+            total += 50000;
+        }
+        if (vstaiSelected.isSelected()) {
+            detail.append("✔ Vệ sinh tai\n");
+            total += 50000;
+        }
+        if (vsmongSelected.isSelected()) {
+            detail.append("✔ Vệ sinh móng\n");
+            total += 50000;
+        }
+
+        // Nếu user có ghi chú thêm
+        String userNote = noteBox.getText().trim();
+        if (!userNote.isEmpty()) {
+            detail.append("\nGhi chú: ").append(userNote).append("\n");
+        }
+
+        detail.append("\nTổng giá: ")
+                .append(String.format(Locale.GERMAN, "%,.0f", (double) total))
+                .append(" VNĐ");
+
+        // --- 4) Lưu booking với note = detail ---
+        ServiceBooking.Status status = ServiceBooking.Status.pending;
+        String serviceId = "S001"; // ID dịch vụ làm đẹp & vệ sinh
+
+        try {
             userService.dkdvvesinh(
                     checkIn,
-                    note,
-                    ServiceBooking.Status.in_progress, // hoặc pending tuỳ nghiệp vụ
-                    petName,
+                    detail.toString(), // truyền detail + tổng giá vào note
+                    status,
+                    petId,
                     serviceId);
-
-            new Alert(Alert.AlertType.INFORMATION, "Đăng ký dịch vụ thành công!").showAndWait();
+            new Alert(Alert.AlertType.INFORMATION, "Đăng ký dịch vụ thành công!")
+                    .showAndWait();
             clearForm();
         } catch (Exception ex) {
             ex.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Đăng ký thất bại:\n" + ex.getMessage()).showAndWait();
+            new Alert(Alert.AlertType.ERROR, "Đăng ký thất bại:\n" + ex.getMessage())
+                    .showAndWait();
         }
     }
 

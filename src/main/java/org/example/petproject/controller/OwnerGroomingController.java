@@ -29,9 +29,10 @@ import org.example.petproject.model.User;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
-public class dslamdepController implements DashboardControllerBase, Initializable {
+public class OwnerGroomingController implements DashboardControllerBase, Initializable {
 
     @FXML
     private ImageView imgLogo;
@@ -87,7 +88,7 @@ public class dslamdepController implements DashboardControllerBase, Initializabl
     private void handleLogoClick(MouseEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/owner_dashboard.fxml"));
+                    getClass().getResource("/org/example/petproject/OwnerDashboardView.fxml"));
             Parent root = loader.load();
             OwnerDashboardController dash = loader.getController();
             dash.initUser(currentUser);
@@ -105,9 +106,9 @@ public class dslamdepController implements DashboardControllerBase, Initializabl
     private void handleAddCard(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/dkdvlamdepScreeen.fxml"));
+                    getClass().getResource("/org/example/petproject/RegisterGroomingView.fxml"));
             Parent root = loader.load();
-            dkdvlamdepController form = loader.getController();
+            RegisterGroomingController form = loader.getController();
             form.initUser(currentUser);
 
             Stage dialog = new Stage();
@@ -128,46 +129,55 @@ public class dslamdepController implements DashboardControllerBase, Initializabl
     private void loadPetData() {
         cardsContainer.getChildren().clear();
 
-        // 1) Lấy service "Làm đẹp & vệ sinh"
-        Service grooming = serviceDAO.findServiceByName("Làm đẹp & vệ sinh");
-        System.out.println(">> grooming service: " + grooming);
+        Service grooming = serviceDAO.findByType(Service.Type.lam_dep_va_ve_sinh);
         if (grooming == null) {
-            System.out.println("   >> Dịch vụ 'Làm đẹp & vệ sinh' không tồn tại!");
+            showError("Dịch vụ làm đẹp & vệ sinh không tồn tại!");
             return;
         }
         String groomingId = grooming.getServiceId();
 
-        // 2) Lấy danh sách booking đang in_progress cho dịch vụ này
         List<ServiceBooking> bookings = serviceBookingDAO.getBookingsByOwnerId(
                 currentUser.getUserId(),
-                ServiceBooking.Status.pending,
+                ServiceBooking.Status.in_progress,
                 groomingId);
-        System.out.println(">> bookings found: " + bookings.size());
 
-        // 3) Tạo card cho mỗi booking
         for (ServiceBooking sb : bookings) {
             User handler = sb.getHandledBy();
             String handlerName = handler != null ? handler.getFullName() : "Chưa phân công";
             String handlerPhone = handler != null ? handler.getPhone() : "";
+
+            // Lấy note làm detail (đã lưu chuỗi checkbox + tổng giá)
+            String detail = sb.getNote() != null ? sb.getNote() : "";
+
+            // Tên dịch vụ chung ("Làm đẹp & vệ sinh")
+            String serviceType = grooming.getName();
+
+            // Giá tổng (nếu bạn lưu trong note thì parse, hoặc dùng service.price)
+            String price = String.format(Locale.GERMAN, "%,.0f", (double) /* tổng giá */ 0)
+                    .replace('.', ',') + " VNĐ";
+            // nếu bạn đã thêm total_price, dùng sb.getTotalPrice()
+
             PetBoardingInfo info = new PetBoardingInfo(
                     sb.getBookingId(),
                     sb.getPet().getName(),
+                    serviceType,
                     handlerName,
                     handlerPhone,
-                    "", "",
+                    /* roomName */"",
                     sb.getCheckInTime().toString(),
                     sb.getCheckOutTime() != null ? sb.getCheckOutTime().toString() : "",
-                    sb.getService().getPrice().toString());
+                    detail,
+                    price);
 
+            FXMLLoader l = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/PetCardView.fxml"));
             try {
-                FXMLLoader l = new FXMLLoader(
-                        getClass().getResource("/org/example/petproject/petCard.fxml"));
                 Parent card = l.load();
-                petCardController ctrl = l.getController();
+                PetCardController ctrl = l.getController();
                 ctrl.setData(info);
                 cardsContainer.getChildren().add(card);
-
             } catch (IOException e) {
+                showError("Không thể tải thẻ thú cưng.");
                 e.printStackTrace();
             }
         }

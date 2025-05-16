@@ -7,54 +7,85 @@ import org.hibernate.query.Query;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Generic BaseDAO handling basic CRUD operations.
+ * Uses try-with-resources for session management and throws RuntimeException on
+ * failure.
+ */
 public abstract class BaseDAO<T, ID extends Serializable> {
+    /**
+     * Opens a new Hibernate session.
+     */
+    protected Session getSession() {
+        return HibernateUtil.getSessionFactory().openSession();
+    }
+
+    /**
+     * Returns the class of the entity managed by this DAO.
+     */
     protected abstract Class<T> getEntityClass();
 
-    public boolean save(T entity) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+    /**
+     * Persists a new entity and returns it.
+     */
+    public T save(T entity) {
+        try (Session session = getSession()) {
             Transaction tx = session.beginTransaction();
             session.persist(entity);
             tx.commit();
-            return true;
-        } catch (Exception e) {
+            return entity;
+        } catch (RuntimeException e) {
             e.printStackTrace();
+            throw e;
         }
-        return false;
     }
 
-    public boolean update(T entity) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+    /**
+     * Merges changes of an existing entity and returns the managed instance.
+     */
+    public T update(T entity) {
+        try (Session session = getSession()) {
             Transaction tx = session.beginTransaction();
-            session.merge(entity);
+            T merged = (T) session.merge(entity);
             tx.commit();
-            return true;
-        } catch (Exception e) {
+            return merged;
+        } catch (RuntimeException e) {
             e.printStackTrace();
+            throw e;
         }
-        return false;
     }
 
-    public boolean delete(T entity) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+    /**
+     * Removes an entity.
+     */
+    public void delete(T entity) {
+        try (Session session = getSession()) {
             Transaction tx = session.beginTransaction();
             session.remove(entity);
             tx.commit();
-            return true;
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             e.printStackTrace();
+            throw e;
         }
-        return false;
     }
 
-    public T findById(String id) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+    /**
+     * Finds an entity by its identifier.
+     */
+    public T findById(ID id) {
+        try (Session session = getSession()) {
             return session.get(getEntityClass(), id);
         }
     }
 
+    /**
+     * Returns all entities of this type.
+     */
     public List<T> findAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query<T> query = session.createQuery("from " + getEntityClass().getSimpleName(), getEntityClass());
+        try (Session session = getSession()) {
+            Query<T> query = session.createQuery(
+                    "FROM " + getEntityClass().getSimpleName(),
+                    getEntityClass());
             return query.getResultList();
         }
     }

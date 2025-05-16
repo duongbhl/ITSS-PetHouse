@@ -19,8 +19,7 @@ import org.example.petproject.service.UserService;
 
 import java.io.IOException;
 
-
-public class dkdvluutruController {
+public class RegisterBoardingController {
     UserDAO userdao = new UserDAO();
     PetDAO petdao = new PetDAO();
     RoomDAO roomdao = new RoomDAO();
@@ -29,9 +28,10 @@ public class dkdvluutruController {
 
     private String ownerID;
 
-    public dkdvluutruController(){}
+    public RegisterBoardingController() {
+    }
 
-    public dkdvluutruController(String ownerID){
+    public RegisterBoardingController(String ownerID) {
         this.ownerID = ownerID;
     }
 
@@ -55,13 +55,13 @@ public class dkdvluutruController {
 
     @FXML
     void arrowPressedButton(ActionEvent event) {
-        dsluutruController controller = new dsluutruController("U002");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/dsluutruScreen.fxml"));
+        BoardingListController controller = new BoardingListController("U002");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/BoardingListView.fxml"));
         loader.setController(controller);
         Parent root = null;
-        try{
-            root=loader.load();
-        }catch(IOException e){
+        try {
+            root = loader.load();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         Scene scene = new Scene(root);
@@ -82,12 +82,11 @@ public class dkdvluutruController {
     }
 
     @FXML
-    void initialize(){
+    void initialize() {
         ownerName.setText(userdao.getUserByOwnerID(this.ownerID).getFullName());
         petSelected.setItems(FXCollections.observableArrayList(petdao.findAllByOwnerId(this.ownerID)));
         roomSelected.setItems(FXCollections.observableArrayList(roomdao.findAllNames()));
 
     }
-
 
 }

@@ -65,12 +65,4 @@ public class PetBoarding {
         this.room = room;
     }
 
-    @Override
-    public String toString() {
-        return "PetBoarding{" +
-                "boardingId='" + boardingId + '\'' +
-                ", booking=" + booking +
-                ", room=" + room +
-                '}';
-    }
 }

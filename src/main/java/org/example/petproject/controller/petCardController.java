@@ -5,20 +5,22 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
 import org.example.petproject.dao.ServiceBookingDAO;
 import org.example.petproject.model.PetBoardingInfo;
 import org.example.petproject.model.ServiceBooking;
 
-public class petCardController {
+import java.net.URL;
 
-    private final ServiceBookingDAO serviceBookingDAO = new ServiceBookingDAO();
+/**
+ * Controller cho ô hiển thị dịch vụ làm đẹp & vệ sinh.
+ */
+public class PetCardController {
 
     @FXML
     private ImageView imgPet;
     @FXML
     private Label lblPetName;
-    @FXML
-    private Label lblServiceType;
     @FXML
     private Label lblEmpName;
     @FXML
@@ -28,43 +30,34 @@ public class petCardController {
     @FXML
     private Label lblPrice;
 
+    /**
+     * Thiết lập dữ liệu cho card.
+     */
     public void setData(PetBoardingInfo info) {
-        // 1) Hiển petName
+        // Lấy đầy đủ booking từ DB để lấy ảnh
+        ServiceBooking sb = new ServiceBookingDAO().findBookingById(info.getBookingId());
+        String imgUrl = null;
+        if (sb != null && sb.getPet().getPhotoUrl() != null && !sb.getPet().getPhotoUrl().isBlank()) {
+            imgUrl = sb.getPet().getPhotoUrl();
+        }
+        // Ảnh pet, nếu null thì dùng default
+        if (imgUrl != null) {
+            imgPet.setImage(new Image(imgUrl, true));
+        } else {
+            URL defaultUrl = getClass().getResource("/assets/icons/pets.png");
+            if (defaultUrl != null) {
+                imgPet.setImage(new Image(defaultUrl.toExternalForm(), true));
+            }
+        }
+
+        // Tên thú cưng
         lblPetName.setText(info.getPetName());
 
-        // 2) Lấy entity ServiceBooking đầy đủ từ DB
-        ServiceBooking sb = serviceBookingDAO.findBookingById(info.getbookingId());
-        if (sb != null) {
-            // 2a) Ảnh pet
-            String imgUrl = sb.getPet().getPhotoUrl(); // hoặc getAvatarUrl tuỳ entity
-            if (imgUrl != null && !imgUrl.isBlank()) {
-                imgPet.setImage(new Image(imgUrl, true));
-            }
-            // 2b) Loại dịch vụ
-            lblServiceType.setText(sb.getService().getName());
+        // Nhân viên phụ trách
+        lblEmpName.setText(info.getStaffName());
+        lblEmpPhone.setText(info.getStaffPhone());
 
-            // 2c) Nhân viên phụ trách (có thể null)
-            if (sb.getHandledBy() != null) {
-                lblEmpName.setText(sb.getHandledBy().getFullName());
-                lblEmpPhone.setText(sb.getHandledBy().getPhone());
-            } else {
-                lblEmpName.setText("Chưa phân công");
-                lblEmpPhone.setText("");
-            }
-
-            // 2d) Mô tả chi tiết: bạn có thể build chuỗi từ sb.getService().getType(),
-            // sb.getCheckInTime(),...
-            StringBuilder detail = new StringBuilder();
-            detail.append("Bắt đầu: ").append(sb.getCheckInTime());
-            if (sb.getCheckOutTime() != null) {
-                detail.append("\nKết thúc: ").append(sb.getCheckOutTime());
-            }
-            txtServiceInfo.setText(detail.toString());
-
-            // 2e) Giá
-            lblPrice.setText(
-                    String.format("%,.0f VNĐ", sb.getService().getPrice())
-                            .replace('.', ','));
-        }
+        // Nội dung chi tiết: các dịch vụ con & ghi chú
+        txtServiceInfo.setText(info.getDetail());
     }
 }

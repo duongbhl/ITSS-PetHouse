@@ -62,13 +62,4 @@ public class Service {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Service{" +
-                "serviceId='" + serviceId + '\'' +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", type=" + type +
-                '}';
-    }
 }

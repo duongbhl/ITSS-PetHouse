@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class datlichkhamController implements DashboardControllerBase, Initializable {
+public class MakeAppointmentController implements DashboardControllerBase, Initializable {
 
     @FXML
     private ImageView imgLogo;
@@ -92,7 +92,7 @@ public class datlichkhamController implements DashboardControllerBase, Initializ
     private void handleLogoClick(MouseEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource("/org/example/petproject/owner_dashboard.fxml"));
+                    getClass().getResource("/org/example/petproject/OwnerDashboardView.fxml"));
             Parent root = loader.load();
             DashboardControllerBase ctrl = loader.getController();
             ctrl.initUser(currentUser);

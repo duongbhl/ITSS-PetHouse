@@ -13,7 +13,15 @@ public class NotificationDto {
         this.message = message;
     }
 
-    public LocalDateTime getDateTime() { return dateTime; }
-    public String getPetName()    { return petName; }
-    public String getMessage()    { return message; }
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public String getPetName() {
+        return petName;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

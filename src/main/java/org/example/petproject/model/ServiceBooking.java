@@ -142,18 +142,4 @@ public class ServiceBooking {
     public void setHandledBy(User handledBy) {
         this.handledBy = handledBy;
     }
-
-    @Override
-    public String toString() {
-        return "ServiceBooking{" +
-                "bookingId='" + bookingId + '\'' +
-                ", pet=" + pet +
-                ", org.example.petproject.service=" + service +
-                ", checkInTime=" + checkInTime +
-                ", checkOutTime=" + checkOutTime +
-                ", status=" + status +
-                ", note='" + note + '\'' +
-                ", handledBy=" + handledBy +
-                '}';
-    }
 }

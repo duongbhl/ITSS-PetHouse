@@ -11,14 +11,14 @@ import org.example.petproject.dao.UserDAO;
 
 import java.io.IOException;
 
-
-public class dsphongController {
+public class RoomListController {
 
     private String ownerID;
 
-    public dsphongController() {}
+    public RoomListController() {
+    }
 
-    public dsphongController(String ownerID) {
+    public RoomListController(String ownerID) {
         this.ownerID = ownerID;
     }
 
@@ -27,13 +27,13 @@ public class dsphongController {
 
     @FXML
     void arrowPressedButton(ActionEvent event) {
-        luutruController controller = new luutruController("U002");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/luutruScreen.fxml"));
+        BoardingController controller = new BoardingController("U002");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/RoomListView.fxml"));
         loader.setController(controller);
         Parent root = null;
-        try{
-            root=loader.load();
-        }catch (IOException e){
+        try {
+            root = loader.load();
+        } catch (IOException e) {
             e.printStackTrace();
         }
         Scene scene = new Scene(root);
@@ -46,6 +46,5 @@ public class dsphongController {
     void initialize() {
         ownerName.setText(new UserDAO().getUserByOwnerID(this.ownerID).getFullName());
     }
-
 
 }

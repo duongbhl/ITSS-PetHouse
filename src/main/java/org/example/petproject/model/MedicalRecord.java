@@ -11,6 +11,7 @@ import java.util.UUID;
 public class MedicalRecord {
     @Id
     private String recordId;
+
     @PrePersist
     public void generateId() {
         if (this.recordId == null) {
@@ -45,7 +46,9 @@ public class MedicalRecord {
 
     // Getters, setters, and constructors
 
-    public MedicalRecord(String recordId, Appointment appointment, Pet pet, LocalDate examDate, User doctor, String type, String symptoms, String diagnosis, String prescription, String treatment, LocalDate followUpDate, String note, LocalDateTime createdAt) {
+    public MedicalRecord(String recordId, Appointment appointment, Pet pet, LocalDate examDate, User doctor,
+            String type, String symptoms, String diagnosis, String prescription, String treatment,
+            LocalDate followUpDate, String note, LocalDateTime createdAt) {
         this.recordId = recordId;
         this.appointment = appointment;
         this.pet = pet;
@@ -61,7 +64,8 @@ public class MedicalRecord {
         this.createdAt = createdAt;
     }
 
-    public MedicalRecord() {}
+    public MedicalRecord() {
+    }
 
     public String getRecordId() {
         return recordId;
@@ -167,23 +171,4 @@ public class MedicalRecord {
         this.createdAt = createdAt;
     }
 
-    @Override
-    public String toString() {
-        return "MedicalRecord{" +
-                "recordId='" + recordId + '\'' +
-                ", appointment=" + appointment +
-                ", pet=" + pet +
-                ", examDate=" + examDate +
-                ", doctor=" + doctor +
-                ", type='" + type + '\'' +
-                ", symptoms='" + symptoms + '\'' +
-                ", diagnosis='" + diagnosis + '\'' +
-                ", prescription='" + prescription + '\'' +
-                ", treatment='" + treatment + '\'' +
-                ", followUpDate=" + followUpDate +
-                ", note='" + note + '\'' +
-                ", createdAt=" + createdAt +
-                '}';
-    }
 }
-

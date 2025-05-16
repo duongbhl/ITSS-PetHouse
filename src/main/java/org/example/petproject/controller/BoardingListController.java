@@ -21,17 +21,17 @@ import org.example.petproject.model.ServiceBooking;
 import java.io.IOException;
 import java.util.List;
 
-public class dsluutruController {
+public class BoardingListController {
     ServiceBookingDAO serviceBookingDAO = new ServiceBookingDAO();
     PetBoardingDAO petBoardingDAO = new PetBoardingDAO();
     RoomDAO roomDAO = new RoomDAO();
 
     private String ownerID;
 
-    public dsluutruController() {
+    public BoardingListController() {
     }
 
-    public dsluutruController(String ownerID) {
+    public BoardingListController(String ownerID) {
         this.ownerID = ownerID;
     }
 
@@ -43,8 +43,8 @@ public class dsluutruController {
 
     @FXML
     void arrowPressedButton(ActionEvent event) {
-        luutruController controller = new luutruController("U002");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/luutruScreen.fxml"));
+        BoardingController controller = new BoardingController("U002");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/BoardingView.fxml"));
         loader.setController(controller);
         Parent root = null;
         try {
@@ -61,8 +61,9 @@ public class dsluutruController {
 
     @FXML
     void handleAddCard(ActionEvent event) {
-        dkdvluutruController controller = new dkdvluutruController("U002");
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/org/example/petproject/dkdvluutruScreen.fxml"));
+        RegisterBoardingController controller = new RegisterBoardingController("U002");
+        FXMLLoader fxmlLoader = new FXMLLoader(
+                getClass().getResource("/org/example/petproject/RegisterBoardingView.fxml"));
         fxmlLoader.setController(controller);
         Parent root = null;
         try {
@@ -108,11 +109,11 @@ public class dsluutruController {
 
         for (PetBoardingInfo petInfo : boardedPetsData) {
             try {
-                petCardController controller = new petCardController();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/petCard.fxml"));
+                PetCardController controller = new PetCardController();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/PetCardView.fxml"));
                 loader.setController(controller);
                 VBox petCardNode = loader.load();
-                petCardController ctrl = loader.getController();
+                PetCardController ctrl = loader.getController();
                 ctrl.setData(petInfo);
                 cardsContainer.getChildren().add(petCardNode);
             } catch (IOException e) {
