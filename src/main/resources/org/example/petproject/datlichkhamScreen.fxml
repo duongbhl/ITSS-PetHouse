@@ -41,13 +41,13 @@
             </Button>
             <Label text="Đặt lịch khám">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font size="24.0" />
                </font>
             </Label>
             <Region HBox.hgrow="ALWAYS" />
             <Label fx:id="ownerName" text="TenUser" textFill="#180101">
                <font>
-                  <Font name="System Bold" size="14.0" />
+                  <Font size="24.0" />
                </font>
                <HBox.margin>
                   <Insets right="10.0" />

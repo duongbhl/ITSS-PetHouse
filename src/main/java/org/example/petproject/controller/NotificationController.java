@@ -19,7 +19,7 @@ public class NotificationController {
     @FXML private ImageView avatarImageView;
     @FXML private VBox notificationContainer;
 
-    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     @FXML
     public void initialize() {

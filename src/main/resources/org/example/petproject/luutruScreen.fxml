@@ -36,13 +36,13 @@
             </Button>
             <Label text="Dịch vụ lưu trú thú cưng">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font size="24.0" />
                </font>
             </Label>
             <Region HBox.hgrow="ALWAYS" />
             <Label fx:id="ownerName" text="TenUser" textFill="#181717">
                <font>
-                  <Font name="System Bold" size="18.0" />
+                  <Font size="24.0" />
                </font>
                <HBox.margin>
                   <Insets right="10.0" />

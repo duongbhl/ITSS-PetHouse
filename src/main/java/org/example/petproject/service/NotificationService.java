@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -37,13 +37,13 @@ public class NotificationService {
                 LocalDate d    = (LocalDate)     row[0];
                 String   pet   = (String)         row[1];
                 String   msg   = (String)         row[2];
-                list.add(new NotificationDto(d.atStartOfDay(), pet, msg));
+                list.add(new NotificationDto(d, pet, msg));
             }
 
             // 2) ServiceBooking boarding reminder (dùng checkInTime làm message)
             List<Object[]> book = session.createQuery(
                             "select sb.checkInTime, sb.pet.name, " +
-                                    "concat('Nhắc lưu trú: Nhận phòng ngày ', to_char(sb.checkInTime, 'DD/MM/YYYY HH24:MI')) " +
+                                    "concat('Nhắc lưu trú: Nhận phòng ngày ', to_char(sb.checkInTime, 'DD/MM/YYYY')) " +
                                     "from ServiceBooking sb " +
                                     "where sb.pet.owner.userId = :uid",
                             Object[].class
@@ -51,7 +51,7 @@ public class NotificationService {
                     .list();
 
             for (Object[] row : book) {
-                LocalDateTime dt = (LocalDateTime) row[0];
+                LocalDate dt = (LocalDate) row[0];
                 String        pet = (String)         row[1];
                 String        msg = (String)         row[2];
                 list.add(new NotificationDto(dt, pet, msg));
@@ -60,7 +60,7 @@ public class NotificationService {
             // 3) Appointment reminder
             List<Object[]> appt = session.createQuery(
                             "select a.appointmentTime, a.pet.name, " +
-                                    "concat('Nhắc lịch khám: ', to_char(a.appointmentTime, 'DD/MM/YYYY HH24:MI')) " +
+                                    "concat('Nhắc lịch khám: ', to_char(a.appointmentTime, 'DD/MM/YYYY')) " +
                                     "from Appointment a " +
                                     "where a.pet.owner.userId = :uid",
                             Object[].class
@@ -68,7 +68,7 @@ public class NotificationService {
                     .list();
 
             for (Object[] row : appt) {
-                LocalDateTime dt = (LocalDateTime) row[0];
+                LocalDate dt = (LocalDate) row[0];
                 String        pet = (String)         row[1];
                 String        msg = (String)         row[2];
                 list.add(new NotificationDto(dt, pet, msg));
