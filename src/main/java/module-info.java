@@ -12,6 +12,7 @@ module org.example.petproject {
 
     // Optional UI framework
     requires org.kordamp.bootstrapfx.core;
+    requires java.desktop;
 
     // Cho phép JavaFX launcher và FXMLLoader khởi tạo Main & Controllers
     opens org.example.petproject to javafx.graphics, javafx.fxml;

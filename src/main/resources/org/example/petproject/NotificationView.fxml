@@ -28,7 +28,7 @@
                </ImageView>
             </graphic>
          </Button>
-         <Label text="Thông báo  &amp; Nhắc nhở">
+         <Label text="Thông báo &amp; Nhắc nhở">
             <font>
                <Font size="24.0" />
             </font>
