@@ -43,7 +43,21 @@ public class datlichkhamController {
 
     @FXML
     void bookAppointmentButton(ActionEvent event) {
-        userService.datlichkham(petSelected.getValue(),scheduleSelected.getValue(),examSelected.getValue(), Appointment.Status.pending);
+        if(userService.datlichkham(petSelected.getValue(),scheduleSelected.getValue(),examSelected.getValue(), Appointment.Status.pending)){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Book Appointment");
+            alert.setHeaderText(null);
+            alert.setContentText("Đăng kí thành công");
+            alert.showAndWait();
+        }else{
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Book Appointment");
+            alert.setHeaderText(null);
+            alert.setContentText("Đăng kí thất bại");
+            alert.showAndWait();
+        }
+
+
     }
 
     @FXML

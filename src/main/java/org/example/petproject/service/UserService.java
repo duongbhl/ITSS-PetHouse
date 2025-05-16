@@ -80,31 +80,30 @@ public class UserService {
     /**
      * Đặt lịch khám cho thú cưng.
      */
-    public void datlichkham(String name, LocalDate appointmentTime,
+    public boolean datlichkham(String name, LocalDate appointmentTime,
                             String type, Appointment.Status status) {
         Appointment appointment = new Appointment(name, appointmentTime, type, status);
-        appointmentDAO.save(appointment);
+        return appointmentDAO.save(appointment);
     }
 
     /**
      * Đăng ký dịch vụ vệ sinh cho thú cưng.
      */
-    public void dkdvvesinh(LocalDate checkInTime, String note,
+    public boolean dkdvvesinh(LocalDate checkInTime, String note,
                            ServiceBooking.Status status, String petName, String serviceId) {
         ServiceBooking serviceBooking = new ServiceBooking(checkInTime, note, status, petName, serviceId);
-        serviceBookingDAO.save(serviceBooking);
+        return serviceBookingDAO.save(serviceBooking);
     }
 
     /**
      * Đăng ký dịch vụ lưu trú và tạo bản ghi boarding.
      */
-    public void dkdvluutru(LocalDate checkInTime, LocalDate checkOutTime,
+    public boolean dkdvluutru(LocalDate checkInTime, LocalDate checkOutTime,
                            String note, ServiceBooking.Status status,
                            String petName, String serviceId, String roomName) {
         ServiceBooking serviceBooking = new ServiceBooking(checkInTime, checkOutTime, note, status, petName, serviceId);
-        serviceBookingDAO.save(serviceBooking);
         PetBoarding petBoarding = new PetBoarding(serviceBooking, roomName);
-        petBoardingDAO.save(petBoarding);
+        return petBoardingDAO.save(petBoarding) && serviceBookingDAO.save(serviceBooking);
     }
 
     /**

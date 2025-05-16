@@ -34,13 +34,10 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Label prefHeight="27.0" prefWidth="221.0" text="Dịch vụ lưu trú thú cưng" textFill="#333232">
+            <Label text="Dịch vụ lưu trú thú cưng">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
-               <HBox.margin>
-                  <Insets left="15.0" />
-               </HBox.margin>
             </Label>
             <Region HBox.hgrow="ALWAYS" />
             <Label fx:id="ownerName" text="TenUser" textFill="#181717">

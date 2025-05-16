@@ -30,7 +30,6 @@ public class dkdvluutruController {
 
     private String ownerID= SessionManager.getCurrentUser().getUserId();
 
-
     @FXML
     private Label ownerName;
 
@@ -92,13 +91,23 @@ public class dkdvluutruController {
 
     @FXML
     void bookAppointmentButton(ActionEvent event) {
-        userservice.dkdvluutru(inscheduleSelected.getValue(),
+        if(userservice.dkdvluutru(inscheduleSelected.getValue(),
                 outscheduleSelected.getValue(),
                 noteText.getText(),
                 ServiceBooking.Status.pending,
                 petSelected.getValue(),
                 "S002",
-                roomSelected.getValue());
+                roomSelected.getValue())){
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setHeaderText(null);
+            a.setContentText("Đăng kí thành công");
+            a.showAndWait();
+        }else{
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setHeaderText(null);
+            a.setContentText("Đăng kí thất bại");
+            a.showAndWait();
+        }
     }
 
     @FXML

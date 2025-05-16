@@ -5,13 +5,16 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import org.example.petproject.controller.Dashboard.DashboardControllerBase;
 import org.example.petproject.dao.ServiceBookingDAO;
@@ -137,7 +140,34 @@ public class dslamdepController {
     }
 
     public void displayPetCards() {
+        VBox vbox = new VBox();
+        vbox.setAlignment(Pos.CENTER); // Canh giữa cả theo chiều ngang và dọc
+        vbox.setPrefHeight(376);
+        vbox.setPrefWidth(270);
+        vbox.setStyle(
+                "-fx-background-color: white; " +
+                        "-fx-padding: 15; " +
+                        "-fx-background-radius: 15; " +
+                        "-fx-border-color: #E0E0E0; " +
+                        "-fx-border-width: 1.5; " +
+                        "-fx-border-radius: 15; " +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.2, 0, 0);"
+        );
 
+        Button button = new Button("+");
+        button.setPrefSize(70, 70); // Kích thước đều để tạo hình tròn
+        button.setStyle(
+                "-fx-font-size: 36px; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-text-fill: white; " +
+                        "-fx-background-color: #4CAF50; " +
+                        "-fx-background-radius: 35px;" + // Làm cho button tròn
+                        "-fx-padding: 0;"
+        );
+
+        button.setShape(new Circle(35));// Thiết lập hình dạng tròn
+        button.setOnAction(e->{handleAddCard(e);});
+        vbox.getChildren().add(button);
         for (PetBoardingInfo petInfo : boardedPetsData) {
             try {
                 petCardController controller=new petCardController();
@@ -151,5 +181,6 @@ public class dslamdepController {
                 e.printStackTrace();
             }
         }
+        cardsContainer.getChildren().add(vbox);
     }
 }

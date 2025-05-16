@@ -40,9 +40,6 @@
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
-               <HBox.margin>
-                  <Insets left="15.0" />
-               </HBox.margin>
             </Label>
             <Region HBox.hgrow="ALWAYS" />
             <Label fx:id="ownerName" text="Nguyễn Khánh Duy" textFill="#1e1e1e">

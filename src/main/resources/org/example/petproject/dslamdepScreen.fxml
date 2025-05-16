@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="750.0" prefWidth="1000.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petproject.controller.dslamdepController">
@@ -37,13 +36,10 @@
                   </ImageView>
                </graphic>
             </Button>
-            <Label style="-fx-text-fill: black;" text="Dịch vụ làm đẹp và vệ sinh" textFill="WHITE">
+            <Label text="Dịch vụ làm đẹp và vệ sinh">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
-               <HBox.margin>
-                  <Insets left="15.0" />
-               </HBox.margin>
             </Label>
             <Region HBox.hgrow="ALWAYS" />
             <Label fx:id="ownerName" style="-fx-text-fill: black;" text="TenUser" textFill="WHITE">
@@ -80,11 +76,6 @@
                            <children>
                               <FlowPane fx:id="cardsContainer" prefHeight="60.0" prefWidth="1000.0">
                               </FlowPane>
-                              <Button maxWidth="134.0" onAction="#handleAddCard" prefHeight="70.0" prefWidth="134.0" style="-fx-font-size: 38px; -fx-font-weight: bold; -fx-text-fill: white; -fx-background-color: #4CAF50; -fx-padding: 0; -fx-min-width: 70px; -fx-min-height: 70px; -fx-max-width: 70px; -fx-max-height: 70px;" text="+">
-                                 <shape>
-                                    <Circle radius="35" />
-                                 </shape>
-                              </Button>
                            </children>
                         </HBox>
                      </content>

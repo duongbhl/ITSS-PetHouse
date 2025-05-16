@@ -29,7 +29,6 @@ public class dkdvlamdepController {
 
     private String ownerID= SessionManager.getCurrentUser().getUserId();
 
-
     @FXML
     private Label ownerName;
 
@@ -100,7 +99,17 @@ public class dkdvlamdepController {
 
     @FXML
     void bookAppointmentButton(ActionEvent event) {
-        userService.dkdvvesinh(scheduleSelected.getValue(),noteBox.getText(), ServiceBooking.Status.pending,petSelected.getValue(),"S001");
+        if(userService.dkdvvesinh(scheduleSelected.getValue(),noteBox.getText(), ServiceBooking.Status.pending,petSelected.getValue(),"S001")){
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setHeaderText(null);
+            a.setContentText("Đăng kí thành công");
+            a.showAndWait();
+        }else{
+            Alert a = new Alert(Alert.AlertType.ERROR);
+            a.setHeaderText(null);
+            a.setContentText("Đăng kí thất bại");
+            a.showAndWait();
+        }
     }
 
     @FXML
