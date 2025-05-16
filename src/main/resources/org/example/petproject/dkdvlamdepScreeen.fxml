@@ -116,23 +116,67 @@
                               <Insets left="10.0" top="5.0" />
                            </padding>
                            <children>
-                              <CheckBox fx:id="tamSelected" text="Tắm">
-                                 <font><Font size="14.0" /></font>
-                              </CheckBox>
-                              <CheckBox fx:id="catSelected" text="Cắt, tỉa lông">
-                                 <font><Font size="14.0" /></font>
-                              </CheckBox>
-                              <CheckBox fx:id="vstaiSelected" text="Vệ sinh tai">
-                                 <font><Font size="14.0" /></font>
-                              </CheckBox>
-                              <CheckBox fx:id="vsmongSelected" text="Vệ sinh móng">
-                                 <font><Font size="14.0" /></font>
-                              </CheckBox>
+                              <HBox prefHeight="34.0" prefWidth="102.0">
+                                 <children>
+                                    <CheckBox fx:id="tamSelected" text="Tắm">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </CheckBox>
+                                    <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../asssets/bathtub.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="38.0" prefWidth="189.0">
+                                 <children>
+                                    <CheckBox fx:id="catSelected" text="Cắt, tỉa lông">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </CheckBox>
+                                    <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../asssets/grooming.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="32.0" prefWidth="189.0">
+                                 <children>
+                                    <CheckBox fx:id="vstaiSelected" text="Vệ sinh tai">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </CheckBox>
+                                    <ImageView fitHeight="33.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../asssets/animal.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="31.0" prefWidth="189.0">
+                                 <children>
+                                    <CheckBox fx:id="vsmongSelected" text="Vệ sinh móng">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </CheckBox>
+                                    <ImageView fitHeight="33.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../asssets/trimming.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </HBox>
                            </children>
                         </VBox>
 
                         <!-- Column 1, Row 0: Price -->
-                        <VBox alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <VBox alignment="TOP_LEFT" prefHeight="202.0" prefWidth="438.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
                             <padding>
                                 <!-- Adjust this padding to vertically align price as desired -->
                                 <Insets top="60.0" />

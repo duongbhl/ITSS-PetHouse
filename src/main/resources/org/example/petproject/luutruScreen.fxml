@@ -65,7 +65,7 @@
                   <ImageView fitHeight="180.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <!-- IMPORTANT: Replace with your actual icon image path -->
-                        <Image url="@../../../asssets/Screenshot%202025-05-11%20120727.png" />
+                        <Image url="@../../../asssets/pet-hotel.png" />
                      </image>
                   </ImageView>
                   <Button onAction="#roomlistButton" style="-fx-background-color: white; -fx-border-color: #D3D3D3; -fx-border-width: 1.5; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 25; -fx-font-size: 13px;" text="Xem thông tin chi tiết các phòng">
@@ -82,7 +82,7 @@
                   <ImageView fitHeight="185.0" fitWidth="190.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <!-- IMPORTANT: Replace with your actual icon image path -->
-                        <Image url="@../../../asssets/Screenshot%202025-05-11%20120744.png" />
+                        <Image url="@../../../asssets/pet-friendly.png" />
                      </image>
                   </ImageView>
                   <Button onAction="#petlistButton" style="-fx-background-color: white; -fx-border-color: #D3D3D3; -fx-border-width: 1.5; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 10 25; -fx-font-size: 13px;" text="Danh sách thú cưng lưu trú">

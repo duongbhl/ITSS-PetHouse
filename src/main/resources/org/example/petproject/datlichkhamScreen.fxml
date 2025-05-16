@@ -24,7 +24,7 @@
             <Insets left="20.0" right="20.0" />
          </padding>
          <children>
-            <Button onAction="#arrowpressedButton" prefHeight="32.0" prefWidth="46.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: bold; -fx-padding: 0 10 0 5;">
+            <Button onAction="#arrowpressedButton" prefHeight="23.0" prefWidth="23.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: bold; -fx-padding: 0 10 0 5;">
                <font>
                   <Font name="System Bold" size="40.0" />
                </font>
@@ -32,7 +32,7 @@
                   <Insets right="5.0" /> <!-- Optional: space between arrow and logo -->
                </HBox.margin>
                <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../assets/logo.png" />
                      </image>
