@@ -111,7 +111,7 @@ public class LoginController implements Initializable {
                 fxmlPath = "/org/example/petproject/DoctorDashboardView.fxml";
                 break;
             case staff:
-                fxmlPath = "/org/example/petproject/StaffDashboardView.fxml";
+                fxmlPath = "/org/example/petproject/StaffConfirmAppointmentView.fxml";
                 break;
             case admin:
                 fxmlPath = "/org/example/petproject/AdminDashboardView.fxml";
@@ -138,6 +138,7 @@ public class LoginController implements Initializable {
             showError("Không thể mở Dashboard.");
         }
     }
+
 
     @FXML
     private void showRegister(ActionEvent evt) {

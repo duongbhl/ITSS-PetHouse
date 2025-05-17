@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.petproject.controller.Dashboard.StaffConfirmAppointmentController">
+    <children>
+        <!-- Header -->
+        <HBox alignment="CENTER_LEFT" prefHeight="70.0" spacing="10.0" style="-fx-background-color: #CCCCCC; -fx-padding: 10px;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <!-- Logo in top-left corner -->
+                <ImageView fx:id="logoImageView" fitHeight="50.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/assets/logo.png" />
+                    </image>
+                </ImageView>
+                <Region HBox.hgrow="ALWAYS" />
+                <!-- User name and avatar in top-right corner -->
+                <Label fx:id="userNameLabel" style="-fx-font-size: 16px; -fx-padding: 0 10 0 0;" text="Tên User" />
+                <ImageView fx:id="userAvatarImageView" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@/assets/icons/user.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </HBox>
+
+        <!-- Main Content Area -->
+        <VBox alignment="TOP_CENTER" spacing="30.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="90.0">
+            <children>
+                <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #FFA500;" text="Xác nhận lịch khám" />
+
+                <HBox alignment="CENTER" spacing="80.0" VBox.vgrow="NEVER">
+                    <VBox.margin>
+                        <Insets bottom="20.0" top="20.0" />
+                    </VBox.margin>
+                    <children>
+                        <!-- "Trạng thái" is prompt text -->
+                        <ComboBox fx:id="statusComboBox" prefHeight="36.0" prefWidth="250.0" promptText="Trạng thái" />
+                        <!-- Left Side: Status ComboBox -->
+                        <VBox alignment="TOP_LEFT" spacing="5.0" />
+
+                        <!-- Right Side: Date Pickers -->
+                        <VBox alignment="TOP_LEFT" spacing="20.0">
+                            <children>
+                                <VBox spacing="5.0" />
+                                <Label style="-fx-font-size: 14px;" text="Từ ngày" />
+                                <DatePicker fx:id="fromDateDatePicker" prefWidth="250.0" />
+                                <VBox spacing="5.0">
+                                    <children>
+                                        <Label style="-fx-font-size: 14px;" text="Đến ngày" />
+                                        <DatePicker fx:id="toDateDatePicker" prefWidth="250.0" />
+                                    </children>
+                                </VBox>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+
+                <!-- Container for the button to center it -->
+                <HBox alignment="CENTER">
+                    <children>
+                        <Button fx:id="filterButton" mnemonicParsing="false" onAction="#handleFilterButtonAction" style="-fx-background-color: #007bff; -fx-text-fill: white; -fx-font-size: 16px; -fx-padding: 10 30; -fx-background-radius: 5;" text="Lọc" />
+                    </children>
+                    <VBox.margin>
+                        <Insets bottom="10.0" />
+                    </VBox.margin>
+                </HBox>
+
+                <!-- Added container for notification content -->
+                <VBox fx:id="notificationContainer" spacing="10.0" alignment="TOP_CENTER" />
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
