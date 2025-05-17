@@ -46,3 +46,9 @@
   -fx-pref-width: 120;
   -fx-pref-height: 30;
 }
+
+.text-area {
+   -fx-text-fill:red;
+}
+
+

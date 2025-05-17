@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import org.example.petproject.controller.Dashboard.DashboardControllerBase;
 import org.example.petproject.model.User;
 import org.example.petproject.service.UserService;
+import org.example.petproject.util.SessionManager;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -80,6 +82,7 @@ public class LoginController implements Initializable {
             if (user == null) {
                 showError("Email hoặc mật khẩu không đúng.");
             } else {
+                SessionManager.setCurrentUser(user);
                 openDashboardFor(user, evt);
             }
         });

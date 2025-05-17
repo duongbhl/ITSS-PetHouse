@@ -1,45 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.petproject.controller.PetCardController"
-            prefWidth="260" prefHeight="420"
-            style="-fx-background-color: white;
-                   -fx-background-radius:15;
-                   -fx-border-color: #B0E0E6;
-                   -fx-border-radius:15;
-                   -fx-border-width:1.8;
-                   -fx-padding:10;">
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="420" prefWidth="260" style="-fx-background-color: white;                    -fx-background-radius:15;                    -fx-border-color: #B0E0E6;                    -fx-border-radius:15;                    -fx-border-width:1.8;                    -fx-padding:10;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petproject.controller.PetCardController">
 
     <center>
-        <VBox spacing="8" alignment="TOP_CENTER">
+        <VBox alignment="TOP_CENTER" spacing="8">
 
             <!-- Ảnh pet -->
-            <ImageView fx:id="imgPet"
-                       fitWidth="90" fitHeight="90"
-                       preserveRatio="true" />
+            <ImageView fx:id="imgPet" fitHeight="90" fitWidth="90" preserveRatio="true" />
 
             <!-- Tên pet -->
-            <Label fx:id="lblPetName"
-                   style="-fx-font-size:16px; -fx-text-fill:#007AFF;"/>
+            <Label fx:id="lblPetName" style="-fx-font-size: 16px; -fx-text-fill: black;" />
 
             <!-- Nhân viên phụ trách -->
-            <Label text="Nhân viên phụ trách:" style="-fx-font-size:12px;"/>
-            <Label fx:id="lblEmpName" style="-fx-font-size:14px;"/>
-            <Label fx:id="lblEmpPhone" style="-fx-font-size:12px;"/>
+            <Label style="-fx-font-size: 12px; -fx-text-fill: black;" text="Nhân viên phụ trách:" />
+            <Label fx:id="lblEmpName" style="-fx-font-size: 14px; -fx-text-fill: black;" />
+            <Label fx:id="lblEmpPhone" style="-fx-font-size: 12px; -fx-text-fill: black;" />
 
             <!-- Thông tin chi tiết -->
-            <Label text="Thông tin:" style="-fx-font-size:12px; -fx-text-fill:#444;"/>
-            <TextArea fx:id="txtServiceInfo"
-                      prefRowCount="12"
-                      wrapText="true"
-                      editable="false"
-                      style="-fx-background-color: transparent;
-                             -fx-border-width: 0;"/>
+            <Label style="-fx-font-size:12px; -fx-text-fill:#444;" text="Thông tin:" />
+            <TextArea fx:id="txtServiceInfo" editable="false" prefRowCount="12" style="-fx-border-width: 0;" text="fdfdfdfdf" wrapText="true" />
 
         </VBox>
     </center>
