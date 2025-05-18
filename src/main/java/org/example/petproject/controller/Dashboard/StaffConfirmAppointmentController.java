@@ -21,7 +21,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class StaffConfirmAppointmentController implements Initializable, DashboardControllerBase {
 
@@ -81,7 +80,7 @@ public class StaffConfirmAppointmentController implements Initializable, Dashboa
             Parent root = loader.load();
 
             // Get the controller and pass the filtered data
-            StaffAppointmentListViewController controller = loader.getController();
+            StaffAppointmentListController controller = loader.getController();
             controller.initUser(currentUser);
             controller.initData(filteredAppointments);
 

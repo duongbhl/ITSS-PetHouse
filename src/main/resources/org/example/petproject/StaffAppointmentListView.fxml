@@ -15,7 +15,7 @@
 
 <AnchorPane prefHeight="700.0" prefWidth="900.0"
             xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.petproject.controller.Dashboard.StaffAppointmentListViewController">
+            fx:controller="org.example.petproject.controller.Dashboard.StaffAppointmentListController">
     <children>
         <!-- Top Bar with "PET HOUSE" text (if it's separate from the logo bar) -->
         <HBox alignment="CENTER_LEFT" style="-fx-background-color: #F0F0F0; -fx-padding: 5 10;"
@@ -47,10 +47,13 @@
 
                 <TableView fx:id="appointmentTableView" prefHeight="400.0" VBox.vgrow="ALWAYS">
                     <columns>
-                        <TableColumn fx:id="selectColumn" prefWidth="50.0" style="-fx-alignment: CENTER;">
-                            <cellValueFactory>
-                                <PropertyValueFactory property="selected" />
-                            </cellValueFactory>
+                        <TableColumn fx:id="selectColumn" prefWidth="50.0" style="-fx-alignment: CENTER;" text = "Chọn">
+<!--                            <cellValueFactory>-->
+<!--                                <PropertyValueFactory property="selected" />-->
+<!--                            </cellValueFactory>-->
+<!--                            <cellFactory>-->
+<!--                                <CheckBoxTableCell fx:factory="forTableColumn" />-->
+<!--                            </cellFactory>-->
                         </TableColumn>
                         <TableColumn fx:id="timeColumn" prefWidth="120.0" text="Thời gian" style="-fx-alignment: CENTER-LEFT;"/>
                         <TableColumn fx:id="petNameColumn" prefWidth="100.0" text="Tên" style="-fx-alignment: CENTER-LEFT;"/>
