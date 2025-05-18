@@ -9,6 +9,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.example.petproject.controller.Dashboard.DashboardControllerBase;
 import org.example.petproject.dao.PetDAO;
@@ -50,35 +52,21 @@ public class RegisterBoardingController{
     private TextArea noteText;
 
     @FXML
-    void arrowPressedButton(ActionEvent evt) {
-        String fxmlPath="/org/example/petproject/BoardingListView.fxml";
-        URL fxmlUrl = getClass().getResource(fxmlPath);
-        if (fxmlUrl == null) {
-            showError("Không tìm thấy màn hình " + fxmlPath);
-            return;
-        }
+    private ImageView imgLogo;
+
+    @FXML
+    private void handleLogoClick(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            Parent newRoot = loader.load();
-
-            // initUser nếu cần
-            Object ctrl = loader.getController();
-            if (ctrl instanceof DashboardControllerBase dcb) {
-                dcb.initUser(SessionManager.getCurrentUser());
-            }
-
-            // Lấy Scene hiện tại từ bất kỳ node nào (ví dụ button)
-            Scene scene = ((Node) evt.getSource()).getScene();
-            // Chuyển root thành root mới
-            scene.setRoot(newRoot);
-
-            // Nếu muốn, vẫn có thể maximize stage
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/BoardingListView.fxml"));
+            Parent root = loader.load();
+            Scene scene = imgLogo.getScene();
+            root.getStylesheets().setAll(scene.getStylesheets());
+            scene.setRoot(root);
             Stage stage = (Stage) scene.getWindow();
             stage.setMaximized(true);
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            showError("Lỗi khi mở màn hình: " + fxmlPath);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

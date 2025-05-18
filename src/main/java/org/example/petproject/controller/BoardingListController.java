@@ -15,10 +15,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.petproject.controller.Dashboard.DashboardControllerBase;
 import org.example.petproject.dao.PetBoardingDAO;
@@ -41,6 +43,8 @@ public class BoardingListController {
 
     private String ownerID= SessionManager.getCurrentUser().getUserId();
 
+    @FXML
+    private ImageView imgLogo;
 
     @FXML
     private FlowPane cardsContainer;
@@ -52,69 +56,39 @@ public class BoardingListController {
     private ImageView ownerAvatar;
 
     @FXML
-    void arrowPressedButton(ActionEvent evt) {
-        String fxmlPath="/org/example/petproject/BoardingView.fxml";
-        URL fxmlUrl = getClass().getResource(fxmlPath);
-        if (fxmlUrl == null) {
-            showError("Không tìm thấy màn hình " + fxmlPath);
-            return;
-        }
+    private void handleLogoClick(MouseEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            Parent newRoot = loader.load();
-
-            // initUser nếu cần
-            Object ctrl = loader.getController();
-            if (ctrl instanceof DashboardControllerBase dcb) {
-                dcb.initUser(SessionManager.getCurrentUser());
-            }
-
-            // Lấy Scene hiện tại từ bất kỳ node nào (ví dụ button)
-            Scene scene = ((Node) evt.getSource()).getScene();
-            // Chuyển root thành root mới
-            scene.setRoot(newRoot);
-
-            // Nếu muốn, vẫn có thể maximize stage
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/BoardingView.fxml"));
+            Parent root = loader.load();
+            Scene scene = imgLogo.getScene();
+            root.getStylesheets().setAll(scene.getStylesheets());
+            scene.setRoot(root);
             Stage stage = (Stage) scene.getWindow();
             stage.setMaximized(true);
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            showError("Lỗi khi mở màn hình: " + fxmlPath);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
     }
 
     @FXML
     void handleAddCard(ActionEvent evt) {
-        String fxmlPath="/org/example/petproject/RegisterBoardingView.fxml";
-        URL fxmlUrl = getClass().getResource(fxmlPath);
-        if (fxmlUrl == null) {
-            showError("Không tìm thấy màn hình " + fxmlPath);
-            return;
-        }
         try {
-            FXMLLoader loader = new FXMLLoader(fxmlUrl);
-            Parent newRoot = loader.load();
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/RegisterBoardingView.fxml"));
+            Parent root = loader.load();
+            Stage dialog = new Stage();
+            dialog.setTitle("Đăng ký dịch vụ làm đẹp & vệ sinh");
+            dialog.initOwner(((Node) evt.getSource()).getScene().getWindow());
+            dialog.initModality(Modality.APPLICATION_MODAL);
+            dialog.setScene(new Scene(root));
+            dialog.showAndWait();
 
-            // initUser nếu cần
-            Object ctrl = loader.getController();
-            if (ctrl instanceof DashboardControllerBase dcb) {
-                dcb.initUser(SessionManager.getCurrentUser());
-            }
-
-            // Lấy Scene hiện tại từ bất kỳ node nào (ví dụ button)
-            Scene scene = ((Node) evt.getSource()).getScene();
-            // Chuyển root thành root mới
-            scene.setRoot(newRoot);
-
-            // Nếu muốn, vẫn có thể maximize stage
-            Stage stage = (Stage) scene.getWindow();
-            stage.setMaximized(true);
-
+            // Sau khi đóng form, load lại data
+            loadPetData();
         } catch (IOException ex) {
+            showError("Không thể mở form đăng ký dịch vụ.");
             ex.printStackTrace();
-            showError("Lỗi khi mở màn hình: " + fxmlPath);
         }
     }
 
@@ -131,7 +105,11 @@ public class BoardingListController {
     @FXML
     void initialize() {
         ownerName.setText(new UserDAO().getUserByOwnerID(this.ownerID).getFullName());
-        //ownerAvatar.setImage(new Image(SessionManager.getCurrentUser().getAvatarUrl()));
+        try{
+            //ownerAvatar.setImage(new Image(SessionManager.getCurrentUser().getAvatarUrl()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         loadPetData();
         displayPetCards();
     }

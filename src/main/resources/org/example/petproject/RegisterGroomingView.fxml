@@ -1,115 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane style="-fx-background-color: #FFFFFF; -fx-font-family: 'Segoe UI';" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petproject.controller.RegisterGroomingController">
+<BorderPane style="-fx-background-color: #F5F5F5; -fx-font-family: 'Segoe UI';" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petproject.controller.RegisterGroomingController">
 
-<!-- HEADER chung -->
-<top>
-    <HBox alignment="CENTER_LEFT" spacing="10" styleClass="header-bar">
-        <ImageView fx:id="imgLogo" fitHeight="40" fitWidth="40" onMouseClicked="#handleLogoClick" preserveRatio="true" />
-        <Label text="Đăng ký dịch vụ làm đẹp &amp; vệ sinh" styleClass="label-header" />
-        <Pane HBox.hgrow="ALWAYS" />
-        <Label fx:id="ownerName" style="-fx-font-size:18px; -fx-text-fill:white;" />
-        <ImageView fx:id="ownerAvatar" fitHeight="32" fitWidth="32" preserveRatio="true">
-            <image>
-               <Image url="@../../../assets/icons/user.png" />
-            </image></ImageView>
-    </HBox>
-</top>
+    <!-- HEADER CHUNG ĐỒNG BỘ -->
+    <top>
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #00C4CC;
+    background-color: #00C4CC;
+    -fx-padding: 10 20;
+    padding: 10 20;" BorderPane.alignment="CENTER">
+            <ImageView fx:id="imgLogo" fitHeight="40" fitWidth="40" preserveRatio="true" onMouseClicked="#handleLogoClick" styleClass="logo-image"/>
+            <Label text="Đăng ký dịch vụ làm đẹp &amp; vệ sinh" style=" -fx-font-size: 20px;font-size: 20px;-fx-text-fill: white;"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Label fx:id="ownerName" style="-fx-font-size: 16px;-fx-text-fill: white;-fx-padding: 0 10 0 0;" />
+            <ImageView fx:id="ownerAvatar" fitHeight="32" fitWidth="32" preserveRatio="true" styleClass="avatar-image">
+                <image>
+                    <Image url="@../../../assets/icons/user.png"/>
+                </image>
+            </ImageView>
+        </HBox>
+    </top>
 
-<!-- FORM chính -->
-<center>
-    <VBox alignment="TOP_CENTER" spacing="20" style="-fx-padding:20;">
-        <VBox maxWidth="750" spacing="20" style="-fx-background-color:#FFFFFF; -fx-padding:30 40; -fx-background-radius:25;                      -fx-border-color:#DCDCDC; -fx-border-radius:25;                      -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.1),10,0.3,0,0);">
+    <!-- PHẦN CÒN LẠI GIỮ NGUYÊN -->
+    <center>
+        <VBox alignment="TOP_CENTER" spacing="20" style="-fx-padding:20;">
+            <VBox maxWidth="750" spacing="20" style="-fx-background-color:#FFFFFF; -fx-padding:30 40; -fx-background-radius:25;
+                                                     -fx-border-color:#DCDCDC; -fx-border-radius:25;
+                                                     -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.1),10,0.3,0,0);">
 
-            <!-- Chọn thú cưng -->
-            <GridPane hgap="10" vgap="5">
-                <columnConstraints>
-                    <ColumnConstraints halignment="RIGHT" prefWidth="130" />
-                    <ColumnConstraints hgrow="ALWAYS" prefWidth="300" />
-                </columnConstraints>
-                <children>
-                    <Label text="Chọn thú cưng:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                    <ComboBox fx:id="petSelected" prefWidth="350" promptText="Select" style="-fx-font-size:13px;" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                </children>
-               <rowConstraints>
-                  <RowConstraints />
-               </rowConstraints>
-            </GridPane>
+                <!-- Chọn thú cưng -->
+                <GridPane hgap="10" vgap="5">
+                    <columnConstraints>
+                        <ColumnConstraints halignment="RIGHT" prefWidth="130"/>
+                        <ColumnConstraints hgrow="ALWAYS" prefWidth="300"/>
+                    </columnConstraints>
+                    <children>
+                        <Label text="Chọn thú cưng:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <ComboBox fx:id="petSelected" prefWidth="350" promptText="Select" style="-fx-font-size:13px;" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                    </children>
+                    <rowConstraints>
+                        <RowConstraints/>
+                    </rowConstraints>
+                </GridPane>
 
-            <!-- Dịch vụ & Ghi chú -->
-            <GridPane hgap="30" vgap="10">
-                <columnConstraints>
-                    <ColumnConstraints prefWidth="280" />
-                    <ColumnConstraints hgrow="ALWAYS" />
-                </columnConstraints>
-                <rowConstraints>
-                    <RowConstraints />
-                    <RowConstraints />
-                </rowConstraints>
+                <!-- Dịch vụ & Ghi chú -->
+                <GridPane hgap="30" vgap="10">
+                    <columnConstraints>
+                        <ColumnConstraints prefWidth="280"/>
+                        <ColumnConstraints hgrow="ALWAYS"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints/>
+                        <RowConstraints/>
+                    </rowConstraints>
 
-                <!-- Dịch vụ checkboxes + hình -->
-                <VBox spacing="12" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                    <HBox alignment="CENTER_LEFT" spacing="8">
-                        <ImageView fx:id="imgTam" fitHeight="24" fitWidth="24" />
-                        <CheckBox fx:id="tamSelected" text="Tắm" />
+                    <!-- Dịch vụ checkboxes + hình -->
+                    <VBox spacing="12" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <ImageView fx:id="imgTam" fitHeight="24" fitWidth="24"/>
+                            <CheckBox fx:id="tamSelected" text="Tắm"/>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <ImageView fx:id="imgCat" fitHeight="24" fitWidth="24"/>
+                            <CheckBox fx:id="catSelected" text="Cắt, tỉa lông"/>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <ImageView fx:id="imgVstai" fitHeight="24" fitWidth="24"/>
+                            <CheckBox fx:id="vstaiSelected" text="Vệ sinh tai"/>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <ImageView fx:id="imgVsmong" fitHeight="24" fitWidth="24"/>
+                            <CheckBox fx:id="vsmongSelected" text="Vệ sinh móng"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Tổng giá -->
+                    <VBox alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                        <HBox alignment="CENTER_LEFT" spacing="8">
+                            <Label style="-fx-font-weight:bold;" text="Tổng giá:" textFill="#D32F2F"/>
+                            <Label fx:id="totalPriceLabel" style="-fx-background-color:#FFEBEE; -fx-text-fill:#C62828;
+                                                                  -fx-padding:8 20; -fx-background-radius:5;
+                                                                  -fx-font-weight:bold;" text="0 VNĐ"/>
+                        </HBox>
+                    </VBox>
+
+                    <!-- Ngày -->
+                    <HBox alignment="CENTER_LEFT" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                        <Label text="Ngày:"/>
+                        <DatePicker fx:id="scheduleSelected" prefWidth="200" promptText="Chọn ngày" style="-fx-font-size:13px;"/>
                     </HBox>
-                    <HBox alignment="CENTER_LEFT" spacing="8">
-                        <ImageView fx:id="imgCat" fitHeight="24" fitWidth="24" />
-                        <CheckBox fx:id="catSelected" text="Cắt, tỉa lông" />
-                    </HBox>
-                    <HBox alignment="CENTER_LEFT" spacing="8">
-                        <ImageView fx:id="imgVstai" fitHeight="24" fitWidth="24" />
-                        <CheckBox fx:id="vstaiSelected" text="Vệ sinh tai" />
-                    </HBox>
-                    <HBox alignment="CENTER_LEFT" spacing="8">
-                        <ImageView fx:id="imgVsmong" fitHeight="24" fitWidth="24" />
-                        <CheckBox fx:id="vsmongSelected" text="Vệ sinh móng" />
-                    </HBox>
-                </VBox>
 
-                <!-- Tổng giá -->
-                <VBox alignment="TOP_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                    <HBox alignment="CENTER_LEFT" spacing="8">
-                        <Label style="-fx-font-weight:bold;" text="Tổng giá:" textFill="#D32F2F" />
-                        <Label fx:id="totalPriceLabel" style="-fx-background-color:#FFEBEE; -fx-text-fill:#C62828;                                       -fx-padding:8 20; -fx-background-radius:5;                                       -fx-font-weight:bold;" text="0 VNĐ" />
-                    </HBox>
-                </VBox>
+                    <!-- Ghi chú -->
+                    <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Label text="Ghi chú:"/>
+                        <TextArea fx:id="noteBox" prefHeight="90" style="-fx-font-size:13px;" wrapText="true"/>
+                    </VBox>
+                </GridPane>
 
-                <!-- Ngày -->
-                <HBox alignment="CENTER_LEFT" spacing="10" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                    <Label text="Ngày:" />
-                    <DatePicker fx:id="scheduleSelected" prefWidth="200" promptText="Chọn ngày" style="-fx-font-size:13px;" />
+                <!-- Button Đăng ký -->
+                <HBox alignment="CENTER">
+                    <Button fx:id="bookAppointmentButton" onAction="#bookAppointmentButton"
+                            style="-fx-background-color:#007AFF; -fx-text-fill:white;
+                                   -fx-font-size:16px; -fx-font-weight:bold;
+                                   -fx-background-radius:8; -fx-padding:10 45;" text="Đăng ký"/>
                 </HBox>
 
-                <!-- Ghi chú -->
-                <VBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                    <Label text="Ghi chú:" />
-                    <TextArea fx:id="noteBox" prefHeight="90" style="-fx-font-size:13px;" wrapText="true" />
-                </VBox>
-            </GridPane>
-
-            <!-- Button Đăng ký -->
-            <HBox alignment="CENTER">
-                <Button fx:id="bookAppointmentButton" onAction="#bookAppointmentButton" style="-fx-background-color:#007AFF; -fx-text-fill:white;                                -fx-font-size:16px; -fx-font-weight:bold;                                -fx-background-radius:8; -fx-padding:10 45;" text="Đăng ký" />
-            </HBox>
-
+            </VBox>
         </VBox>
-    </VBox>
-</center>
+    </center>
 </BorderPane>

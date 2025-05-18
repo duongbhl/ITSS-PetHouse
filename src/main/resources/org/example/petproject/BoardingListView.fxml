@@ -1,65 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
 <AnchorPane style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petproject.controller.BoardingListController">
    <children>
-      <!-- Top Bar -->
-      <HBox alignment="CENTER_LEFT" prefHeight="60" style="-fx-background-color: #1EE6C3;" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0">
+
+      <!-- Top Header Bar -->
+      <HBox alignment="CENTER_LEFT" prefHeight="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" styleClass="header-bar">
          <padding>
-            <Insets bottom="0" left="10" right="20" top="0" />
+            <Insets left="20.0" right="20.0" />
          </padding>
+         <children>
+            <ImageView fx:id="imgLogo" fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#handleLogoClick">
+               <image>
+                  <Image url="@../../../assets/logo.png" />
+               </image>
+            </ImageView>
 
-         <Button onAction="#arrowPressedButton" prefHeight="46.0" prefWidth="42.0" style="-fx-background-color: transparent; -fx-text-fill: white; -fx-font-size: 30px; -fx-font-weight: bold; -fx-padding: 0 10 0 5;">
-            <font>
-               <Font name="System Bold" size="24.0" />
-            </font>
-            <HBox.margin>
-               <Insets right="5.0" /> <!-- Optional: space between arrow and logo -->
-            </HBox.margin>
-            <graphic>
-               <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../../../assets/logo.png" />
-                  </image>
-               </ImageView>
-            </graphic>
-         </Button>
-         <Label style="-fx-font-size:24; -fx-font-weight:bold;" text="Dịch vụ làm đẹp &amp; vệ sinh" textFill="WHITE">
-            <HBox.margin>
-               <Insets left="15" />
-            </HBox.margin>
-         </Label>
+            <Label text="Dịch vụ lưu trú" styleClass="label-header">
+            </Label>
 
-         <Pane HBox.hgrow="ALWAYS" />
-         <Label fx:id="ownerName" style="-fx-font-size:16;" textFill="WHITE">
-            <HBox.margin>
-               <Insets right="10" />
-            </HBox.margin>
-         </Label>
-         <ImageView fx:id="ownerAvatar" fitHeight="40" fitWidth="40" preserveRatio="true">
-            <image>
-               <Image url="@../../../assets/icons/user.png" />
-            </image></ImageView>
+            <Region HBox.hgrow="ALWAYS" />
+
+            <Label fx:id="ownerName" styleClass="user-name">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Label>
+
+            <ImageView fx:id="ownerAvatar" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../assets/icons/user.png" />
+               </image>
+            </ImageView>
+         </children>
       </HBox>
 
-      <!-- Content -->
+      <!-- Main Content -->
       <VBox alignment="TOP_CENTER" spacing="20" AnchorPane.bottomAnchor="20" AnchorPane.leftAnchor="30" AnchorPane.rightAnchor="30" AnchorPane.topAnchor="75">
          <Label style="-fx-font-size:28; -fx-font-weight:bold;" text="Danh sách thú cưng" textFill="#F39C12" />
 
-         <VBox style="-fx-background-color:white;                          -fx-border-color:#87CEEB; -fx-border-width:2.5;                          -fx-border-radius:30; -fx-background-radius:30;                          -fx-padding:20;" VBox.vgrow="ALWAYS">
-            <!-- Scrollable cards -->
+         <VBox style="-fx-background-color:white; -fx-border-color:#87CEEB; -fx-border-width:2.5; -fx-border-radius:30; -fx-background-radius:30; -fx-padding:20;" VBox.vgrow="ALWAYS">
+
+            <!-- Scrollable Cards -->
             <ScrollPane fx:id="scrollPanePets" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color:transparent;" vbarPolicy="AS_NEEDED" VBox.vgrow="ALWAYS">
                <content>
                   <FlowPane fx:id="cardsContainer" hgap="20" prefWrapLength="800" vgap="20">
@@ -70,11 +62,12 @@
                </content>
             </ScrollPane>
 
-            <!-- Add button fixed at bottom -->
+            <!-- Add Button Area -->
             <HBox alignment="CENTER">
                <padding>
                   <Insets bottom="10" left="0" right="0" top="10" />
                </padding>
+               <!-- Add button can be added here -->
             </HBox>
          </VBox>
       </VBox>
