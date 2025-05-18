@@ -20,17 +20,17 @@
             <children>
                 <!-- Logo in top-left corner -->
                 <ImageView fx:id="logoImageView" fitHeight="50.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@/assets/logo.png" />
-                    </image>
+<!--                    <image>-->
+<!--                        <Image url="@/assets/logo.png" />-->
+<!--                    </image>-->
                 </ImageView>
                 <Region HBox.hgrow="ALWAYS" />
                 <!-- User name and avatar in top-right corner -->
                 <Label fx:id="userNameLabel" style="-fx-font-size: 16px; -fx-padding: 0 10 0 0;" text="Tên User" />
                 <ImageView fx:id="userAvatarImageView" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@/assets/icons/user.png" />
-                    </image>
+<!--                    <image>-->
+<!--                        <Image url="@/assets/icons/user.png" />-->
+<!--                    </image>-->
                 </ImageView>
             </children>
         </HBox>
