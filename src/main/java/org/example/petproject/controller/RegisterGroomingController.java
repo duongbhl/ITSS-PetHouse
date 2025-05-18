@@ -141,6 +141,8 @@ public class RegisterGroomingController implements DashboardControllerBase, Init
         }
     }
 
+
+
     @FXML
     private void bookAppointmentButton(ActionEvent event) {
         // 1) Lấy tên pet và tìm Pet object
@@ -160,35 +162,36 @@ public class RegisterGroomingController implements DashboardControllerBase, Init
             return;
         }
         // --- 3) Tính chi tiết và tổng tiền ---
+
         StringBuilder detail = new StringBuilder();
         int total = 0;
 
         if (tamSelected.isSelected()) {
-            detail.append("✔ Tắm\n");
+            detail.append("Tam\n");
             total += 50000;
         }
         if (catSelected.isSelected()) {
-            detail.append("✔ Cắt lông\n");
+            detail.append("Cat long\n");
             total += 50000;
         }
         if (vstaiSelected.isSelected()) {
-            detail.append("✔ Vệ sinh tai\n");
+            detail.append("Ve sinh tai\n");
             total += 50000;
         }
         if (vsmongSelected.isSelected()) {
-            detail.append("✔ Vệ sinh móng\n");
+            detail.append("Ve sinh mong\n");
             total += 50000;
         }
 
         // Nếu user có ghi chú thêm
         String userNote = noteBox.getText().trim();
         if (!userNote.isEmpty()) {
-            detail.append("\nGhi chú: ").append(userNote).append("\n");
+            detail.append("Note: ").append(userNote).append("\n");
         }
 
-        detail.append("\nTổng giá: ")
+        detail.append("Tong gia: ")
                 .append(String.format(Locale.GERMAN, "%,.0f", (double) total))
-                .append(" VNĐ");
+                .append(" VND");
 
         // --- 4) Lưu booking với note = detail ---
         ServiceBooking.Status status = ServiceBooking.Status.pending;
@@ -231,4 +234,5 @@ public class RegisterGroomingController implements DashboardControllerBase, Init
         noteBox.clear();
         updateTotalPrice();
     }
+
 }

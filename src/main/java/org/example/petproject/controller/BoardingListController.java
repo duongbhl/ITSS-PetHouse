@@ -188,6 +188,6 @@ public class BoardingListController {
                 e.printStackTrace();
             }
         }
-        cardsContainer.getChildren().add(vbox);
+        //cardsContainer.getChildren().add(vbox);
     }
 }
