@@ -47,7 +47,7 @@ public class RegisterBoardingController{
     private ComboBox<String> roomSelected;
 
     @FXML
-    private TextField noteText;
+    private TextArea noteText;
 
     @FXML
     void arrowPressedButton(ActionEvent evt) {
@@ -92,11 +92,16 @@ public class RegisterBoardingController{
 
     @FXML
     void bookAppointmentButton(ActionEvent event) {
+        StringBuilder details = new StringBuilder();
+        details.append("Note: "+noteText.getText().trim()+"\n");
+        details.append("Thoi gian vao: "+inscheduleSelected.getValue().toString().trim()+"\n");
+        details.append("Thoi gian ra: "+outscheduleSelected.getValue().toString().trim()+"\n");
+        details.append("Gia ca: "+roomdao.findByName(roomSelected.getValue().toString().trim()).getPricePerDay()+"\n");
         try{
             userservice.dkdvluutru(
                     inscheduleSelected.getValue(),
                     outscheduleSelected.getValue(),
-                    noteText.getText(),
+                    details.toString(),
                     ServiceBooking.Status.pending,
                     petSelected.getValue(),
                     "S002",

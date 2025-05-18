@@ -13,6 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
@@ -25,6 +27,7 @@ import org.example.petproject.dao.ServiceBookingDAO;
 import org.example.petproject.dao.UserDAO;
 import org.example.petproject.model.PetBoardingInfo;
 import org.example.petproject.model.ServiceBooking;
+import org.example.petproject.model.User;
 import org.example.petproject.util.SessionManager;
 
 import java.io.IOException;
@@ -44,6 +47,9 @@ public class BoardingListController {
 
     @FXML
     private Label ownerName;
+
+    @FXML
+    private ImageView ownerAvatar;
 
     @FXML
     void arrowPressedButton(ActionEvent evt) {
@@ -125,6 +131,7 @@ public class BoardingListController {
     @FXML
     void initialize() {
         ownerName.setText(new UserDAO().getUserByOwnerID(this.ownerID).getFullName());
+        //ownerAvatar.setImage(new Image(SessionManager.getCurrentUser().getAvatarUrl()));
         loadPetData();
         displayPetCards();
     }
@@ -141,6 +148,7 @@ public class BoardingListController {
                     petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId()).getRoom().getType().toString(),
                     serviceBooking.getCheckInTime().toString(),
                     serviceBooking.getCheckOutTime().toString(),
+                    serviceBooking.getNote().trim(),
                     roomDAO.findByName(petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId()).getRoom().getName()).getPricePerDay().toString()
             ));
         }
@@ -188,6 +196,6 @@ public class BoardingListController {
                 e.printStackTrace();
             }
         }
-        //cardsContainer.getChildren().add(vbox);
+        cardsContainer.getChildren().add(vbox);
     }
 }
