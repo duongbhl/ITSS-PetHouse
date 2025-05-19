@@ -1,8 +1,12 @@
 package org.example.petproject.model;
 
 import jakarta.persistence.*;
-
+import org.example.petproject.dao.AppointmentDAO;
+import org.example.petproject.dao.PetBoardingInfoJPADAO;
+import org.example.petproject.dao.RoomDAO;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "Room")

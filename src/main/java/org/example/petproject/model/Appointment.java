@@ -1,6 +1,8 @@
 package org.example.petproject.model;
 
 import jakarta.persistence.*;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import org.example.petproject.dao.PetDAO;
 
 import java.time.LocalDate;
@@ -42,7 +44,22 @@ public class Appointment {
         pending, confirmed, completed, cancelled
     }
 
+    @Transient // Mark as non-persistent
+    private BooleanProperty selected = new SimpleBooleanProperty(false);
+
     // Getters, setters, and constructors
+
+    public BooleanProperty selectedProperty() {
+        return selected;
+    }
+
+    public boolean isSelected() {
+        return selected.get();
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
+    }
 
     public Appointment(String appointmentId, Pet pet, LocalDate appointmentTime, String type, Status status,
             String note, User confirmedBy, LocalDateTime confirmedAt) {

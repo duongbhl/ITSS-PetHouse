@@ -1,5 +1,8 @@
 package org.example.petproject.dao;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -13,6 +16,23 @@ import java.util.List;
  * failure.
  */
 public abstract class BaseDAO<T, ID extends Serializable> {
+    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("petproject");
+    protected EntityManager entityManager;
+
+    public BaseDAO() {
+        this.entityManager = emf.createEntityManager();
+    }
+
+
+
+    // Other BaseDAO methods
+
+    // Close resources when done
+    public void close() {
+        if (entityManager != null && entityManager.isOpen()) {
+            entityManager.close();
+        }
+    }
     /**
      * Opens a new Hibernate session.
      */
