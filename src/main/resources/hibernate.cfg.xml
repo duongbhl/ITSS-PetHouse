@@ -27,5 +27,6 @@
         <mapping class="org.example.petproject.model.PetBoarding"/>
         <mapping class="org.example.petproject.model.Appointment"/>
         <mapping class="org.example.petproject.model.MedicalRecord"/>
+        <mapping class="org.example.petproject.model.PetBoardingInfoJPA"/>
     </session-factory>
 </hibernate-configuration>

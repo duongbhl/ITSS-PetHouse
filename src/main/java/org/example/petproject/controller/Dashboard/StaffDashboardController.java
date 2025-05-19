@@ -115,8 +115,36 @@ public class StaffDashboardController implements Initializable, DashboardControl
 
     @FXML
     public void handleManageBoarding(ActionEvent actionEvent) {
-        // Placeholder for future implementation
-        showInfo("Manage Boarding", "This feature is not yet implemented.");
+        if (currentUser == null) {
+            showError("User data not available. Cannot proceed.");
+            return;
+        }
+        try {
+            // Load the FXML file for the boarding management view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffBoardingManagementView.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller for the boarding management view
+            StaffBoardingManagementController controller = loader.getController();
+            // Pass the current user to the new controller
+            controller.initUser(currentUser);
+
+            // Get the current stage and set the new scene
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            Scene scene = stage.getScene();
+            if (scene == null) {
+                scene = new Scene(root);
+                stage.setScene(scene);
+            } else {
+                scene.setRoot(root); // Or create new Scene(root) if you prefer
+            }
+            stage.setTitle("Pet Boarding Management"); // Optional: Set a title for the new view
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Could not load the boarding management view: " + e.getMessage());
+        }
     }
 
     private void showError(String message) {

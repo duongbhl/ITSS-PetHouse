@@ -12,26 +12,23 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="org.example.petproject.controller.Dashboard.StaffManageServiceController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petproject.controller.Dashboard.StaffManageServiceController">
     <children>
         <!-- Header -->
-        <HBox alignment="CENTER_LEFT" prefHeight="70.0" spacing="10.0" style="-fx-background-color: #CCCCCC; -fx-padding: 10px;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox alignment="CENTER_LEFT" prefHeight="70.0" spacing="10.0" style="-fx-background-color: #00C4CC; -fx-padding: 10px;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <!-- Logo in top-left corner -->
                 <ImageView fx:id="logoImageView" fitHeight="50.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-                    <!--                    <image>-->
-                    <!--                        <Image url="@/assets/logo.png" />-->
-                    <!--                    </image>-->
-                </ImageView>
+               <image>
+                  <Image url="@../../../assets/logo.png" />
+               </image></ImageView>
                 <Region HBox.hgrow="ALWAYS" />
                 <!-- User name and avatar in top-right corner -->
                 <Label fx:id="userNameLabel" style="-fx-font-size: 16px; -fx-padding: 0 10 0 0;" text="Tên User" />
                 <ImageView fx:id="userAvatarImageView" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                    <!--                    <image>-->
-                    <!--                        <Image url="@/assets/icons/user.png" />-->
-                    <!--                    </image>-->
-                </ImageView>
+               <image>
+                  <Image url="@../../../assets/icons/user.png" />
+               </image></ImageView>
             </children>
         </HBox>
 
@@ -78,7 +75,7 @@
                 </HBox>
 
                 <!-- Added container for notification content -->
-                <VBox fx:id="notificationContainer" spacing="10.0" alignment="TOP_CENTER" />
+                <VBox fx:id="notificationContainer" alignment="TOP_CENTER" spacing="10.0" />
             </children>
         </VBox>
     </children>

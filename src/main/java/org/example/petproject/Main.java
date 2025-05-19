@@ -7,8 +7,10 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.example.petproject.dao.HibernateUtil;
+import org.example.petproject.dao.PetBoardingInfoJPADAO;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class Main extends Application {
     private static final String APP_TITLE = "Pet House";
@@ -20,6 +22,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+        // Print class path resources to debug FXML loading issues
+        URL url = getClass().getResource("/org/example/petproject/StaffBoardingListView.fxml");
+        System.out.println("Resource URL: " + url);
+
+        // Initialize database
+        initializeDatabase();
+
         // Load màn Login
         FXMLLoader loader = new FXMLLoader(getClass().getResource(LOGIN_FXML));
         Parent root = loader.load();
@@ -42,6 +51,20 @@ public class Main extends Application {
         // Đảm bảo Hibernate SessionFactory đóng khi app kết thúc
         HibernateUtil.shutdown();
         super.stop();
+    }
+
+    private void initializeDatabase() {
+        // Other initialization code
+
+        // Initialize PetBoardingInfoJPA data
+        PetBoardingInfoJPADAO dao = new PetBoardingInfoJPADAO();
+        try {
+            dao.synchronizeAllFromPetBoarding();
+            System.out.println("PetBoardingInfo synchronized successfully");
+        } catch (Exception e) {
+            System.err.println("Error synchronizing PetBoardingInfo: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
