@@ -26,6 +26,10 @@ public class Appointment {
     @JoinColumn(name = "pet_id")
     private Pet pet;
 
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private User doctor;
+
     private LocalDate appointmentTime;
     private String type;
 
@@ -61,10 +65,11 @@ public class Appointment {
         this.selected.set(selected);
     }
 
-    public Appointment(String appointmentId, Pet pet, LocalDate appointmentTime, String type, Status status,
+    public Appointment(String appointmentId, Pet pet, User doctor, LocalDate appointmentTime, String type, Status status,
             String note, User confirmedBy, LocalDateTime confirmedAt) {
         this.appointmentId = appointmentId;
         this.pet = pet;
+        this.doctor = doctor;
         this.appointmentTime = appointmentTime;
         this.type = type;
         this.status = status;
@@ -97,6 +102,14 @@ public class Appointment {
 
     public void setPet(Pet pet) {
         this.pet = pet;
+    }
+
+    public User getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(User doctor) {
+        this.doctor = doctor;
     }
 
     public LocalDate getAppointmentTime() {

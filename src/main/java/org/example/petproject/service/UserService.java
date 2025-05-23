@@ -14,7 +14,9 @@ import org.example.petproject.model.ServiceBooking;
 import org.example.petproject.model.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -33,17 +35,55 @@ public class UserService {
      * Thử đăng nhập với email & mật khẩu.
      */
     public User login(String email, String password) {
+        System.out.println("=== DEBUG LOGIN ===");
+        System.out.println("Email: " + email);
+        System.out.println("Input password: " + password);
+        System.out.println("Input password length: " + password.length());
+
         Session session = HibernateUtil.getCurrentSession();
         Transaction tx = session.beginTransaction();
+        try {
         User u = session.createQuery(
                 "FROM User u WHERE u.email = :e", User.class)
                 .setParameter("e", email)
                 .uniqueResult();
+            
         tx.commit();
-        if (u != null && u.getPassword().equals(password)) {
+            
+            if (u != null) {
+                System.out.println("Found user: " + u.getFullName());
+                System.out.println("DB password: " + u.getPassword());
+                System.out.println("DB password length: " + u.getPassword().length());
+                System.out.println("Password match: " + u.getPassword().equals(password));
+                
+                if (u.getPassword().equals(password)) {
             return u;
         }
-        return null;
+            } else {
+                System.out.println("No user found with email: " + email);
+            }
+            return null;
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            System.err.println("Login error: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Lỗi khi đăng nhập: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Hash mật khẩu sử dụng SHA-256
+     */
+    private String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes());
+            return Base64.getEncoder().encodeToString(hash);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Không thể hash mật khẩu", e);
+        }
     }
 
     /**

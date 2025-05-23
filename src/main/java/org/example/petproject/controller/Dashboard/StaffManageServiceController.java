@@ -59,14 +59,41 @@ public class StaffManageServiceController implements Initializable, DashboardCon
     @Override
     public void initUser(User user) {
         this.currentUser = user;
-        userNameLabel.setText(user.getFullName());
-        if (user.getAvatarUrl() != null && !user.getAvatarUrl().isBlank()) {
-            userAvatarImageView.setImage(new javafx.scene.image.Image(user.getAvatarUrl()));
+        if (userNameLabel != null) {
+            userNameLabel.setText(user.getFullName());
         }
-        // Load logo if necessary
-        // if (logoImageView != null) {
-        //     logoImageView.setImage(new javafx.scene.image.Image(getClass().getResourceAsStream("/assets/logo.png")));
-        // }
+        
+        // Load default avatar if user avatar is not available
+        if (userAvatarImageView != null) {
+            try {
+                if (user.getAvatarUrl() != null && !user.getAvatarUrl().isBlank()) {
+                    userAvatarImageView.setImage(new javafx.scene.image.Image(user.getAvatarUrl()));
+                } else {
+                    // Load default avatar from resources
+                    userAvatarImageView.setImage(new javafx.scene.image.Image(
+                        getClass().getResourceAsStream("/assets/icons/user.png")));
+                }
+            } catch (Exception e) {
+                System.err.println("Error loading avatar: " + e.getMessage());
+                // Load default avatar as fallback
+                try {
+                    userAvatarImageView.setImage(new javafx.scene.image.Image(
+                        getClass().getResourceAsStream("/assets/icons/user.png")));
+                } catch (Exception ex) {
+                    System.err.println("Error loading default avatar: " + ex.getMessage());
+                }
+            }
+        }
+
+        // Load logo
+        if (logoImageView != null) {
+            try {
+                logoImageView.setImage(new javafx.scene.image.Image(
+                    getClass().getResourceAsStream("/assets/logo.png")));
+            } catch (Exception e) {
+                System.err.println("Error loading logo: " + e.getMessage());
+            }
+        }
     }
 
     @FXML

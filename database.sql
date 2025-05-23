@@ -38,6 +38,7 @@ CREATE INDEX idx_pet_owner ON Pet(owner_id);
 CREATE TABLE Appointment (
     appointmentId     VARCHAR(255) PRIMARY KEY,
     pet_id            VARCHAR(255) NOT NULL REFERENCES Pet(petId),
+    doctor_id         VARCHAR(255) NOT NULL REFERENCES Users(userId),
     appointmentTime   TIMESTAMP,
     type              VARCHAR(255),
     status            VARCHAR(255) NOT NULL
