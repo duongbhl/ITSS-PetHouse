@@ -98,7 +98,6 @@ public class DoctorDashboardController implements DashboardControllerBase {
     private User currentUser;
     private final AppointmentDAO appointmentDAO = new AppointmentDAO();
     private final MedicalRecordDAO medicalRecordDAO = new MedicalRecordDAO();
-
     @FXML
     public void initialize() {
         // Set up table columns

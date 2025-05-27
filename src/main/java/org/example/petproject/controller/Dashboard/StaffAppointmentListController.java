@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.example.petproject.dao.AppointmentDAO;
+import org.example.petproject.dao.UserDAO;
 import org.example.petproject.model.Appointment;
 import org.example.petproject.model.User;
 
@@ -144,11 +145,22 @@ public class StaffAppointmentListController implements Initializable, DashboardC
 
         // Update the status of selected appointments to "confirmed"
         AppointmentDAO appointmentDAO = new AppointmentDAO();
+        UserDAO userDAO = new UserDAO();
+        User designatedDoctor = null;
         try {
+            List<User> doctors = userDAO.findUsersByRole(User.Role.doctor);
+            if (!doctors.isEmpty()) {
+                designatedDoctor = doctors.get(0);
+            } else {
+                // This case should ideally not happen based on your setup description
+                showAlert("Error", "No doctor found in the system. Cannot assign appointment.");
+                return;
+            }
             for (Appointment appointment : selectedAppointments) {
                 appointment.setStatus(Appointment.Status.confirmed);
                 appointment.setConfirmedBy(currentUser); // Optionally set who confirmed
                 appointment.setConfirmedAt(java.time.LocalDateTime.now()); // Optionally set confirmation time
+                appointment.setDoctor(designatedDoctor);
                 appointmentDAO.update(appointment);
             }
             // Refresh the table view to show updated status and clear selections
