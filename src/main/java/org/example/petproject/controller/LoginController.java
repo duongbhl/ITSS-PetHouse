@@ -125,20 +125,43 @@ public class LoginController implements Initializable {
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            System.out.println("=== DEBUG DASHBOARD LOADING ===");
+            System.out.println("User role: " + user.getRole());
+            System.out.println("User name: " + user.getFullName());
+            System.out.println("FXML path: " + fxmlPath);
+            
+            URL resourceUrl = getClass().getResource(fxmlPath);
+            if (resourceUrl == null) {
+                throw new IOException("Cannot find FXML file at path: " + fxmlPath);
+            }
+            System.out.println("FXML resource URL: " + resourceUrl);
+            
+            FXMLLoader loader = new FXMLLoader(resourceUrl);
+            System.out.println("Created FXMLLoader");
+            
             Parent newRoot = loader.load();
+            System.out.println("Loaded FXML");
 
-            // Gọi initUser bất kể controller nào
             DashboardControllerBase dc = loader.getController();
+            if (dc == null) {
+                throw new IOException("Controller is null for: " + fxmlPath);
+            }
+            System.out.println("Got controller: " + dc.getClass().getName());
+            
             dc.initUser(user);
+            System.out.println("Initialized user in controller");
 
             Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
             Scene scene = stage.getScene();
             scene.setRoot(newRoot);
             stage.setMaximized(true);
+            System.out.println("Successfully set new scene");
+            
         } catch (IOException ex) {
+            System.err.println("=== ERROR LOADING DASHBOARD ===");
+            System.err.println("Error message: " + ex.getMessage());
             ex.printStackTrace();
-            showError("Không thể mở Dashboard.");
+            showError("Không thể mở Dashboard: " + ex.getMessage());
         }
     }
 

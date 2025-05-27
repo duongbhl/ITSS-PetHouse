@@ -18,16 +18,37 @@ import org.example.petproject.util.SessionManager;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 public class BoardingController {
+    private static final Logger LOGGER = Logger.getLogger(BoardingController.class.getName());
 
-    private String ownerId= SessionManager.getCurrentUser().getUserId();
+    private String ownerId;
 
     @FXML
     private ImageView imgLogo;
 
     @FXML
     private Label ownerName;
+
+    @FXML
+    public void initialize() {
+        if (!SessionManager.isLoggedIn()) {
+            LOGGER.warning("No active session found");
+            navigateToLogin();
+            return;
+        }
+
+        ownerId = SessionManager.getCurrentUser().getUserId();
+        ownerName.setText(SessionManager.getCurrentUser().getFullName());
+        
+        try {
+            imgLogo.setImage(new Image(getClass().getResource("/assets/logo.png").toExternalForm()));
+        } catch (Exception e) {
+            LOGGER.log(Level.WARNING, "Could not load logo", e);
+        }
+    }
 
     @FXML
     private void handleLogoClick(MouseEvent event) {
@@ -43,7 +64,22 @@ public class BoardingController {
             Stage stage = (Stage) scene.getWindow();
             stage.setMaximized(true);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Error navigating to dashboard", e);
+            showError("Không thể chuyển về trang chủ");
+        }
+    }
+
+    private void navigateToLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/LoginView.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) imgLogo.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setMaximized(true);
+        } catch (IOException ex) {
+            LOGGER.log(Level.SEVERE, "Error navigating to login", ex);
+            showError("Không thể chuyển về màn đăng nhập.");
         }
     }
 
@@ -115,16 +151,10 @@ public class BoardingController {
     }
 
     private void showError(String msg) {
-        Alert a = new Alert(Alert.AlertType.ERROR);
-        a.setTitle("Lỗi");
-        a.setHeaderText(null);
-        a.setContentText(msg);
-        a.showAndWait();
-    }
-
-    @FXML
-    void initialize() {
-        ownerName.setText(new UserDAO().getUserByOwnerID(this.ownerId).getFullName());
-        imgLogo.setImage(new Image(getClass().getResource("/assets/logo.png").toExternalForm()));
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Lỗi");
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
     }
 }

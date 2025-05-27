@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import org.example.petproject.model.Appointment;
+import org.example.petproject.model.MedicalRecord;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -58,6 +59,57 @@ public class AppointmentDAO extends BaseDAO<Appointment, Long> {
                 query.setParameter("toDate", toDate);
             }
 
+            return query.getResultList();
+        } finally {
+            // Don't close the EntityManager here if it's managed by BaseDAO
+        }
+    }
+
+    public List<Appointment> findByDoctorId(String doctorId, LocalDate fromDate) {
+        EntityManager em = entityManager;
+        try {
+            StringBuilder jpql = new StringBuilder("SELECT a FROM Appointment a WHERE a.doctor.userId = :doctorId");
+            
+            if (fromDate != null) {
+                jpql.append(" AND a.appointmentTime >= :fromDate");
+            }
+            
+            jpql.append(" ORDER BY a.appointmentTime ASC");
+
+            var query = em.createQuery(jpql.toString(), Appointment.class);
+            query.setParameter("doctorId", doctorId);
+            
+            if (fromDate != null) {
+                query.setParameter("fromDate", fromDate);
+            }
+
+            return query.getResultList();
+        } finally {
+            // Don't close the EntityManager here if it's managed by BaseDAO
+        }
+    }
+
+    public List<Appointment> findAvailableForMedicalRecord(String doctorId, LocalDate date) {
+        EntityManager em = entityManager;
+        try {
+            // Lấy các appointment của bác sĩ trong ngày, chưa completed/done và chưa có medical record
+            String jpql = "SELECT a FROM Appointment a WHERE a.doctor.userId = :doctorId AND a.appointmentTime = :date AND a.status <> 'completed' AND a.status <> 'done' AND NOT EXISTS (SELECT m FROM MedicalRecord m WHERE m.appointment.appointmentId = a.appointmentId) ORDER BY a.appointmentTime ASC";
+            var query = em.createQuery(jpql, Appointment.class);
+            query.setParameter("doctorId", doctorId);
+            query.setParameter("date", date);
+            return query.getResultList();
+        } finally {
+            // Don't close the EntityManager here if it's managed by BaseDAO
+        }
+    }
+
+    public List<Appointment> findUpcomingByDoctorId(String doctorId, LocalDate fromDate) {
+        EntityManager em = entityManager;
+        try {
+            String jpql = "SELECT a FROM Appointment a WHERE a.doctor.userId = :doctorId AND a.appointmentTime >= :fromDate AND a.status <> 'completed' ORDER BY a.appointmentTime ASC";
+            var query = em.createQuery(jpql, Appointment.class);
+            query.setParameter("doctorId", doctorId);
+            query.setParameter("fromDate", fromDate);
             return query.getResultList();
         } finally {
             // Don't close the EntityManager here if it's managed by BaseDAO

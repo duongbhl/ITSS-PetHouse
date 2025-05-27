@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.petproject.controller.MedicalRecordController"
+            prefWidth="1000" prefHeight="700"
+            style="-fx-background-color: #f0f2f5;">
+    <!-- Header -->
+    <top>
+        <HBox style="-fx-background-color: #fff; -fx-padding: 0 30 0 30; -fx-border-color: #e0e0e0; -fx-border-width: 0 0 1 0;" alignment="CENTER_LEFT" spacing="10" prefHeight="60.0" BorderPane.alignment="CENTER">
+            <ImageView fx:id="imgLogo"
+                       fitWidth="40" fitHeight="40"
+                       preserveRatio="true"
+                       styleClass="logo-image" />
+            <Label text="Pet House" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2d3a4a;" />
+            <Pane HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </top>
+
+    <center>
+        <HBox spacing="40" alignment="TOP_CENTER" style="-fx-padding: 30;">
+            <!-- Scheduled Appointments -->
+            <VBox spacing="20" prefWidth="350">
+                <Label text="Scheduled Appointments" style="-fx-font-weight: bold; -fx-font-size: 22px;" />
+                <ListView fx:id="appointmentsListView" prefWidth="350" prefHeight="500"/>
+            </VBox>
+
+            <!-- Write Medical Record Form -->
+            <VBox spacing="15" prefWidth="500" style="-fx-background-color: #fff; -fx-padding: 30; -fx-background-radius: 15;">
+                <Label text="Write Medical Record" style="-fx-font-weight: bold; -fx-font-size: 20px;" />
+                <Label text="Pet Name"/>
+                <TextField fx:id="petNameField" promptText="Pet Name"/>
+                <Label text="Owner Name"/>
+                <TextField fx:id="ownerNameField" promptText="Owner Name"/>
+                <Label text="Medical History"/>
+                <TextArea fx:id="medicalHistoryArea" promptText="Medical History" prefRowCount="3"/>
+                <Label text="Treatment Plan"/>
+                <TextArea fx:id="treatmentPlanArea" promptText="Treatment Plan" prefRowCount="3"/>
+                <Label text="Schedule Appointments"/>
+                <DatePicker fx:id="scheduleDatePicker" promptText="dd/mm/yy"/>
+                <Button text="Save Record" fx:id="saveRecordButton" style="-fx-background-color: #ff7f3f; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-background-radius: 20;"/>
+            </VBox>
+        </HBox>
+    </center>
+</BorderPane> 
