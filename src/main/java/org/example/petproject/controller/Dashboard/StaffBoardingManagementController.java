@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -12,6 +13,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.petproject.dao.PetBoardingInfoJPADAO;
@@ -141,7 +143,19 @@ public class StaffBoardingManagementController implements Initializable, Dashboa
 
             // Set up the stage with the new scene
             Stage stage = (Stage) userNameLabel.getScene().getWindow();
-            stage.setScene(new Scene(root));
+
+            // Get the current scene
+            Scene scene = stage.getScene();
+
+            // Instead of creating a new scene, just set the root of the existing scene
+            // This helps maintain the state of the interface
+            if (scene != null) {
+                scene.setRoot(root);
+            } else {
+                // If there's no scene (unlikely), create a new one
+                scene = new Scene(root);
+                stage.setScene(scene);
+            }
             stage.setTitle("Pet Boarding List");
             stage.show();
 
@@ -149,6 +163,42 @@ public class StaffBoardingManagementController implements Initializable, Dashboa
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Navigation Error",
                     "Could not load the boarding list view: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleLogoClick(MouseEvent event) {
+        try {
+            // Load the staff dashboard view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and pass the current user
+            StaffDashboardController controller = loader.getController();
+            controller.initUser(currentUser);
+
+            // Get the current stage
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Get the current scene
+            Scene scene = stage.getScene();
+
+            // Instead of creating a new scene, just set the root of the existing scene
+            // This helps maintain the state of the interface
+            if (scene != null) {
+                scene.setRoot(root);
+            } else {
+                // If there's no scene (unlikely), create a new one
+                scene = new Scene(root);
+                stage.setScene(scene);
+            }
+
+            stage.setTitle("Staff Dashboard");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Navigation Error", 
+                    "Could not load the staff dashboard view: " + e.getMessage());
         }
     }
 

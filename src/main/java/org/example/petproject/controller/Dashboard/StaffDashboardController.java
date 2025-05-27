@@ -12,7 +12,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+import org.example.petproject.controller.UserProfileController;
 import org.example.petproject.model.User;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.Cursor;
+import javafx.stage.Modality;
 
 import java.io.IOException;
 import java.net.URL;
@@ -165,6 +170,75 @@ public class StaffDashboardController implements Initializable, DashboardControl
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Set up context menu for user avatar
+        if (userAvatarImageView != null) {
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem profileItem = new MenuItem("Thông tin tài khoản");
+            MenuItem logoutItem = new MenuItem("Đăng xuất");
 
+            profileItem.setOnAction(this::handleShowProfile);
+            logoutItem.setOnAction(this::handleLogout);
+
+            contextMenu.getItems().addAll(profileItem, logoutItem);
+
+            userAvatarImageView.setCursor(Cursor.HAND);
+            userAvatarImageView.setOnMouseClicked(event -> {
+                contextMenu.show(userAvatarImageView, event.getScreenX(), event.getScreenY());
+            });
+        }
     }
+
+    /**
+     * Shows the user profile view when "Account Information" is selected
+     */
+    private void handleShowProfile(ActionEvent event) {
+        if (currentUser == null) {
+            showError("User data not available. Cannot proceed.");
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/UserProfileView.fxml"));
+            Parent root = loader.load();
+
+            UserProfileController controller = loader.getController();
+            controller.setUser(currentUser);
+
+            Stage stage = new Stage();
+            stage.initOwner(userAvatarImageView.getScene().getWindow());
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.setTitle("User Profile");
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Could not load profile view: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Logs out the user and returns to login screen when "Log Out" is selected
+     */
+    private void handleLogout(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/LoginView.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) userAvatarImageView.getScene().getWindow();
+            Scene scene = stage.getScene();
+            if (scene != null) {
+                scene.setRoot(root);
+            } else {
+                scene = new Scene(root);
+                stage.setScene(scene);
+            }
+
+            stage.setTitle("Login");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Could not load login view: " + e.getMessage());
+        }
+    }
+
 }

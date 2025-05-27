@@ -14,36 +14,20 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petproject.controller.Dashboard.StaffDashboardController">
     <children>
         <!-- Header -->
-        <HBox alignment="CENTER_LEFT" prefHeight="70.0" style="-fx-background-color: #00C4CC; -fx-border-color: #909090; -fx-border-width: 0 0 1 0;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox alignment="CENTER_LEFT" prefHeight="70.0" spacing="10.0" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <ImageView fx:id="logoImageView" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-                    <HBox.margin>
-                        <Insets left="10.0" />
-                    </HBox.margin>
+                <ImageView fx:id="logoImageView" fitHeight="50.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" styleClass="logo-image" >
                <image>
                   <Image url="@../../../assets/logo.png" />
                </image>
-                    <!-- In your controller, you would set the image: -->
-                    <!-- logoImageView.setImage(new Image(getClass().getResourceAsStream("/path/to/your/pet_house_logo.png"))); -->
                 </ImageView>
+                <Label text="Pet House" styleClass="label-header"/>
                 <Region HBox.hgrow="ALWAYS" />
-                <Label fx:id="userNameLabel" text="Nguyễn Khánh Duy" textFill="BLACK">
-                    <font>
-                        <Font name="System Bold" size="16.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets right="10.0" />
-                    </HBox.margin>
-                </Label>
-                <ImageView fx:id="userAvatarImageView" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                    <HBox.margin>
-                        <Insets right="10.0" />
-                    </HBox.margin>
+                <Label fx:id="userNameLabel" text="Nguyễn Khánh Duy" styleClass="user-name" />
+                <ImageView fx:id="userAvatarImageView" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="avatar-image">
                <image>
                   <Image url="@../../../assets/icons/user.png" />
                </image>
-                    <!-- In your controller, you would set the image: -->
-                    <!-- userAvatarImageView.setImage(new Image(getClass().getResourceAsStream("/path/to/your/user_avatar.png"))); -->
                 </ImageView>
             </children>
             <padding>
@@ -54,20 +38,11 @@
         <!-- Main Content Area -->
         <VBox alignment="CENTER" spacing="25.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="70.0">
             <children>
-                <Button fx:id="confirmScheduleButton" mnemonicParsing="false" onAction="#handleConfirmSchedule" prefHeight="50.0" prefWidth="280.0" style="-fx-background-color: #A9A9A9; -fx-background-radius: 5;" text="Xác nhận lịch khám" textFill="BLACK">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
+                <Button fx:id="confirmScheduleButton" mnemonicParsing="false" onAction="#handleConfirmSchedule" prefHeight="50.0" prefWidth="280.0" styleClass="dashboard-button" text="Xác nhận lịch khám">
                 </Button>
-                <Button fx:id="manageBeautyServicesButton" mnemonicParsing="false" onAction="#handleManageBeautyServices" prefHeight="50.0" prefWidth="280.0" style="-fx-background-color: #A9A9A9; -fx-background-radius: 5;" text="Quản lý dịch vụ làm đẹp" textFill="BLACK">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
+                <Button fx:id="manageBeautyServicesButton" mnemonicParsing="false" onAction="#handleManageBeautyServices" prefHeight="50.0" prefWidth="280.0" styleClass="dashboard-button" text="Quản lý dịch vụ làm đẹp">
                 </Button>
-                <Button fx:id="manageBoardingButton" mnemonicParsing="false" onAction="#handleManageBoarding" prefHeight="50.0" prefWidth="280.0" style="-fx-background-color: #A9A9A9; -fx-background-radius: 5;" text="Quản lý lưu trú" textFill="BLACK">
-                    <font>
-                        <Font size="15.0" />
-                    </font>
+                <Button fx:id="manageBoardingButton" mnemonicParsing="false" onAction="#handleManageBoarding" prefHeight="50.0" prefWidth="280.0" styleClass="dashboard-button" text="Quản lý lưu trú">
                 </Button>
             </children>
         </VBox>

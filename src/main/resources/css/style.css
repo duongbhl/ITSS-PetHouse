@@ -36,7 +36,7 @@
     /* Gradient đẹp mắt từ trên xuống dưới */
     -fx-background-color:
       linear-gradient(from 0% 0% to 0% 100%, #4fc3f7 0%, #0288d1 100%);
- 
+
     -fx-text-fill: white;
 
     /* Typography */
@@ -97,13 +97,25 @@
 }
 
 .dashboard-button {
-    -fx-background-color: transparent;
-    background-color: transparent; /* Standard property for compatibility */
+    -fx-background-color: #00C4CC;
+    background-color: #00C4CC; /* Standard property for compatibility */
+    -fx-border-color: #008B8F;
+    border-color: #008B8F; /* Standard property for compatibility */
+    -fx-border-width: 2;
+    border-width: 2; /* Standard property for compatibility */
+    -fx-border-radius: 5;
+    border-radius: 5; /* Standard property for compatibility */
+    -fx-background-radius: 5;
     -fx-cursor: hand;
 }
 
 .dashboard-button .graphic {
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);
+}
+
+.dashboard-button:hover {
+    -fx-background-color: #00A9AA;
+    background-color: #00A9AA; /* Standard property for compatibility */
 }
 
 .dashboard-button:hover .graphic {
@@ -115,7 +127,7 @@
     -fx-font-size: 14px;
     font-size: 14px; /* Standard property for compatibility */
     -fx-font-weight: bold;
-    -fx-text-fill: #333;
+    -fx-text-fill: white;
 }
 
 /* sidebar bên trái */
@@ -138,23 +150,8 @@
     -fx-background-radius: 50%;
 }
 
-/* nút trên dashboard (giữ nguyên hoặc tuỳ chỉnh thêm) */
-.dashboard-button {
-    -fx-background-color: transparent;
-    -fx-cursor: hand;
-}
-.dashboard-button .graphic {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 8, 0, 0, 2);
-}
-.dashboard-button:hover .graphic {
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-}
-.dashboard-button .text {
-    -fx-font-size: 14px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333;
-}
+/* nút trên dashboard */
+/* Styling moved to the first dashboard-button definition above */
 /* Logo trong header */
 .logo-image {
     -fx-cursor: hand; /* nếu muốn hover */

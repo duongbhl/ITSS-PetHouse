@@ -13,6 +13,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.example.petproject.dao.ServiceBookingDAO;
 import org.example.petproject.model.ServiceBooking;
@@ -107,12 +108,18 @@ public class StaffManageServiceController implements Initializable, DashboardCon
             listController.initData(filteredBookings);
 
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            // Get the current scene
             Scene scene = stage.getScene();
-            if (scene == null) {
+
+            // Instead of creating a new scene, just set the root of the existing scene
+            // This helps maintain the state of the interface
+            if (scene != null) {
+                scene.setRoot(root);
+            } else {
+                // If there's no scene (unlikely), create a new one
                 scene = new Scene(root);
                 stage.setScene(scene);
-            } else {
-                scene.setRoot(root);
             }
             stage.setTitle("Danh sách đặt dịch vụ");
             stage.show();
@@ -120,6 +127,41 @@ public class StaffManageServiceController implements Initializable, DashboardCon
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Lỗi", "Không thể tải màn hình danh sách đặt dịch vụ: " + e.getMessage());
+        }
+    }
+
+    @FXML
+    public void handleLogoClick(MouseEvent event) {
+        try {
+            // Load the staff dashboard view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and pass the current user
+            StaffDashboardController controller = loader.getController();
+            controller.initUser(currentUser);
+
+            // Get the current stage
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Get the current scene
+            Scene scene = stage.getScene();
+
+            // Instead of creating a new scene, just set the root of the existing scene
+            // This helps maintain the state of the interface
+            if (scene != null) {
+                scene.setRoot(root);
+            } else {
+                // If there's no scene (unlikely), create a new one
+                scene = new Scene(root);
+                stage.setScene(scene);
+            }
+
+            stage.setTitle("Staff Dashboard");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Could not load the staff dashboard view: " + e.getMessage());
         }
     }
 

@@ -6,15 +6,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.example.petproject.dao.ServiceBookingDAO;
 import org.example.petproject.model.ServiceBooking;
 import org.example.petproject.model.User;
+
+import java.io.IOException;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -207,6 +215,41 @@ public class StaffManageServiceListController implements Initializable, Dashboar
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    @FXML
+    public void handleLogoClick(MouseEvent event) {
+        try {
+            // Load the staff dashboard view
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller and pass the current user
+            StaffDashboardController controller = loader.getController();
+            controller.initUser(currentUser);
+
+            // Get the current stage
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Get the current scene
+            Scene scene = stage.getScene();
+
+            // Instead of creating a new scene, just set the root of the existing scene
+            // This helps maintain the state of the interface
+            if (scene != null) {
+                scene.setRoot(root);
+            } else {
+                // If there's no scene (unlikely), create a new one
+                scene = new Scene(root);
+                stage.setScene(scene);
+            }
+
+            stage.setTitle("Staff Dashboard");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Could not load the staff dashboard view: " + e.getMessage());
+        }
     }
 
     // Wrapper class to handle table view bindings and selection states
