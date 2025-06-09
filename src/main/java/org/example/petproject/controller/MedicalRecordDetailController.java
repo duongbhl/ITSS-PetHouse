@@ -10,27 +10,45 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 
 public class MedicalRecordDetailController {
-    @FXML private Label petNameLabel;
-    @FXML private Label ownerNameLabel;
-    @FXML private Label speciesLabel;
-    @FXML private Label genderLabel;
-    @FXML private Label birthDateLabel;
-    @FXML private Label weightLabel;
-    @FXML private Label healthNotesLabel;
-    @FXML private Label typeLabel;
-    @FXML private Label examDateLabel;
-    @FXML private Label symptomsLabel;
-    @FXML private Label diagnosisLabel;
-    @FXML private Label prescriptionLabel;
-    @FXML private Label treatmentLabel;
-    @FXML private Label followUpDateLabel;
-    @FXML private Label noteLabel;
+    @FXML
+    private Label petNameLabel;
+    @FXML
+    private Label ownerNameLabel;
+    @FXML
+    private Label speciesLabel;
+    @FXML
+    private Label genderLabel;
+    @FXML
+    private Label birthDateLabel;
+    @FXML
+    private Label weightLabel;
+    @FXML
+    private Label healthNotesLabel;
+    @FXML
+    private Label typeLabel;
+    @FXML
+    private Label examDateLabel;
+    @FXML
+    private Label symptomsLabel;
+    @FXML
+    private Label diagnosisLabel;
+    @FXML
+    private Label prescriptionLabel;
+    @FXML
+    private Label treatmentLabel;
+    @FXML
+    private Label followUpDateLabel;
+    @FXML
+    private Label noteLabel;
 
+    @SuppressWarnings("unused")
     private final PetDAO petDAO = new PetDAO();
+    @SuppressWarnings("unused")
     private final UserDAO userDAO = new UserDAO();
 
     public void setMedicalRecord(MedicalRecord record) {
-        if (record == null) return;
+        if (record == null)
+            return;
         // Medical record info
         typeLabel.setText(record.getType() != null ? record.getType() : "");
         examDateLabel.setText(record.getExamDate() != null ? record.getExamDate().toString() : "");
@@ -66,4 +84,4 @@ public class MedicalRecordDetailController {
             ownerNameLabel.setText("");
         }
     }
-} 
+}

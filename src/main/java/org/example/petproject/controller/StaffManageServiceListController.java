@@ -1,4 +1,4 @@
-package org.example.petproject.controller.Dashboard;
+package org.example.petproject.controller;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -18,6 +18,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
+import org.example.petproject.controller.Dashboard.DashboardControllerBase;
+import org.example.petproject.controller.Dashboard.StaffDashboardController;
 import org.example.petproject.dao.ServiceBookingDAO;
 import org.example.petproject.model.ServiceBooking;
 import org.example.petproject.model.User;

@@ -233,16 +233,16 @@ public class OwnerDashboardController implements DashboardControllerBase, javafx
                     getClass().getResource("/org/example/petproject/LoginView.fxml"));
             Parent root = loader.load();
 
-            // Lấy stylesheets của scene hiện tại
             Scene oldScene = imgAvatar.getScene();
-
-            // Khởi tạo scene mới cho login và gán stylesheets
             Scene loginScene = new Scene(root);
             loginScene.getStylesheets().setAll(oldScene.getStylesheets());
 
-            // Đặt lên stage
             Stage stage = (Stage) imgAvatar.getScene().getWindow();
             stage.setScene(loginScene);
+
+            // ✅ Thêm dòng này để canh giữa
+            stage.centerOnScreen();
+
         } catch (IOException e) {
             e.printStackTrace();
             showError("Không thể đăng xuất.");

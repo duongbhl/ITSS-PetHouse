@@ -1,4 +1,4 @@
-package org.example.petproject.controller.Dashboard;
+package org.example.petproject.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +14,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import org.example.petproject.controller.Dashboard.DashboardControllerBase;
+import org.example.petproject.controller.Dashboard.StaffDashboardController;
 import org.example.petproject.dao.AppointmentDAO;
 import org.example.petproject.model.Appointment;
 import org.example.petproject.model.User;
@@ -55,7 +58,7 @@ public class StaffConfirmAppointmentController implements Initializable, Dashboa
         if (userNameLabel != null) {
             userNameLabel.setText(user.getFullName());
         }
-        
+
         // Load default avatar if user avatar is not available
         if (userAvatarImageView != null) {
             try {
@@ -64,14 +67,14 @@ public class StaffConfirmAppointmentController implements Initializable, Dashboa
                 } else {
                     // Load default avatar from resources
                     userAvatarImageView.setImage(new javafx.scene.image.Image(
-                        getClass().getResourceAsStream("/assets/icons/user.png")));
+                            getClass().getResourceAsStream("/assets/icons/user.png")));
                 }
             } catch (Exception e) {
                 System.err.println("Error loading avatar: " + e.getMessage());
                 // Load default avatar as fallback
                 try {
                     userAvatarImageView.setImage(new javafx.scene.image.Image(
-                        getClass().getResourceAsStream("/assets/icons/user.png")));
+                            getClass().getResourceAsStream("/assets/icons/user.png")));
                 } catch (Exception ex) {
                     System.err.println("Error loading default avatar: " + ex.getMessage());
                 }
@@ -82,7 +85,7 @@ public class StaffConfirmAppointmentController implements Initializable, Dashboa
         if (logoImageView != null) {
             try {
                 logoImageView.setImage(new javafx.scene.image.Image(
-                    getClass().getResourceAsStream("/assets/logo.png")));
+                        getClass().getResourceAsStream("/assets/logo.png")));
             } catch (Exception e) {
                 System.err.println("Error loading logo: " + e.getMessage());
             }
@@ -108,7 +111,8 @@ public class StaffConfirmAppointmentController implements Initializable, Dashboa
 
         // Navigate to appointment list view and pass the filtered data
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffAppointmentListView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/StaffAppointmentListView.fxml"));
             Parent root = loader.load();
 
             // Get the controller and pass the filtered data
@@ -148,7 +152,8 @@ public class StaffConfirmAppointmentController implements Initializable, Dashboa
     public void handleLogoClick(MouseEvent event) {
         try {
             // Load the staff dashboard view
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
             Parent root = loader.load();
 
             // Get the controller and pass the current user

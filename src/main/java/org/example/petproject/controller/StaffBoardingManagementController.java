@@ -1,4 +1,4 @@
-package org.example.petproject.controller.Dashboard;
+package org.example.petproject.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,6 +16,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import org.example.petproject.controller.Dashboard.DashboardControllerBase;
+import org.example.petproject.controller.Dashboard.StaffDashboardController;
 import org.example.petproject.dao.PetBoardingInfoJPADAO;
 import org.example.petproject.model.PetBoardingInfoJPA;
 import org.example.petproject.model.User;
@@ -28,13 +31,20 @@ import java.util.ResourceBundle;
 
 public class StaffBoardingManagementController implements Initializable, DashboardControllerBase {
 
-    @FXML private ImageView logoImageView;
-    @FXML private Label userNameLabel;
-    @FXML private ImageView userAvatarImageView;
-    @FXML private ComboBox<String> statusComboBox;
-    @FXML private DatePicker fromDateDatePicker;
-    @FXML private DatePicker toDateDatePicker;
-    @FXML private VBox notificationContainer;
+    @FXML
+    private ImageView logoImageView;
+    @FXML
+    private Label userNameLabel;
+    @FXML
+    private ImageView userAvatarImageView;
+    @FXML
+    private ComboBox<String> statusComboBox;
+    @FXML
+    private DatePicker fromDateDatePicker;
+    @FXML
+    private DatePicker toDateDatePicker;
+    @FXML
+    private VBox notificationContainer;
 
     private User currentUser;
     private PetBoardingInfoJPADAO petBoardingInfoJPADAO;
@@ -170,7 +180,8 @@ public class StaffBoardingManagementController implements Initializable, Dashboa
     public void handleLogoClick(MouseEvent event) {
         try {
             // Load the staff dashboard view
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
             Parent root = loader.load();
 
             // Get the controller and pass the current user
@@ -197,7 +208,7 @@ public class StaffBoardingManagementController implements Initializable, Dashboa
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Navigation Error", 
+            showAlert(Alert.AlertType.ERROR, "Navigation Error",
                     "Could not load the staff dashboard view: " + e.getMessage());
         }
     }

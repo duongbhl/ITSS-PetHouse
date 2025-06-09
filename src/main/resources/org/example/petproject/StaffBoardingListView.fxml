@@ -15,7 +15,7 @@
 
 <!-- Added for completeness, though ImageView defines image -->
 
-<AnchorPane prefHeight="700.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petproject.controller.Dashboard.StaffBoardingListController">
+<AnchorPane prefHeight="700.0" prefWidth="950.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.petproject.controller.StaffBoardingListController">
     <children>
         <!-- Header Bar with Logo, Pet House text, User Name, Avatar -->
         <HBox alignment="CENTER_LEFT" prefHeight="70.0" spacing="10.0" styleClass="header-bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

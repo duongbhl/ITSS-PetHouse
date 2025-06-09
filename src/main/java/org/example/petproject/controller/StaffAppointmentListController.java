@@ -1,4 +1,4 @@
-package org.example.petproject.controller.Dashboard;
+package org.example.petproject.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +13,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import org.example.petproject.controller.Dashboard.DashboardControllerBase;
+import org.example.petproject.controller.Dashboard.StaffDashboardController;
 import org.example.petproject.dao.AppointmentDAO;
 import org.example.petproject.dao.UserDAO;
 import org.example.petproject.model.Appointment;

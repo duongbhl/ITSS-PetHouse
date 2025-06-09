@@ -1,4 +1,4 @@
-package org.example.petproject.controller.Dashboard;
+package org.example.petproject.controller;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -15,6 +15,9 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
+import org.example.petproject.controller.Dashboard.DashboardControllerBase;
+import org.example.petproject.controller.Dashboard.StaffDashboardController;
 import org.example.petproject.dao.ServiceBookingDAO;
 import org.example.petproject.model.ServiceBooking;
 import org.example.petproject.model.User;
@@ -40,8 +43,8 @@ public class StaffManageServiceController implements Initializable, DashboardCon
     private DatePicker fromDateDatePicker;
     @FXML
     private DatePicker toDateDatePicker;
-    //    @FXML
-    //    private VBox notificationContainer; // Not used in this flow yet
+    // @FXML
+    // private VBox notificationContainer; // Not used in this flow yet
 
     private User currentUser;
     private final ServiceBookingDAO serviceBookingDAO = new ServiceBookingDAO();
@@ -63,7 +66,7 @@ public class StaffManageServiceController implements Initializable, DashboardCon
         if (userNameLabel != null) {
             userNameLabel.setText(user.getFullName());
         }
-        
+
         // Load default avatar if user avatar is not available
         if (userAvatarImageView != null) {
             try {
@@ -72,14 +75,14 @@ public class StaffManageServiceController implements Initializable, DashboardCon
                 } else {
                     // Load default avatar from resources
                     userAvatarImageView.setImage(new javafx.scene.image.Image(
-                        getClass().getResourceAsStream("/assets/icons/user.png")));
+                            getClass().getResourceAsStream("/assets/icons/user.png")));
                 }
             } catch (Exception e) {
                 System.err.println("Error loading avatar: " + e.getMessage());
                 // Load default avatar as fallback
                 try {
                     userAvatarImageView.setImage(new javafx.scene.image.Image(
-                        getClass().getResourceAsStream("/assets/icons/user.png")));
+                            getClass().getResourceAsStream("/assets/icons/user.png")));
                 } catch (Exception ex) {
                     System.err.println("Error loading default avatar: " + ex.getMessage());
                 }
@@ -90,7 +93,7 @@ public class StaffManageServiceController implements Initializable, DashboardCon
         if (logoImageView != null) {
             try {
                 logoImageView.setImage(new javafx.scene.image.Image(
-                    getClass().getResourceAsStream("/assets/logo.png")));
+                        getClass().getResourceAsStream("/assets/logo.png")));
             } catch (Exception e) {
                 System.err.println("Error loading logo: " + e.getMessage());
             }
@@ -118,7 +121,8 @@ public class StaffManageServiceController implements Initializable, DashboardCon
             return;
         }
 
-        List<ServiceBooking> filteredBookings = serviceBookingDAO.findBookingsByCriteria(fromDate, toDate, filterStatus);
+        List<ServiceBooking> filteredBookings = serviceBookingDAO.findBookingsByCriteria(fromDate, toDate,
+                filterStatus);
 
         if (filteredBookings.isEmpty()) {
             showAlert("Thông báo", "Không tìm thấy đặt dịch vụ nào phù hợp với tiêu chí.");
@@ -127,7 +131,8 @@ public class StaffManageServiceController implements Initializable, DashboardCon
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffManageServiceListView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/StaffManageServiceListView.fxml"));
             Parent root = loader.load();
 
             StaffManageServiceListController listController = loader.getController();
@@ -161,7 +166,8 @@ public class StaffManageServiceController implements Initializable, DashboardCon
     public void handleLogoClick(MouseEvent event) {
         try {
             // Load the staff dashboard view
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
             Parent root = loader.load();
 
             // Get the controller and pass the current user

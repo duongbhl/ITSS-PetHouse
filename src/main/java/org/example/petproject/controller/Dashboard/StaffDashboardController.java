@@ -9,9 +9,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
+
+import org.example.petproject.controller.StaffBoardingManagementController;
+import org.example.petproject.controller.StaffConfirmAppointmentController;
+import org.example.petproject.controller.StaffManageServiceController;
 import org.example.petproject.controller.UserProfileController;
 import org.example.petproject.model.User;
 import javafx.scene.control.ContextMenu;
@@ -250,25 +256,43 @@ public class StaffDashboardController implements Initializable, DashboardControl
      * Logs out the user and returns to login screen when "Log Out" is selected
      */
     private void handleLogout(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/LoginView.fxml"));
-            Parent root = loader.load();
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Xác nhận đăng xuất");
+        confirm.setHeaderText("Bạn có chắc chắn muốn đăng xuất?");
+        confirm.setContentText("Phiên làm việc hiện tại sẽ kết thúc.");
 
-            Stage stage = (Stage) userAvatarImageView.getScene().getWindow();
-            Scene scene = stage.getScene();
-            if (scene != null) {
-                scene.setRoot(root);
-            } else {
-                scene = new Scene(root);
-                stage.setScene(scene);
+        ButtonType yes = new ButtonType("Đăng xuất");
+        ButtonType no = new ButtonType("Huỷ", ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirm.getButtonTypes().setAll(yes, no);
+
+        confirm.showAndWait().ifPresent(type -> {
+            if (type == yes) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(
+                            getClass().getResource("/org/example/petproject/LoginView.fxml"));
+                    Parent root = loader.load();
+
+                    Stage stage = (Stage) userAvatarImageView.getScene().getWindow();
+                    Scene loginScene = new Scene(root);
+                    loginScene.getStylesheets().setAll(stage.getScene().getStylesheets());
+
+                    stage.setScene(loginScene);
+
+                    // ✅ Không fullscreen
+                    stage.setMaximized(false);
+
+                    // ✅ Resize và canh giữa
+                    stage.setWidth(800);
+                    stage.setHeight(600);
+                    stage.centerOnScreen();
+
+                    stage.setTitle("Login");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    showError("Không thể tải màn hình đăng nhập: " + e.getMessage());
+                }
             }
-
-            stage.setTitle("Login");
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showError("Could not load login view: " + e.getMessage());
-        }
+        });
     }
 
 }
