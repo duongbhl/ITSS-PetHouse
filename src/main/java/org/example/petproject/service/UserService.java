@@ -43,22 +43,22 @@ public class UserService {
         Session session = HibernateUtil.getCurrentSession();
         Transaction tx = session.beginTransaction();
         try {
-        User u = session.createQuery(
-                "FROM User u WHERE u.email = :e", User.class)
-                .setParameter("e", email)
-                .uniqueResult();
-            
-        tx.commit();
-            
+            User u = session.createQuery(
+                    "FROM User u WHERE u.email = :e", User.class)
+                    .setParameter("e", email)
+                    .uniqueResult();
+
+            tx.commit();
+
             if (u != null) {
                 System.out.println("Found user: " + u.getFullName());
                 System.out.println("DB password: " + u.getPassword());
                 System.out.println("DB password length: " + u.getPassword().length());
                 System.out.println("Password match: " + u.getPassword().equals(password));
-                
+
                 if (u.getPassword().equals(password)) {
-            return u;
-        }
+                    return u;
+                }
             } else {
                 System.out.println("No user found with email: " + email);
             }
@@ -76,6 +76,7 @@ public class UserService {
     /**
      * Hash mật khẩu sử dụng SHA-256
      */
+    @SuppressWarnings("unused")
     private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");

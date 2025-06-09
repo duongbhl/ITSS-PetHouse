@@ -31,24 +31,39 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unused")
 public class StaffManageServiceListController implements Initializable, DashboardControllerBase {
 
-    @FXML private Label userNameLabel;
-    @FXML private ImageView logoImageView;
-    @FXML private ImageView userAvatarImageView;
+    @FXML
+    private Label userNameLabel;
+    @FXML
+    private ImageView logoImageView;
+    @FXML
+    private ImageView userAvatarImageView;
 
-    @FXML private TableView<ServiceBookingWrapper> serviceTableView;
-    @FXML private TableColumn<ServiceBookingWrapper, Boolean> selectColumn;
-    @FXML private TableColumn<ServiceBookingWrapper, String> checkInColumn;
-    @FXML private TableColumn<ServiceBookingWrapper, String> petNameColumn;
-    @FXML private TableColumn<ServiceBookingWrapper, String> serviceColumn;
-    @FXML private TableColumn<ServiceBookingWrapper, String> staffColumn;
-    @FXML private TableColumn<ServiceBookingWrapper, String> statusColumn;
-    @FXML private TableColumn<ServiceBookingWrapper, Button> actionColumn;
+    @FXML
+    private TableView<ServiceBookingWrapper> serviceTableView;
+    @FXML
+    private TableColumn<ServiceBookingWrapper, Boolean> selectColumn;
+    @FXML
+    private TableColumn<ServiceBookingWrapper, String> checkInColumn;
+    @FXML
+    private TableColumn<ServiceBookingWrapper, String> petNameColumn;
+    @FXML
+    private TableColumn<ServiceBookingWrapper, String> serviceColumn;
+    @FXML
+    private TableColumn<ServiceBookingWrapper, String> staffColumn;
+    @FXML
+    private TableColumn<ServiceBookingWrapper, String> statusColumn;
+    @FXML
+    private TableColumn<ServiceBookingWrapper, Button> actionColumn;
 
-    @FXML private CheckBox selectAllCheckBox;
-    @FXML private Button confirmButton;
-    @FXML private Button rejectButton;
+    @FXML
+    private CheckBox selectAllCheckBox;
+    @FXML
+    private Button confirmButton;
+    @FXML
+    private Button rejectButton;
 
     private User currentUser;
     private ObservableList<ServiceBookingWrapper> bookings = FXCollections.observableArrayList();
@@ -221,7 +236,8 @@ public class StaffManageServiceListController implements Initializable, Dashboar
     public void handleLogoClick(MouseEvent event) {
         try {
             // Load the staff dashboard view
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
             Parent root = loader.load();
 
             // Get the controller and pass the current user
@@ -278,7 +294,8 @@ public class StaffManageServiceListController implements Initializable, Dashboar
         }
 
         public String getCheckIn() {
-            if (booking.getCheckInTime() == null) return "";
+            if (booking.getCheckInTime() == null)
+                return "";
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM");
             return booking.getCheckInTime().format(formatter);
         }

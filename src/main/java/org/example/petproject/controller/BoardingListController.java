@@ -36,12 +36,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class BoardingListController {
     ServiceBookingDAO serviceBookingDAO = new ServiceBookingDAO();
     PetBoardingDAO petBoardingDAO = new PetBoardingDAO();
     RoomDAO roomDAO = new RoomDAO();
 
-    private String ownerID= SessionManager.getCurrentUser().getUserId();
+    private String ownerID = SessionManager.getCurrentUser().getUserId();
 
     @FXML
     private ImageView imgLogo;
@@ -105,8 +106,9 @@ public class BoardingListController {
     @FXML
     void initialize() {
         ownerName.setText(new UserDAO().getUserByOwnerID(this.ownerID).getFullName());
-        try{
-            //ownerAvatar.setImage(new Image(SessionManager.getCurrentUser().getAvatarUrl()));
+        try {
+            // ownerAvatar.setImage(new
+            // Image(SessionManager.getCurrentUser().getAvatarUrl()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -114,8 +116,9 @@ public class BoardingListController {
         displayPetCards();
     }
 
-    private void loadPetData(){
-        List<ServiceBooking> list=serviceBookingDAO.getBookingsByOwnerId(this.ownerID, ServiceBooking.Status.in_progress,"S002");
+    private void loadPetData() {
+        List<ServiceBooking> list = serviceBookingDAO.getBookingsByOwnerId(this.ownerID,
+                ServiceBooking.Status.in_progress, "S002");
         for (ServiceBooking serviceBooking : list) {
             boardedPetsData.add(new PetBoardingInfo(
                     serviceBooking.getBookingId(),
@@ -123,12 +126,13 @@ public class BoardingListController {
                     serviceBooking.getHandledBy().getFullName(),
                     serviceBooking.getHandledBy().getPhone(),
                     petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId()).getRoom().getName(),
-                    petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId()).getRoom().getType().toString(),
+                    petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId()).getRoom().getType()
+                            .toString(),
                     serviceBooking.getCheckInTime().toString(),
                     serviceBooking.getCheckOutTime().toString(),
                     serviceBooking.getNote().trim(),
-                    roomDAO.findByName(petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId()).getRoom().getName()).getPricePerDay().toString()
-            ));
+                    roomDAO.findByName(petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId())
+                            .getRoom().getName()).getPricePerDay().toString()));
         }
     }
 
@@ -144,8 +148,7 @@ public class BoardingListController {
                         "-fx-border-color: #E0E0E0; " +
                         "-fx-border-width: 1.5; " +
                         "-fx-border-radius: 15; " +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.2, 0, 0);"
-        );
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.2, 0, 0);");
 
         Button button = new Button("+");
         button.setPrefSize(70, 70); // Kích thước đều để tạo hình tròn
@@ -155,18 +158,19 @@ public class BoardingListController {
                         "-fx-text-fill: white; " +
                         "-fx-background-color: #4CAF50; " +
                         "-fx-background-radius: 35px;" + // Làm cho button tròn
-                        "-fx-padding: 0;"
-        );
+                        "-fx-padding: 0;");
 
         button.setShape(new Circle(35));// Thiết lập hình dạng tròn
-        button.setOnAction(e->{handleAddCard(e);});
+        button.setOnAction(e -> {
+            handleAddCard(e);
+        });
         vbox.getChildren().add(button);
 
         for (PetBoardingInfo petInfo : boardedPetsData) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/PetCardView.fxml"));
                 BorderPane petCardNode = loader.load();
-                PetCardController controller=loader.getController();
+                PetCardController controller = loader.getController();
                 controller.setData(petInfo);
                 cardsContainer.getChildren().add(petCardNode);
             } catch (IOException e) {

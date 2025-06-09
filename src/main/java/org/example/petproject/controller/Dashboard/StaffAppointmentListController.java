@@ -27,7 +27,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class StaffAppointmentListController implements Initializable, DashboardControllerBase{
+@SuppressWarnings("unused")
+public class StaffAppointmentListController implements Initializable, DashboardControllerBase {
 
     @FXML
     private TableView<Appointment> appointmentTableView;
@@ -196,7 +197,8 @@ public class StaffAppointmentListController implements Initializable, DashboardC
     public void handleLogoClick(MouseEvent event) {
         try {
             // Load the staff dashboard view
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
             Parent root = loader.load();
 
             // Get the controller and pass the current user

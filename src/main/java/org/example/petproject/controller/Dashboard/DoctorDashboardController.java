@@ -5,6 +5,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.example.petproject.dao.AppointmentDAO;
 import org.example.petproject.dao.MedicalRecordDAO;
@@ -17,41 +18,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
-public class DoctorDashboardController implements DashboardControllerBase {
-
-    // You can remove these @FXML annotations if you no longer have these elements in your FXML
-    // @FXML
-    // private ImageView doctorImageView;
-    //
-    // @FXML
-    // private Label doctorNameLabel;
-    //
-    // @FXML
-    // private Label doctorSpecializationLabel;
-    //
-    // @FXML
-    // private Label yearsPracticeLabel;
-    //
-    // @FXML
-    // private Label licenseNumberLabel;
+public class DoctorDashboardController implements DashboardControllerBase, Initializable {
 
     @FXML
     private TableView<Appointment> appointmentsTableView;
@@ -98,9 +77,10 @@ public class DoctorDashboardController implements DashboardControllerBase {
     private User currentUser;
     private final AppointmentDAO appointmentDAO = new AppointmentDAO();
     private final MedicalRecordDAO medicalRecordDAO = new MedicalRecordDAO();
-    @FXML
-    public void initialize() {
-        // Set up table columns
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        // Table columns setup
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
         timeColumn.setCellFactory(col -> new TableCell<>() {
             private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -135,7 +115,7 @@ public class DoctorDashboardController implements DashboardControllerBase {
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
 
-        // Add calendar date picker listener
+        // DatePicker event
         calendarDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
             if (newVal != null && currentUser != null) {
                 loadAppointments(newVal);
@@ -144,7 +124,6 @@ public class DoctorDashboardController implements DashboardControllerBase {
 
         writeMedicalRecordButton.setOnAction(e -> openMedicalRecordScreen());
 
-        // Recent medical records list cell
         recentMedicalRecordsListView.setCellFactory(list -> new ListCell<>() {
             @Override
             protected void updateItem(MedicalRecord item, boolean empty) {
@@ -160,7 +139,10 @@ public class DoctorDashboardController implements DashboardControllerBase {
             }
         });
 
-        // Set default date to today
+        // Avatar menu click
+        imgAvatar.setCursor(javafx.scene.Cursor.HAND);
+        imgAvatar.setOnMouseClicked(e -> showUserMenu());
+
         calendarDatePicker.setValue(LocalDate.now());
     }
 
@@ -174,9 +156,11 @@ public class DoctorDashboardController implements DashboardControllerBase {
             System.out.println("User is null in DoctorDashboardController");
             return;
         }
+
         if (lblUserName != null) {
             lblUserName.setText(user.getFullName());
         }
+
         if (imgAvatar != null) {
             try {
                 if (user.getAvatarUrl() != null && !user.getAvatarUrl().isBlank()) {
@@ -193,10 +177,8 @@ public class DoctorDashboardController implements DashboardControllerBase {
                 }
             }
         }
-        // Auto select today for calendarDatePicker
-        if (calendarDatePicker != null) {
-            calendarDatePicker.setValue(LocalDate.now());
-        }
+
+        calendarDatePicker.setValue(LocalDate.now());
         loadAppointments(LocalDate.now());
         loadRecentMedicalRecords();
     }
@@ -213,7 +195,8 @@ public class DoctorDashboardController implements DashboardControllerBase {
 
     private void openMedicalRecordScreen() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/MedicalRecordView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/MedicalRecordView.fxml"));
             Parent root = loader.load();
             org.example.petproject.controller.MedicalRecordController controller = loader.getController();
             controller.setCurrentUser(currentUser);
@@ -247,7 +230,8 @@ public class DoctorDashboardController implements DashboardControllerBase {
     @FXML
     private void onProfile(javafx.scene.input.MouseEvent evt) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/EditUserProfileView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/EditUserProfileView.fxml"));
             Parent root = loader.load();
             org.example.petproject.controller.EditProfileController controller = loader.getController();
             controller.setUser(currentUser);
@@ -255,7 +239,6 @@ public class DoctorDashboardController implements DashboardControllerBase {
             stage.setTitle("Edit Profile");
             stage.setScene(new Scene(root));
             stage.showAndWait();
-            // Reload dashboard data after closing
             reloadDashboardData();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -263,21 +246,60 @@ public class DoctorDashboardController implements DashboardControllerBase {
         }
     }
 
-    @FXML
-    private void onLogout(ActionEvent evt) {
+    // ========= ĐĂNG XUẤT =========
+
+    private void showUserMenu() {
+        MenuItem logoutItem = new MenuItem("Đăng xuất");
+        logoutItem.setOnAction(e -> confirmLogout());
+
+        ContextMenu menu = new ContextMenu(logoutItem);
+        menu.show(imgAvatar, Side.BOTTOM, 0, 0);
+    }
+
+    private void confirmLogout() {
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Xác nhận đăng xuất");
+        confirm.setHeaderText("Bạn có chắc chắn muốn đăng xuất không?");
+        confirm.setContentText("Phiên làm việc hiện tại sẽ kết thúc.");
+
+        ButtonType yes = new ButtonType("Đăng xuất");
+        ButtonType no = new ButtonType("Huỷ", ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirm.getButtonTypes().setAll(yes, no);
+
+        confirm.showAndWait().ifPresent(type -> {
+            if (type == yes) {
+                performLogout();
+            }
+        });
+    }
+
+    private void performLogout() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/LoginView.fxml"));
             Parent root = loader.load();
-            Scene scene = new Scene(root);
-            Stage stage = (Stage) ((Node) evt.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.setMaximized(true);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            showError("Error during logout");
+
+            Scene oldScene = imgAvatar.getScene();
+            Scene loginScene = new Scene(root);
+            loginScene.getStylesheets().setAll(oldScene.getStylesheets());
+
+            Stage stage = (Stage) imgAvatar.getScene().getWindow();
+            stage.setScene(loginScene);
+            stage.centerOnScreen();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showError("Không thể đăng xuất.");
         }
     }
 
+    private void showError(String msg) {
+        Alert a = new Alert(AlertType.ERROR);
+        a.setTitle("Error");
+        a.setHeaderText(null);
+        a.setContentText(msg);
+        a.showAndWait();
+    }
+
+    @SuppressWarnings("unused")
     private void navigateTo(String fxmlPath, ActionEvent evt) {
         URL fxmlUrl = getClass().getResource(fxmlPath);
         if (fxmlUrl == null) {
@@ -288,7 +310,6 @@ public class DoctorDashboardController implements DashboardControllerBase {
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
             Parent newRoot = loader.load();
 
-            // initUser if needed
             Object ctrl = loader.getController();
             if (ctrl instanceof DashboardControllerBase dcb) {
                 dcb.initUser(currentUser);
@@ -299,18 +320,9 @@ public class DoctorDashboardController implements DashboardControllerBase {
 
             Stage stage = (Stage) scene.getWindow();
             stage.setMaximized(true);
-
         } catch (IOException ex) {
             ex.printStackTrace();
             showError("Error opening screen: " + fxmlPath);
         }
-    }
-
-    private void showError(String msg) {
-        Alert a = new Alert(AlertType.ERROR);
-        a.setTitle("Error");
-        a.setHeaderText(null);
-        a.setContentText(msg);
-        a.showAndWait();
     }
 }

@@ -29,21 +29,34 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("unused")
 public class StaffBoardingListController implements Initializable, DashboardControllerBase {
 
-    @FXML private TableView<PetBoardingInfoJPA> boardingTableView;
-    @FXML private TableColumn<PetBoardingInfoJPA, LocalDateTime> checkInColumn;
-    @FXML private TableColumn<PetBoardingInfoJPA, LocalDateTime> checkOutColumn;
-    @FXML private TableColumn<PetBoardingInfoJPA, String> petNameColumn;
-    @FXML private TableColumn<PetBoardingInfoJPA, String> roomNameColumn;
-    @FXML private TableColumn<PetBoardingInfoJPA, String> roomTypeColumn;
-    @FXML private TableColumn<PetBoardingInfoJPA, String> statusColumn;
-    @FXML private TableColumn<PetBoardingInfoJPA, Double> priceColumn;
+    @FXML
+    private TableView<PetBoardingInfoJPA> boardingTableView;
+    @FXML
+    private TableColumn<PetBoardingInfoJPA, LocalDateTime> checkInColumn;
+    @FXML
+    private TableColumn<PetBoardingInfoJPA, LocalDateTime> checkOutColumn;
+    @FXML
+    private TableColumn<PetBoardingInfoJPA, String> petNameColumn;
+    @FXML
+    private TableColumn<PetBoardingInfoJPA, String> roomNameColumn;
+    @FXML
+    private TableColumn<PetBoardingInfoJPA, String> roomTypeColumn;
+    @FXML
+    private TableColumn<PetBoardingInfoJPA, String> statusColumn;
+    @FXML
+    private TableColumn<PetBoardingInfoJPA, Double> priceColumn;
 
-    @FXML private Label userNameLabel;
-    @FXML private ImageView userAvatarImageView;
-    @FXML private ImageView logoImageView;
-    @FXML private Button backButton;
+    @FXML
+    private Label userNameLabel;
+    @FXML
+    private ImageView userAvatarImageView;
+    @FXML
+    private ImageView logoImageView;
+    @FXML
+    private Button backButton;
 
     private User currentUser;
     private PetBoardingInfoJPADAO petBoardingInfoJPADAO;
@@ -67,8 +80,7 @@ public class StaffBoardingListController implements Initializable, DashboardCont
 
     private void setupTableColumns() {
         // Setup for datetime columns with custom formatting
-        checkInColumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getCheckInDate()));
+        checkInColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCheckInDate()));
         checkInColumn.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(LocalDateTime date, boolean empty) {
@@ -81,8 +93,8 @@ public class StaffBoardingListController implements Initializable, DashboardCont
             }
         });
 
-        checkOutColumn.setCellValueFactory(cellData ->
-                new SimpleObjectProperty<>(cellData.getValue().getCheckOutDate()));
+        checkOutColumn
+                .setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCheckOutDate()));
         checkOutColumn.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(LocalDateTime date, boolean empty) {
@@ -96,11 +108,9 @@ public class StaffBoardingListController implements Initializable, DashboardCont
         });
 
         // Setup for string columns
-        petNameColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getPetName()));
+        petNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPetName()));
 
-        roomNameColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getRoomName()));
+        roomNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoomName()));
 
         roomTypeColumn.setCellValueFactory(cellData -> {
             if (cellData.getValue().getRoomType() != null) {
@@ -109,8 +119,7 @@ public class StaffBoardingListController implements Initializable, DashboardCont
             return new SimpleStringProperty("");
         });
 
-        statusColumn.setCellValueFactory(cellData ->
-                new SimpleStringProperty(cellData.getValue().getStatus()));
+        statusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatus()));
         statusColumn.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(String status, boolean empty) {
@@ -142,9 +151,8 @@ public class StaffBoardingListController implements Initializable, DashboardCont
         });
 
         // Setup for price column with currency formatting
-        priceColumn.setCellValueFactory(cellData ->
-                new SimpleDoubleProperty(cellData.getValue().getPrice() != null ?
-                        cellData.getValue().getPrice() : 0.0).asObject());
+        priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(
+                cellData.getValue().getPrice() != null ? cellData.getValue().getPrice() : 0.0).asObject());
         priceColumn.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(Double price, boolean empty) {
@@ -293,7 +301,8 @@ public class StaffBoardingListController implements Initializable, DashboardCont
     public void handleLogoClick(MouseEvent event) {
         try {
             // Load the staff dashboard view
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/StaffDashboardView.fxml"));
             Parent root = loader.load();
 
             // Get the controller and pass the current user

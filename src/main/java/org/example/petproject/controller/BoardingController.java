@@ -21,6 +21,7 @@ import java.net.URL;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 
+@SuppressWarnings("unused")
 public class BoardingController {
     private static final Logger LOGGER = Logger.getLogger(BoardingController.class.getName());
 
@@ -42,7 +43,7 @@ public class BoardingController {
 
         ownerId = SessionManager.getCurrentUser().getUserId();
         ownerName.setText(SessionManager.getCurrentUser().getFullName());
-        
+
         try {
             imgLogo.setImage(new Image(getClass().getResource("/assets/logo.png").toExternalForm()));
         } catch (Exception e) {
@@ -85,7 +86,7 @@ public class BoardingController {
 
     @FXML
     void roomlistButton(ActionEvent evt) {
-        String fxmlPath="/org/example/petproject/RoomListView.fxml";
+        String fxmlPath = "/org/example/petproject/RoomListView.fxml";
         URL fxmlUrl = getClass().getResource(fxmlPath);
         if (fxmlUrl == null) {
             showError("Không tìm thấy màn hình " + fxmlPath);
@@ -119,7 +120,7 @@ public class BoardingController {
 
     @FXML
     void petlistButton(ActionEvent evt) {
-        String fxmlPath="/org/example/petproject/BoardingListView.fxml";
+        String fxmlPath = "/org/example/petproject/BoardingListView.fxml";
         URL fxmlUrl = getClass().getResource(fxmlPath);
         if (fxmlUrl == null) {
             showError("Không tìm thấy màn hình " + fxmlPath);

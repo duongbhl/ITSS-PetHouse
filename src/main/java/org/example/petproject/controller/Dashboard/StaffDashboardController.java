@@ -45,7 +45,7 @@ public class StaffDashboardController implements Initializable, DashboardControl
         if (userNameLabel != null) {
             userNameLabel.setText(user.getFullName());
         }
-        
+
         // Load default avatar if user avatar is not available
         if (userAvatarImageView != null) {
             try {
@@ -54,14 +54,14 @@ public class StaffDashboardController implements Initializable, DashboardControl
                 } else {
                     // Load default avatar from resources
                     userAvatarImageView.setImage(new javafx.scene.image.Image(
-                        getClass().getResourceAsStream("/assets/icons/user.png")));
+                            getClass().getResourceAsStream("/assets/icons/user.png")));
                 }
             } catch (Exception e) {
                 System.err.println("Error loading avatar: " + e.getMessage());
                 // Load default avatar as fallback
                 try {
                     userAvatarImageView.setImage(new javafx.scene.image.Image(
-                        getClass().getResourceAsStream("/assets/icons/user.png")));
+                            getClass().getResourceAsStream("/assets/icons/user.png")));
                 } catch (Exception ex) {
                     System.err.println("Error loading default avatar: " + ex.getMessage());
                 }
@@ -72,7 +72,7 @@ public class StaffDashboardController implements Initializable, DashboardControl
         if (logoImageView != null) {
             try {
                 logoImageView.setImage(new javafx.scene.image.Image(
-                    getClass().getResourceAsStream("/assets/logo.png")));
+                        getClass().getResourceAsStream("/assets/logo.png")));
             } catch (Exception e) {
                 System.err.println("Error loading logo: " + e.getMessage());
             }
@@ -86,7 +86,8 @@ public class StaffDashboardController implements Initializable, DashboardControl
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffConfirmAppointmentView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/StaffConfirmAppointmentView.fxml"));
             Parent root = loader.load();
 
             StaffConfirmAppointmentController controller = loader.getController();
@@ -116,11 +117,14 @@ public class StaffDashboardController implements Initializable, DashboardControl
             return;
         }
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffManageServiceView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/StaffManageServiceView.fxml"));
             Parent root = loader.load();
 
-            // Assuming StaffManageServiceController implements DashboardControllerBase or has initUser
-            // If StaffManageServiceController is not DashboardControllerBase but has initUser, cast appropriately
+            // Assuming StaffManageServiceController implements DashboardControllerBase or
+            // has initUser
+            // If StaffManageServiceController is not DashboardControllerBase but has
+            // initUser, cast appropriately
             // e.g., StaffManageServiceController controller = loader.getController();
             StaffManageServiceController controller = loader.getController();
             controller.initUser(currentUser); // Pass the current user
@@ -150,7 +154,8 @@ public class StaffDashboardController implements Initializable, DashboardControl
         }
         try {
             // Load the FXML file for the boarding management view
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffBoardingManagementView.fxml"));
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("/org/example/petproject/StaffBoardingManagementView.fxml"));
             Parent root = loader.load();
 
             // Get the controller for the boarding management view
@@ -184,6 +189,7 @@ public class StaffDashboardController implements Initializable, DashboardControl
         alert.showAndWait();
     }
 
+    @SuppressWarnings("unused")
     private void showInfo(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
