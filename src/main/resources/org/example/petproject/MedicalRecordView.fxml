@@ -24,28 +24,49 @@
     </top>
 
     <center>
-        <HBox spacing="40" alignment="TOP_CENTER" style="-fx-padding: 30;">
-            <!-- Scheduled Appointments -->
-            <VBox spacing="20" prefWidth="350">
-                <Label text="Scheduled Appointments" style="-fx-font-weight: bold; -fx-font-size: 22px;" />
-                <ListView fx:id="appointmentsListView" prefWidth="350" prefHeight="500"/>
-            </VBox>
+        <ScrollPane fitToWidth="true" fitToHeight="true">
+            <HBox spacing="40" alignment="TOP_CENTER" style="-fx-padding: 30;">
+                <!-- Scheduled Appointments -->
+                <VBox spacing="20" prefWidth="350">
+                    <Label text="Scheduled Appointments" style="-fx-font-weight: bold; -fx-font-size: 22px;" />
+                    <ListView fx:id="appointmentsListView" prefWidth="350" prefHeight="500"/>
+                </VBox>
 
-            <!-- Write Medical Record Form -->
-            <VBox spacing="15" prefWidth="500" style="-fx-background-color: #fff; -fx-padding: 30; -fx-background-radius: 15;">
-                <Label text="Write Medical Record" style="-fx-font-weight: bold; -fx-font-size: 20px;" />
-                <Label text="Pet Name"/>
-                <TextField fx:id="petNameField" promptText="Pet Name"/>
-                <Label text="Owner Name"/>
-                <TextField fx:id="ownerNameField" promptText="Owner Name"/>
-                <Label text="Medical History"/>
-                <TextArea fx:id="medicalHistoryArea" promptText="Medical History" prefRowCount="3"/>
-                <Label text="Treatment Plan"/>
-                <TextArea fx:id="treatmentPlanArea" promptText="Treatment Plan" prefRowCount="3"/>
-                <Label text="Schedule Appointments"/>
-                <DatePicker fx:id="scheduleDatePicker" promptText="dd/mm/yy"/>
-                <Button text="Save Record" fx:id="saveRecordButton" style="-fx-background-color: #ff7f3f; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-background-radius: 20;"/>
-            </VBox>
-        </HBox>
+                <!-- Write Medical Record Form -->
+                <VBox spacing="15" prefWidth="500" style="-fx-background-color: #fff; -fx-padding: 30; -fx-background-radius: 15;">
+                    <Label text="Write Medical Record" style="-fx-font-weight: bold; -fx-font-size: 20px;" />
+                    
+                    <!-- Pet and Owner Info -->
+                    <Label text="Pet Name"/>
+                    <TextField fx:id="petNameField" promptText="Pet Name"/>
+                    <Label text="Owner Name"/>
+                    <TextField fx:id="ownerNameField" promptText="Owner Name"/>
+                    
+                    <!-- Medical Info -->
+                    <Label text="Type"/>
+                    <ComboBox fx:id="typeComboBox" promptText="Select Type"/>
+                    
+                    <Label text="Symptoms"/>
+                    <TextArea fx:id="symptomsArea" promptText="Enter symptoms" prefRowCount="2"/>
+                    
+                    <Label text="Diagnosis"/>
+                    <TextArea fx:id="diagnosisArea" promptText="Enter diagnosis" prefRowCount="2"/>
+                    
+                    <Label text="Prescription"/>
+                    <TextArea fx:id="prescriptionArea" promptText="Enter prescription" prefRowCount="2"/>
+                    
+                    <Label text="Treatment"/>
+                    <TextArea fx:id="treatmentArea" promptText="Enter treatment plan" prefRowCount="2"/>
+                    
+                    <Label text="Follow-up Date"/>
+                    <DatePicker fx:id="followUpDatePicker" promptText="dd/mm/yy"/>
+                    
+                    <Label text="Additional Notes"/>
+                    <TextArea fx:id="noteArea" promptText="Enter any additional notes" prefRowCount="2"/>
+                    
+                    <Button text="Save Record" fx:id="saveRecordButton" style="-fx-background-color: #ff7f3f; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 16px; -fx-background-radius: 20;"/>
+                </VBox>
+            </HBox>
+        </ScrollPane>
     </center>
 </BorderPane> 

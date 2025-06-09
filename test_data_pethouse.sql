@@ -12,8 +12,8 @@ INSERT INTO Pet (petid, owner_id, name, species, gender, birthdate, weight, diet
 
 -- SERVICE
 INSERT INTO Service (serviceid, name, price, type) VALUES
-('S001', 'Grooming', 200000, 'làm đẹp & vệ sinh'),
-('S002', 'Pet Hotel', 300000, 'lưu trú');
+('S001', 'Grooming', 200000, 'GROOMING'),
+('S002', 'Pet Hotel', 300000, 'BOARDING');
 
 -- SERVICE BOOKING
 INSERT INTO ServiceBooking (bookingid, pet_id, service_id, checkintime, checkouttime, status, note, handled_by) VALUES
@@ -22,16 +22,26 @@ INSERT INTO ServiceBooking (bookingid, pet_id, service_id, checkintime, checkout
 
 -- ROOM
 INSERT INTO Room (roomid, name, type, priceperday) VALUES
-('R001', 'Room 1A', 'thường', 100000),
-('R002', 'VIP Suite', 'vip', 200000);
+('R001', 'Room 1A', 'STANDARD', 100000),
+('R002', 'VIP Suite', 'VIP', 200000);
 
 -- PET BOARDING
 INSERT INTO PetBoarding (boardingid, booking_id, room_id) VALUES
 ('PB001', 'B002', 'R001');
 
 -- APPOINTMENT
-INSERT INTO Appointment (appointmentid, pet_id, appointmenttime, type, status, note, confirmed_by, confirmedat) VALUES
-('A001', 'P001', '2025-05-08 14:30:00', 'General Checkup', 'completed', 'Yearly health check', 'U004', '2025-05-08 10:00:00');
+INSERT INTO Appointment (appointmentid, pet_id, doctor_id, appointmenttime, type, status, note, confirmed_by, confirmedat) VALUES
+('A001', 'P001', 'U003', '2025-05-08 14:30:00', 'General Checkup', 'completed', 'Yearly health check', 'U004', '2025-05-08 10:00:00'),
+('A002', 'P001', 'U003', '2025-05-15 09:00:00', 'Vaccination', 'pending', 'Annual vaccination', NULL, NULL),
+('A003', 'P002', 'U003', '2025-05-16 10:30:00', 'Dental Check', 'pending', 'Regular dental cleaning', NULL, NULL),
+('A004', 'P001', 'U003', '2025-05-20 14:00:00', 'Follow-up', 'pending', 'Follow-up after treatment', NULL, NULL),
+('A005', 'P002', 'U003', '2025-05-22 11:00:00', 'Skin Check', 'pending', 'Check skin condition', NULL, NULL),
+('A006', 'P001', 'U003', '2025-05-25 15:30:00', 'Blood Test', 'pending', 'Regular blood work', NULL, NULL),
+('A007', 'P002', 'U003', '2025-05-28 09:30:00', 'Weight Check', 'pending', 'Monthly weight monitoring', NULL, NULL),
+('A008', 'P001', 'U003', '2025-06-01 13:00:00', 'Vaccination', 'pending', 'Booster shot', NULL, NULL),
+('A009', 'P002', 'U003', '2025-06-03 10:00:00', 'General Checkup', 'pending', 'Routine checkup', NULL, NULL),
+('A010', 'P001', 'U003', '2025-06-05 14:30:00', 'Dental Check', 'pending', 'Dental cleaning', NULL, NULL),
+('A011', 'P002', 'U003', '2025-06-08 11:30:00', 'Follow-up', 'pending', 'Post-treatment check', NULL, NULL);
 
 -- MEDICAL RECORD
 INSERT INTO MedicalRecord (

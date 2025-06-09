@@ -137,7 +137,7 @@ public class DoctorDashboardController implements DashboardControllerBase {
 
         // Add calendar date picker listener
         calendarDatePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
+            if (newVal != null && currentUser != null) {
                 loadAppointments(newVal);
             }
         });
@@ -159,6 +159,9 @@ public class DoctorDashboardController implements DashboardControllerBase {
                 }
             }
         });
+
+        // Set default date to today
+        calendarDatePicker.setValue(LocalDate.now());
     }
 
     /**
@@ -171,11 +174,9 @@ public class DoctorDashboardController implements DashboardControllerBase {
             System.out.println("User is null in DoctorDashboardController");
             return;
         }
-        // Set name in bold, centered
         if (lblUserName != null) {
             lblUserName.setText(user.getFullName());
         }
-        // Set avatar with fallback
         if (imgAvatar != null) {
             try {
                 if (user.getAvatarUrl() != null && !user.getAvatarUrl().isBlank()) {
@@ -192,6 +193,12 @@ public class DoctorDashboardController implements DashboardControllerBase {
                 }
             }
         }
+        // Auto select today for calendarDatePicker
+        if (calendarDatePicker != null) {
+            calendarDatePicker.setValue(LocalDate.now());
+        }
+        loadAppointments(LocalDate.now());
+        loadRecentMedicalRecords();
     }
 
     private void loadAppointments(LocalDate fromDate) {
@@ -200,7 +207,7 @@ public class DoctorDashboardController implements DashboardControllerBase {
             ObservableList<Appointment> appointmentList = FXCollections.observableArrayList(appointments);
             appointmentsTableView.setItems(appointmentList);
         } catch (Exception e) {
-            e.printStackTrace();
+            showError("Error loading appointments: " + e.getMessage());
         }
     }
 
@@ -223,13 +230,13 @@ public class DoctorDashboardController implements DashboardControllerBase {
     }
 
     private void loadRecentMedicalRecords() {
-        if (currentUser == null) return;
-        LocalDate today = LocalDate.now();
-        LocalDate weekAgo = today.minusDays(7);
-        // Lấy record của bác sĩ trong 1 tuần trước và cả hôm nay
-        List<MedicalRecord> records = medicalRecordDAO.findByDoctorIdAndDateRange(currentUser.getUserId(), weekAgo, today);
-        ObservableList<MedicalRecord> recordList = FXCollections.observableArrayList(records);
-        recentMedicalRecordsListView.setItems(recordList);
+        try {
+            List<MedicalRecord> records = medicalRecordDAO.findRecentByDoctorId(currentUser.getUserId());
+            ObservableList<MedicalRecord> recordList = FXCollections.observableArrayList(records);
+            recentMedicalRecordsListView.setItems(recordList);
+        } catch (Exception e) {
+            showError("Error loading recent medical records: " + e.getMessage());
+        }
     }
 
     public void reloadDashboardData() {

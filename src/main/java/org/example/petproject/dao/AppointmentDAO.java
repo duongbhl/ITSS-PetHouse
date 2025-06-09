@@ -1,13 +1,11 @@
 package org.example.petproject.dao;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import org.example.petproject.model.Appointment;
-import org.example.petproject.model.MedicalRecord;
-
 import java.time.LocalDate;
 import java.util.List;
+
+import org.example.petproject.model.Appointment;
+
+import jakarta.persistence.EntityManager;
 
 public class AppointmentDAO extends BaseDAO<Appointment, Long> {
 //    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("petproject");
@@ -92,8 +90,12 @@ public class AppointmentDAO extends BaseDAO<Appointment, Long> {
     public List<Appointment> findAvailableForMedicalRecord(String doctorId, LocalDate date) {
         EntityManager em = entityManager;
         try {
-            // Lấy các appointment của bác sĩ trong ngày, chưa completed/done và chưa có medical record
-            String jpql = "SELECT a FROM Appointment a WHERE a.doctor.userId = :doctorId AND a.appointmentTime = :date AND a.status <> 'completed' AND a.status <> 'done' AND NOT EXISTS (SELECT m FROM MedicalRecord m WHERE m.appointment.appointmentId = a.appointmentId) ORDER BY a.appointmentTime ASC";
+            // Lấy các appointment của bác sĩ trong ngày, chưa completed và chưa có medical record
+            String jpql = "SELECT a FROM Appointment a WHERE a.doctor.userId = :doctorId " +
+                         "AND FUNCTION('DATE', a.appointmentTime) = :date " +
+                         "AND a.status <> 'completed' " +
+                         "AND NOT EXISTS (SELECT m FROM MedicalRecord m WHERE m.appointment.appointmentId = a.appointmentId) " +
+                         "ORDER BY a.appointmentTime ASC";
             var query = em.createQuery(jpql, Appointment.class);
             query.setParameter("doctorId", doctorId);
             query.setParameter("date", date);
