@@ -23,15 +23,15 @@ import org.example.petproject.util.SessionManager;
 import java.io.IOException;
 import java.net.URL;
 
-
-public class RegisterBoardingController{
+@SuppressWarnings("unused")
+public class RegisterBoardingController {
     UserDAO userdao = new UserDAO();
     PetDAO petdao = new PetDAO();
     RoomDAO roomdao = new RoomDAO();
 
     UserService userservice = new UserService();
 
-    private String ownerID= SessionManager.getCurrentUser().getUserId();
+    private String ownerID = SessionManager.getCurrentUser().getUserId();
 
     @FXML
     private Label ownerName;
@@ -81,11 +81,12 @@ public class RegisterBoardingController{
     @FXML
     void bookAppointmentButton(ActionEvent event) {
         StringBuilder details = new StringBuilder();
-        details.append("Note: "+noteText.getText().trim()+"\n");
-        details.append("Thoi gian vao: "+inscheduleSelected.getValue().toString().trim()+"\n");
-        details.append("Thoi gian ra: "+outscheduleSelected.getValue().toString().trim()+"\n");
-        details.append("Gia ca: "+roomdao.findByName(roomSelected.getValue().toString().trim()).getPricePerDay()+"\n");
-        try{
+        details.append("Note: " + noteText.getText().trim() + "\n");
+        details.append("Thoi gian vao: " + inscheduleSelected.getValue().toString().trim() + "\n");
+        details.append("Thoi gian ra: " + outscheduleSelected.getValue().toString().trim() + "\n");
+        details.append(
+                "Gia ca: " + roomdao.findByName(roomSelected.getValue().toString().trim()).getPricePerDay() + "\n");
+        try {
             userservice.dkdvluutru(
                     inscheduleSelected.getValue(),
                     outscheduleSelected.getValue(),
@@ -107,12 +108,11 @@ public class RegisterBoardingController{
     }
 
     @FXML
-    void initialize(){
+    void initialize() {
         ownerName.setText(userdao.getUserByOwnerID(this.ownerID).getFullName());
         petSelected.setItems(FXCollections.observableArrayList(petdao.findAllByOwnerId(this.ownerID)));
         roomSelected.setItems(FXCollections.observableArrayList(roomdao.findAllNames()));
 
     }
-
 
 }

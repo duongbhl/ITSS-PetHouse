@@ -19,10 +19,10 @@ import org.example.petproject.util.SessionManager;
 import java.io.IOException;
 import java.net.URL;
 
-
+@SuppressWarnings("unused")
 public class RoomListController {
 
-    private String ownerID= SessionManager.getCurrentUser().getUserId();
+    private String ownerID = SessionManager.getCurrentUser().getUserId();
 
     @FXML
     private ImageView imgLogo;
@@ -51,6 +51,5 @@ public class RoomListController {
         ownerName.setText(new UserDAO().getUserByOwnerID(this.ownerID).getFullName());
         imgLogo.setImage(new Image(getClass().getResource("/assets/logo.png").toExternalForm()));
     }
-
 
 }

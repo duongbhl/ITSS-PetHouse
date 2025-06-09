@@ -17,17 +17,28 @@ import org.example.petproject.controller.Dashboard.DoctorDashboardController;
 import java.time.LocalDate;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class MedicalRecordController {
-    @FXML private ImageView imgLogo;
-    @FXML private ListView<Appointment> appointmentsListView;
-    @FXML private TextField petNameField;
-    @FXML private TextField ownerNameField;
-    @FXML private TextArea medicalHistoryArea;
-    @FXML private TextArea treatmentPlanArea;
-    @FXML private DatePicker scheduleDatePicker;
-    @FXML private Button saveRecordButton;
-    @FXML private Hyperlink dashboardLink;
-    @FXML private Hyperlink appointmentsLink;
+    @FXML
+    private ImageView imgLogo;
+    @FXML
+    private ListView<Appointment> appointmentsListView;
+    @FXML
+    private TextField petNameField;
+    @FXML
+    private TextField ownerNameField;
+    @FXML
+    private TextArea medicalHistoryArea;
+    @FXML
+    private TextArea treatmentPlanArea;
+    @FXML
+    private DatePicker scheduleDatePicker;
+    @FXML
+    private Button saveRecordButton;
+    @FXML
+    private Hyperlink dashboardLink;
+    @FXML
+    private Hyperlink appointmentsLink;
 
     private User currentUser; // Bác sĩ hiện tại
     private final AppointmentDAO appointmentDAO = new AppointmentDAO();
@@ -50,7 +61,8 @@ public class MedicalRecordController {
                     setText(null);
                 } else {
                     String owner = item.getPet() != null && item.getPet().getOwner() != null
-                        ? item.getPet().getOwner().getFullName() : "";
+                            ? item.getPet().getOwner().getFullName()
+                            : "";
                     setText(item.getPet().getName() + " - " + owner + "\n" +
                             (item.getAppointmentTime() != null ? item.getAppointmentTime().toString() : ""));
                 }
@@ -74,7 +86,8 @@ public class MedicalRecordController {
     }
 
     private void loadTodayAppointments() {
-        if (currentUser == null) return;
+        if (currentUser == null)
+            return;
         LocalDate today = LocalDate.now();
         List<Appointment> appointments = appointmentDAO.findByDoctorId(currentUser.getUserId(), today);
         ObservableList<Appointment> appointmentList = FXCollections.observableArrayList(appointments);
@@ -124,9 +137,11 @@ public class MedicalRecordController {
         alert.showAndWait();
     }
 
-    // Khi load danh sách Scheduled Appointments, chỉ lấy các appointment chưa có record hoặc chưa completed
+    // Khi load danh sách Scheduled Appointments, chỉ lấy các appointment chưa có
+    // record hoặc chưa completed
     private void loadAppointmentsForDate(LocalDate date) {
-        if (currentUser == null || date == null) return;
+        if (currentUser == null || date == null)
+            return;
         List<Appointment> appointments = appointmentDAO.findAvailableForMedicalRecord(currentUser.getUserId(), date);
         ObservableList<Appointment> appointmentList = FXCollections.observableArrayList(appointments);
         appointmentsListView.setItems(appointmentList);
@@ -140,4 +155,4 @@ public class MedicalRecordController {
         this.selectedDate = date;
         loadAppointmentsForDate(date);
     }
-} 
+}

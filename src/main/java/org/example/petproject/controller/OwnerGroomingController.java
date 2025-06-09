@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+@SuppressWarnings("unused")
 public class OwnerGroomingController implements DashboardControllerBase, Initializable {
 
     @FXML
@@ -55,15 +56,15 @@ public class OwnerGroomingController implements DashboardControllerBase, Initial
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Load icon plus.png cho nút addButton
-//        Image plusIcon = new Image(
-//                getClass().getResource("/assets/icons/plus.png").toExternalForm());
-//        ImageView iv = new ImageView(plusIcon);
-//        iv.setFitWidth(32);
-//        iv.setFitHeight(32);
-//        addButton.setGraphic(iv);
-//
-//        // (Optional) bạn có thể set tooltip
-//        addButton.setTooltip(new Tooltip("Thêm dịch vụ làm đẹp & vệ sinh"));
+        // Image plusIcon = new Image(
+        // getClass().getResource("/assets/icons/plus.png").toExternalForm());
+        // ImageView iv = new ImageView(plusIcon);
+        // iv.setFitWidth(32);
+        // iv.setFitHeight(32);
+        // addButton.setGraphic(iv);
+        //
+        // // (Optional) bạn có thể set tooltip
+        // addButton.setTooltip(new Tooltip("Thêm dịch vụ làm đẹp & vệ sinh"));
     }
 
     @Override
@@ -142,8 +143,7 @@ public class OwnerGroomingController implements DashboardControllerBase, Initial
                         "-fx-border-color: #E0E0E0; " +
                         "-fx-border-width: 1.5; " +
                         "-fx-border-radius: 15; " +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.2, 0, 0);"
-        );
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 8, 0.2, 0, 0);");
 
         Button button = new Button("+");
         button.setPrefSize(70, 70); // Kích thước đều để tạo hình tròn
@@ -153,11 +153,12 @@ public class OwnerGroomingController implements DashboardControllerBase, Initial
                         "-fx-text-fill: white; " +
                         "-fx-background-color: #4CAF50; " +
                         "-fx-background-radius: 35px;" + // Làm cho button tròn
-                        "-fx-padding: 0;"
-        );
+                        "-fx-padding: 0;");
 
         button.setShape(new Circle(35));// Thiết lập hình dạng tròn
-        button.setOnAction(e->{handleAddCard(e);});
+        button.setOnAction(e -> {
+            handleAddCard(e);
+        });
         vbox.getChildren().add(button);
 
         Service grooming = serviceDAO.findByType(Service.Type.lam_dep_va_ve_sinh);

@@ -9,17 +9,19 @@ import org.example.petproject.model.MedicalRecord;
 import java.time.LocalDate;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class AppointmentDAO extends BaseDAO<Appointment, Long> {
-//    private static final EntityManagerFactory emf = Persistence.createEntityManagerFactory("petproject");
+    // private static final EntityManagerFactory emf =
+    // Persistence.createEntityManagerFactory("petproject");
 
     @Override
     protected Class<Appointment> getEntityClass() {
         return Appointment.class;
     }
 
-//    private EntityManager getEntityManager() {
-//        return emf.createEntityManager();
-//    }
+    // private EntityManager getEntityManager() {
+    // return emf.createEntityManager();
+    // }
 
     // Use the EntityManager from BaseDAO instead of creating a new one
     public List<Appointment> findAll() {
@@ -69,16 +71,16 @@ public class AppointmentDAO extends BaseDAO<Appointment, Long> {
         EntityManager em = entityManager;
         try {
             StringBuilder jpql = new StringBuilder("SELECT a FROM Appointment a WHERE a.doctor.userId = :doctorId");
-            
+
             if (fromDate != null) {
                 jpql.append(" AND a.appointmentTime >= :fromDate");
             }
-            
+
             jpql.append(" ORDER BY a.appointmentTime ASC");
 
             var query = em.createQuery(jpql.toString(), Appointment.class);
             query.setParameter("doctorId", doctorId);
-            
+
             if (fromDate != null) {
                 query.setParameter("fromDate", fromDate);
             }
@@ -92,7 +94,8 @@ public class AppointmentDAO extends BaseDAO<Appointment, Long> {
     public List<Appointment> findAvailableForMedicalRecord(String doctorId, LocalDate date) {
         EntityManager em = entityManager;
         try {
-            // Lấy các appointment của bác sĩ trong ngày, chưa completed/done và chưa có medical record
+            // Lấy các appointment của bác sĩ trong ngày, chưa completed/done và chưa có
+            // medical record
             String jpql = "SELECT a FROM Appointment a WHERE a.doctor.userId = :doctorId AND a.appointmentTime = :date AND a.status <> 'completed' AND a.status <> 'done' AND NOT EXISTS (SELECT m FROM MedicalRecord m WHERE m.appointment.appointmentId = a.appointmentId) ORDER BY a.appointmentTime ASC";
             var query = em.createQuery(jpql, Appointment.class);
             query.setParameter("doctorId", doctorId);

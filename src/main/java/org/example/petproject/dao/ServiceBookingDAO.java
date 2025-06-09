@@ -37,7 +37,9 @@ public class ServiceBookingDAO extends BaseDAO<ServiceBooking, Long> {
         return Collections.emptyList();
     }
 
-    public List<ServiceBooking> findBookingsByCriteria(LocalDate fromDate, LocalDate toDate, ServiceBooking.Status status) {
+    @SuppressWarnings("unused")
+    public List<ServiceBooking> findBookingsByCriteria(LocalDate fromDate, LocalDate toDate,
+            ServiceBooking.Status status) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             // Base query
             StringBuilder queryString = new StringBuilder("FROM ServiceBooking sb WHERE 1=1");

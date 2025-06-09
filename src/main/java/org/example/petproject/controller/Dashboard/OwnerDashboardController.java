@@ -242,6 +242,7 @@ public class OwnerDashboardController implements DashboardControllerBase, javafx
 
             // Đặt lên stage
             Stage stage = (Stage) imgAvatar.getScene().getWindow();
+            stage.centerOnScreen();
             stage.setScene(loginScene);
         } catch (IOException e) {
             e.printStackTrace();
