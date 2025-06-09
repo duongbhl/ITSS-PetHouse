@@ -26,7 +26,7 @@
                </image>
             </ImageView>
 
-            <Label text="Dịch vụ lưu trú" styleClass="label-header">
+            <Label text="  Dịch vụ lưu trú" styleClass="label-header">
             </Label>
 
             <Region HBox.hgrow="ALWAYS" />
