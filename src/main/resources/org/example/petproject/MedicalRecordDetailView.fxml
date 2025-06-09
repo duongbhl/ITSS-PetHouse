@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="org.example.petproject.controller.MedicalRecordDetailController"
+            prefWidth="600" prefHeight="600"
+            style="-fx-background-color: #f0f2f5;">
+    <top>
+        <Label text="Medical Record Details" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-padding: 20 0 10 0;" BorderPane.alignment="CENTER" />
+    </top>
+    <center>
+        <VBox spacing="20" alignment="TOP_CENTER" style="-fx-padding: 20;">
+            <HBox spacing="40">
+                <!-- Pet Info -->
+                <VBox spacing="8" prefWidth="250" style="-fx-background-color: #fff; -fx-padding: 15; -fx-background-radius: 10;">
+                    <Label text="Pet Information" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+                    <GridPane hgap="10" vgap="8">
+                        <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <Label fx:id="petNameLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                        <Label text="Owner:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                        <Label fx:id="ownerNameLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                        <Label text="Species:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                        <Label fx:id="speciesLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                        <Label text="Gender:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                        <Label fx:id="genderLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                        <Label text="Birth Date:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                        <Label fx:id="birthDateLabel" GridPane.rowIndex="4" GridPane.columnIndex="1" />
+                        <Label text="Weight:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                        <Label fx:id="weightLabel" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                        <Label text="Health Notes:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+                        <Label fx:id="healthNotesLabel" GridPane.rowIndex="6" GridPane.columnIndex="1" wrapText="true" />
+                    </GridPane>
+                </VBox>
+                <!-- Medical Record Info -->
+                <VBox spacing="8" prefWidth="300" style="-fx-background-color: #fff; -fx-padding: 15; -fx-background-radius: 10;">
+                    <Label text="Medical Record" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+                    <GridPane hgap="10" vgap="8">
+                        <Label text="Type:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
+                        <Label fx:id="typeLabel" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                        <Label text="Exam Date:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
+                        <Label fx:id="examDateLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                        <Label text="Symptoms:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+                        <Label fx:id="symptomsLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" wrapText="true" />
+                        <Label text="Diagnosis:" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+                        <Label fx:id="diagnosisLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" wrapText="true" />
+                        <Label text="Prescription:" GridPane.rowIndex="4" GridPane.columnIndex="0" />
+                        <Label fx:id="prescriptionLabel" GridPane.rowIndex="4" GridPane.columnIndex="1" wrapText="true" />
+                        <Label text="Treatment:" GridPane.rowIndex="5" GridPane.columnIndex="0" />
+                        <Label fx:id="treatmentLabel" GridPane.rowIndex="5" GridPane.columnIndex="1" wrapText="true" />
+                        <Label text="Follow-up Date:" GridPane.rowIndex="6" GridPane.columnIndex="0" />
+                        <Label fx:id="followUpDateLabel" GridPane.rowIndex="6" GridPane.columnIndex="1" />
+                        <Label text="Note:" GridPane.rowIndex="7" GridPane.columnIndex="0" />
+                        <Label fx:id="noteLabel" GridPane.rowIndex="7" GridPane.columnIndex="1" wrapText="true" />
+                    </GridPane>
+                </VBox>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane> 

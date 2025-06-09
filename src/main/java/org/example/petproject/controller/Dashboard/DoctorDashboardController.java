@@ -23,8 +23,20 @@ import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -135,6 +147,16 @@ public class DoctorDashboardController implements DashboardControllerBase, Initi
                     String type = item.getType() != null ? item.getType() : "";
                     String date = item.getExamDate() != null ? item.getExamDate().toString() : "";
                     setText(petName + " - " + type + "\n" + date);
+                }
+            }
+        });
+
+        // Double click để xem chi tiết medical record
+        recentMedicalRecordsListView.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                MedicalRecord selected = recentMedicalRecordsListView.getSelectionModel().getSelectedItem();
+                if (selected != null) {
+                    showMedicalRecordDetail(selected);
                 }
             }
         });
@@ -323,6 +345,22 @@ public class DoctorDashboardController implements DashboardControllerBase, Initi
         } catch (IOException ex) {
             ex.printStackTrace();
             showError("Error opening screen: " + fxmlPath);
+        }
+    }
+
+    private void showMedicalRecordDetail(MedicalRecord record) {
+        try {
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/org/example/petproject/MedicalRecordDetailView.fxml"));
+            javafx.scene.Parent root = loader.load();
+            org.example.petproject.controller.MedicalRecordDetailController controller = loader.getController();
+            controller.setMedicalRecord(record);
+            javafx.stage.Stage stage = new javafx.stage.Stage();
+            stage.setTitle("Medical Record Detail");
+            stage.setScene(new javafx.scene.Scene(root));
+            stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+        } catch (Exception e) {
+            showError("Could not open detail: " + e.getMessage());
         }
     }
 }
