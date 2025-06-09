@@ -42,7 +42,7 @@ public class ServiceBookingDAO extends BaseDAO<ServiceBooking, Long> {
             ServiceBooking.Status status) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             // Base query
-            StringBuilder queryString = new StringBuilder("FROM ServiceBooking sb WHERE 1=1");
+            StringBuilder queryString = new StringBuilder("FROM ServiceBooking sb JOIN sb.service s WHERE s.type = 'lam_dep_va_ve_sinh'");
             List<String> conditions = new ArrayList<>();
             List<Object> parameters = new ArrayList<>();
             List<String> paramNames = new ArrayList<>();
