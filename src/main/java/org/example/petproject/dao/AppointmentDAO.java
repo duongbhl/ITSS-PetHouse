@@ -48,7 +48,17 @@ public class AppointmentDAO extends BaseDAO<Appointment, Long> {
             var query = em.createQuery(jpql.toString(), Appointment.class);
 
             if (status != null && !status.isEmpty()) {
-                query.setParameter("status", Appointment.Status.valueOf(status.toLowerCase()));
+                // Convert status string to enum value
+                Appointment.Status statusEnum = switch (status.toLowerCase()) {
+                    case "pending" -> Appointment.Status.pending;
+                    case "confirmed" -> Appointment.Status.confirmed;
+                    case "completed" -> Appointment.Status.completed;
+                    case "cancelled" -> Appointment.Status.cancelled;
+                    default -> null;
+                };
+                if (statusEnum != null) {
+                    query.setParameter("status", statusEnum);
+                }
             }
             if (fromDate != null) {
                 query.setParameter("fromDate", fromDate);

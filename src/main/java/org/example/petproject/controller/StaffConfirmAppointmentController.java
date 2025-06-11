@@ -76,7 +76,7 @@ public class StaffConfirmAppointmentController implements Initializable, Dashboa
                     userAvatarImageView.setImage(new javafx.scene.image.Image(
                             getClass().getResourceAsStream("/assets/icons/user.png")));
                 } catch (Exception ex) {
-                    System.err.println("Error loading default avatar: " + ex.getMessage());
+                    System.err.println("Lỗi tải ảnh đại diện: " + ex.getMessage());
                 }
             }
         }
@@ -87,7 +87,7 @@ public class StaffConfirmAppointmentController implements Initializable, Dashboa
                 logoImageView.setImage(new javafx.scene.image.Image(
                         getClass().getResourceAsStream("/assets/logo.png")));
             } catch (Exception e) {
-                System.err.println("Error loading logo: " + e.getMessage());
+                System.err.println("Lỗi tải logo: " + e.getMessage());
             }
         }
     }
@@ -143,7 +143,7 @@ public class StaffConfirmAppointmentController implements Initializable, Dashboa
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("Unable to open appointment list view: " + e.getMessage());
+            alert.setContentText("Không thể mở danh sách lịch khám: " + e.getMessage());
             alert.showAndWait();
         }
     }
@@ -184,7 +184,7 @@ public class StaffConfirmAppointmentController implements Initializable, Dashboa
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("Unable to open staff dashboard view: " + e.getMessage());
+            alert.setContentText("Không thể mở trang quản lý dịch vụ: " + e.getMessage());
             alert.showAndWait();
         }
     }

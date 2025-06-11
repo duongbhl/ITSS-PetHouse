@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.beans.property.SimpleObjectProperty;
 
 import org.example.petproject.controller.Dashboard.DashboardControllerBase;
 import org.example.petproject.controller.Dashboard.StaffDashboardController;
@@ -25,6 +26,7 @@ import java.io.IOException;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -56,6 +58,9 @@ public class StaffAppointmentListController implements Initializable, DashboardC
 
     @FXML
     private TableColumn<Appointment, String> appointmentTypeColumn;
+
+    @FXML
+    private TableColumn<Appointment, Appointment.Status> statusColumn;
 
     @FXML
     private Label userNameLabel;
@@ -120,6 +125,25 @@ public class StaffAppointmentListController implements Initializable, DashboardC
         });
 
         appointmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+
+        // Set up status column
+        statusColumn.setCellValueFactory(cellData -> {
+            Appointment appointment = cellData.getValue();
+            return new SimpleObjectProperty<>(appointment != null ? appointment.getStatus() : null);
+        });
+        statusColumn.setCellFactory(col -> new TableCell<>() {
+            @Override
+            protected void updateItem(Appointment.Status status, boolean empty) {
+                super.updateItem(status, empty);
+                if (empty || status == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(status.toString());
+                    
+                }
+            }
+        });
     }
 
     @Override
@@ -143,7 +167,7 @@ public class StaffAppointmentListController implements Initializable, DashboardC
                 .collect(Collectors.toList());
 
         if (selectedAppointments.isEmpty()) {
-            showAlert("No Selection", "Please select at least one appointment to confirm.");
+            showAlert("No Selection", "Không có lịch hẹn nào được chọn, hãy chọn lịch hẹn để xác nhận.");
             return;
         }
 
@@ -156,36 +180,65 @@ public class StaffAppointmentListController implements Initializable, DashboardC
             if (!doctors.isEmpty()) {
                 designatedDoctor = doctors.get(0);
             } else {
-                // This case should ideally not happen based on your setup description
-                showAlert("Error", "No doctor found in the system. Cannot assign appointment.");
+                showAlert("Error", "Không tìm thấy bác sĩ trong hệ thống. Không thể gán lịch hẹn.");
                 return;
             }
             for (Appointment appointment : selectedAppointments) {
                 appointment.setStatus(Appointment.Status.confirmed);
-                appointment.setConfirmedBy(currentUser); // Optionally set who confirmed
-                appointment.setConfirmedAt(java.time.LocalDateTime.now()); // Optionally set confirmation time
+                appointment.setConfirmedBy(currentUser);
+                appointment.setConfirmedAt(java.time.LocalDateTime.now());
                 appointment.setDoctor(designatedDoctor);
                 appointmentDAO.update(appointment);
             }
-            // Refresh the table view to show updated status and clear selections
-            // Re-fetch or update items in place if necessary
-            List<Appointment> currentItems = appointmentTableView.getItems();
-            appointmentTableView.getItems().clear(); // Clear and re-add to reset selection visual state
-            appointmentTableView.getItems().addAll(currentItems);
-            appointmentTableView.refresh(); // Ensure UI updates
-            showAlert("Success", "Selected appointments have been confirmed.");
+            
+            // Refresh the table view to show updated status
+            appointmentTableView.refresh();
+            showAlert("Success", "Lựa chọn lịch hẹn đã được xác nhận.");
+            
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert("Error", "Failed to confirm appointments: " + e.getMessage());
+            showAlert("Lỗi ", "Không thể xác nhận lịch hẹn: " + e.getMessage());
         } finally {
-            appointmentDAO.close(); // Close EntityManager if your BaseDAO requires it
+            appointmentDAO.close();
         }
     }
 
     @FXML
-    public void handleRejectButtonAction(ActionEvent actionEvent) {
-        // No action needed for reject button as per requirements
-        showAlert("Info", "No changes were made.");
+    private void handleRejectButtonAction(ActionEvent event) {
+        // Get selected appointments
+        List<Appointment> selectedAppointments = appointmentTableView.getItems().stream()
+                .filter(Appointment::isSelected)
+                .collect(Collectors.toList());
+        
+        if (selectedAppointments.isEmpty()) {
+            showAlert("Cảnh báo", "Vui lòng chọn ít nhất một lịch hẹn để từ chối!");
+            return;
+        }
+
+        AppointmentDAO appointmentDAO = new AppointmentDAO();
+        try {
+            // Update each selected appointment
+            for (Appointment appointment : selectedAppointments) {
+                // Only update pending appointments
+                if (appointment.getStatus() == Appointment.Status.pending) {
+                    appointment.setStatus(Appointment.Status.cancelled);
+                    appointment.setConfirmedBy(currentUser);
+                    appointment.setConfirmedAt(LocalDateTime.now());
+                    appointmentDAO.update(appointment);
+                }
+            }
+            
+            // Refresh the table view to show updated status
+            appointmentTableView.refresh();
+            
+            showAlert("Thành công", "Đã từ chối các lịch hẹn đã chọn!");
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Không thể từ chối lịch hẹn: " + e.getMessage());
+        } finally {
+            appointmentDAO.close();
+        }
     }
 
     private void showAlert(String title, String content) {

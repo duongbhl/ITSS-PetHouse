@@ -62,8 +62,6 @@ public class StaffManageServiceListController implements Initializable, Dashboar
     private TableColumn<ServiceBookingWrapper, Button> actionColumn;
 
     @FXML
-    private CheckBox selectAllCheckBox;
-    @FXML
     private Button confirmButton;
     @FXML
     private Button rejectButton;
@@ -76,13 +74,6 @@ public class StaffManageServiceListController implements Initializable, Dashboar
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Make table editable
         serviceTableView.setEditable(true);
-
-        // Configure the select all checkbox
-        selectAllCheckBox.setOnAction(e -> {
-            boolean selected = selectAllCheckBox.isSelected();
-            bookings.forEach(b -> b.setSelected(selected));
-            serviceTableView.refresh();
-        });
 
         // Configure columns
         setupTableColumns();
@@ -194,7 +185,6 @@ public class StaffManageServiceListController implements Initializable, Dashboar
                 wrapper.setSelected(false);
             });
 
-            selectAllCheckBox.setSelected(false);
             serviceTableView.refresh();
 
         } catch (Exception e) {
@@ -205,8 +195,40 @@ public class StaffManageServiceListController implements Initializable, Dashboar
 
     @FXML
     public void handleRejectAction(ActionEvent actionEvent) {
-        // No database change required as per requirements, just show a message
-        showAlert("Thông báo", "Không có thay đổi nào được thực hiện.");
+        List<ServiceBookingWrapper> selectedBookings = bookings.stream()
+                .filter(ServiceBookingWrapper::isSelected)
+                .collect(Collectors.toList());
+
+        if (selectedBookings.isEmpty()) {
+            showAlert("Lưu ý", "Vui lòng chọn ít nhất một dịch vụ để từ chối.");
+            return;
+        }
+
+        try {
+            for (ServiceBookingWrapper wrapper : selectedBookings) {
+                ServiceBooking booking = wrapper.getBooking();
+                if (booking.getStatus() == ServiceBooking.Status.pending) {
+                    booking.setStatus(ServiceBooking.Status.done);
+                    booking.setHandledBy(currentUser);
+                    serviceBookingDAO.update(booking);
+                }
+            }
+
+            showAlert("Thành công", "Đã từ chối " + selectedBookings.size() + " dịch vụ.");
+
+            // Update status in the table
+            selectedBookings.forEach(wrapper -> {
+                wrapper.setStatus("done");
+                wrapper.setStaffName(currentUser.getFullName());
+                wrapper.setSelected(false);
+            });
+
+            serviceTableView.refresh();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Không thể từ chối dịch vụ: " + e.getMessage());
+        }
     }
 
     private void showBookingDetails(ServiceBooking booking) {

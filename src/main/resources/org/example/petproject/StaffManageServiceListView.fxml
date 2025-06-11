@@ -49,16 +49,7 @@
 
                 <TableView fx:id="serviceTableView" prefHeight="350.0" tableMenuButtonVisible="false">
                     <columns>
-                        <TableColumn fx:id="selectColumn" prefWidth="50.0" style="-fx-alignment: CENTER;">
-                            <graphic>
-                                <CheckBox fx:id="selectAllCheckBox" />
-                                <!-- Add onAction handler for selectAllCheckBox in controller -->
-                            </graphic>
-                            <!--
-                                CellValueFactory: PropertyValueFactory for a Boolean property in your data model.
-                                CellFactory: CheckBoxTableCell.forTableColumn()
-                            -->
-                        </TableColumn>
+                        <TableColumn fx:id="selectColumn" prefWidth="50.0" style="-fx-alignment: CENTER;" text="Chọn" />
                         <TableColumn fx:id="checkInColumn" prefWidth="120.0" style="-fx-alignment: CENTER;" text="Check-in" />
                         <TableColumn fx:id="petNameColumn" prefWidth="120.0" style="-fx-alignment: CENTER-LEFT;" text="Tên thú cưng" />
                         <TableColumn fx:id="serviceColumn" prefWidth="180.0" style="-fx-alignment: CENTER-LEFT;" text="Dịch vụ" />

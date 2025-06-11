@@ -1,5 +1,6 @@
 package org.example.petproject.controller;
 
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -9,10 +10,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,40 +34,68 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 public class StaffBoardingListController implements Initializable, DashboardControllerBase {
 
     @FXML
-    private TableView<PetBoardingInfoJPA> boardingTableView;
+    private TableView<BoardingWrapper> boardingTableView;
     @FXML
-    private TableColumn<PetBoardingInfoJPA, LocalDateTime> checkInColumn;
+    private TableColumn<BoardingWrapper, Boolean> selectColumn;
     @FXML
-    private TableColumn<PetBoardingInfoJPA, LocalDateTime> checkOutColumn;
+    private TableColumn<BoardingWrapper, LocalDateTime> checkInColumn;
     @FXML
-    private TableColumn<PetBoardingInfoJPA, String> petNameColumn;
+    private TableColumn<BoardingWrapper, LocalDateTime> checkOutColumn;
     @FXML
-    private TableColumn<PetBoardingInfoJPA, String> roomNameColumn;
+    private TableColumn<BoardingWrapper, String> petNameColumn;
     @FXML
-    private TableColumn<PetBoardingInfoJPA, String> roomTypeColumn;
+    private TableColumn<BoardingWrapper, String> roomNameColumn;
     @FXML
-    private TableColumn<PetBoardingInfoJPA, String> statusColumn;
+    private TableColumn<BoardingWrapper, String> roomTypeColumn;
     @FXML
-    private TableColumn<PetBoardingInfoJPA, Double> priceColumn;
-
+    private TableColumn<BoardingWrapper, String> statusColumn;
     @FXML
-    private Label userNameLabel;
+    private TableColumn<BoardingWrapper, Double> priceColumn;
+    @FXML
+    private ImageView logoImageView;
     @FXML
     private ImageView userAvatarImageView;
     @FXML
-    private ImageView logoImageView;
+    private Label userNameLabel;
     @FXML
     private Button backButton;
 
     private User currentUser;
     private PetBoardingInfoJPADAO petBoardingInfoJPADAO;
-    private ObservableList<PetBoardingInfoJPA> boardingData;
+    private ObservableList<BoardingWrapper> boardingData;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
+    // Wrapper class to handle selection state
+    public static class BoardingWrapper {
+        private final PetBoardingInfoJPA boarding;
+        private final SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
+
+        public BoardingWrapper(PetBoardingInfoJPA boarding) {
+            this.boarding = boarding;
+        }
+
+        public PetBoardingInfoJPA getBoarding() {
+            return boarding;
+        }
+
+        public boolean isSelected() {
+            return selected.get();
+        }
+
+        public void setSelected(boolean selected) {
+            this.selected.set(selected);
+        }
+
+        public SimpleBooleanProperty selectedProperty() {
+            return selected;
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -77,13 +108,40 @@ public class StaffBoardingListController implements Initializable, DashboardCont
         try {
             logoImageView.setImage(new Image(getClass().getResourceAsStream("/assets/logo.png")));
         } catch (Exception e) {
-            System.err.println("Could not load logo image: " + e.getMessage());
+            System.err.println("Lỗi tải logo : " + e.getMessage());
         }
     }
 
     private void setupTableColumns() {
+        // Setup select column with checkbox
+        selectColumn.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
+        selectColumn.setCellFactory(col -> new TableCell<>() {
+            private final CheckBox checkBox = new CheckBox();
+            {
+                checkBox.setAlignment(Pos.CENTER);
+                checkBox.setOnAction(e -> {
+                    BoardingWrapper wrapper = getTableRow().getItem();
+                    if (wrapper != null) {
+                        wrapper.setSelected(checkBox.isSelected());
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setGraphic(null);
+                } else {
+                    checkBox.setSelected(item);
+                    setGraphic(checkBox);
+                }
+            }
+        });
+        selectColumn.setEditable(true);
+
         // Setup for datetime columns with custom formatting
-        checkInColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCheckInDate()));
+        checkInColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getBoarding().getCheckInDate()));
         checkInColumn.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(LocalDateTime date, boolean empty) {
@@ -96,8 +154,7 @@ public class StaffBoardingListController implements Initializable, DashboardCont
             }
         });
 
-        checkOutColumn
-                .setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getCheckOutDate()));
+        checkOutColumn.setCellValueFactory(cellData -> new SimpleObjectProperty<>(cellData.getValue().getBoarding().getCheckOutDate()));
         checkOutColumn.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(LocalDateTime date, boolean empty) {
@@ -111,51 +168,21 @@ public class StaffBoardingListController implements Initializable, DashboardCont
         });
 
         // Setup for string columns
-        petNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPetName()));
-
-        roomNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getRoomName()));
-
+        petNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBoarding().getPetName()));
+        roomNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBoarding().getRoomName()));
         roomTypeColumn.setCellValueFactory(cellData -> {
-            if (cellData.getValue().getRoomType() != null) {
-                return new SimpleStringProperty(cellData.getValue().getRoomType().name());
+            if (cellData.getValue().getBoarding().getRoomType() != null) {
+                return new SimpleStringProperty(cellData.getValue().getBoarding().getRoomType().name());
             }
             return new SimpleStringProperty("");
         });
 
-        statusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStatus()));
-        statusColumn.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(String status, boolean empty) {
-                super.updateItem(status, empty);
-                if (empty || status == null) {
-                    setText(null);
-                    setStyle("");
-                } else {
-                    setText(status);
-                    // Apply style based on status
-                    switch (status) {
-                        case "in_progress":
-                            setStyle("-fx-background-color: lightgreen;");
-                            break;
-                        case "confirmed":
-                            setStyle("-fx-background-color: lightyellow;");
-                            break;
-                        case "pending":
-                            setStyle("-fx-background-color: lightblue;");
-                            break;
-                        case "cancelled":
-                            setStyle("-fx-background-color: lightpink;");
-                            break;
-                        default:
-                            setStyle("");
-                    }
-                }
-            }
-        });
+        // Setup status column without colors
+        statusColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBoarding().getStatus()));
 
         // Setup for price column with currency formatting
         priceColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(
-                cellData.getValue().getPrice() != null ? cellData.getValue().getPrice() : 0.0).asObject());
+                cellData.getValue().getBoarding().getPrice() != null ? cellData.getValue().getBoarding().getPrice() : 0.0).asObject());
         priceColumn.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(Double price, boolean empty) {
@@ -187,14 +214,15 @@ public class StaffBoardingListController implements Initializable, DashboardCont
 
     public void initData(List<PetBoardingInfoJPA> boardingInfoList) {
         // Create observable list and set it to table
-        boardingData = FXCollections.observableArrayList(boardingInfoList);
+        boardingData = FXCollections.observableArrayList();
+        boardingInfoList.forEach(boarding -> boardingData.add(new BoardingWrapper(boarding)));
         boardingTableView.setItems(boardingData);
 
         // Add selection handler for row details
         boardingTableView.getSelectionModel().selectedItemProperty().addListener(
                 (obs, oldSelection, newSelection) -> {
                     if (newSelection != null) {
-                        System.out.println("Selected boarding info: " + newSelection.getInfoId());
+                        System.out.println("Selected boarding info: " + newSelection.getBoarding().getInfoId());
                         // Can add more detailed view logic here
                     }
                 });
@@ -235,61 +263,70 @@ public class StaffBoardingListController implements Initializable, DashboardCont
 
     @FXML
     public void handleConfirmAction(ActionEvent actionEvent) {
-        PetBoardingInfoJPA selected = boardingTableView.getSelectionModel().getSelectedItem();
-        if (selected == null) {
-            showAlert("Selection Required", "Please select a boarding entry to confirm.");
+        List<BoardingWrapper> selectedItems = boardingData.stream()
+                .filter(BoardingWrapper::isSelected)
+                .collect(Collectors.toList());
+
+        if (selectedItems.isEmpty()) {
+            showAlert("Yêu cầu chọn", "Vui lòng chọn ít nhất một lịch hẹn để xác nhận.");
             return;
         }
 
-        // Only allow confirmation of pending entries
-        if (!"pending".equals(selected.getStatus())) {
-            showAlert("Status Error", "Only pending entries can be confirmed.");
-            return;
+        for (BoardingWrapper wrapper : selectedItems) {
+            PetBoardingInfoJPA boarding = wrapper.getBoarding();
+            if ("pending".equals(boarding.getStatus())) {
+                boarding.setStatus("in_progress");
+                petBoardingInfoJPADAO.update(boarding);
+            }
         }
-
-        // Update status in database
-        selected.setStatus("in_progress");
-        petBoardingInfoJPADAO.update(selected);
 
         // Refresh table data
         refreshTableData();
+        showAlert("Thành công", "Đã xác nhận các lịch hẹn đã chọn!");
     }
 
     @FXML
     public void handleRejectAction(ActionEvent actionEvent) {
-        PetBoardingInfoJPA selected = boardingTableView.getSelectionModel().getSelectedItem();
-        if (selected == null) {
-            showAlert("Selection Required", "Please select a boarding entry to reject.");
+        List<BoardingWrapper> selectedItems = boardingData.stream()
+                .filter(BoardingWrapper::isSelected)
+                .collect(Collectors.toList());
+
+        if (selectedItems.isEmpty()) {
+            showAlert("Yêu cầu chọn", "Vui lòng chọn ít nhất một lịch hẹn để từ chối.");
             return;
         }
 
         // Confirm rejection
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Confirm Rejection");
+        alert.setTitle("Xác nhận từ chối");
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to cancel this boarding?");
+        alert.setContentText("Bạn có chắc chắn muốn hủy các lịch hẹn này?");
 
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-                // Update status in database
-                selected.setStatus("cancelled");
-                petBoardingInfoJPADAO.update(selected);
-
+                for (BoardingWrapper wrapper : selectedItems) {
+                    PetBoardingInfoJPA boarding = wrapper.getBoarding();
+                    boarding.setStatus("cancelled");
+                    petBoardingInfoJPADAO.update(boarding);
+                }
                 // Refresh table data
                 refreshTableData();
+                showAlert("Thành công", "Đã hủy các lịch hẹn đã chọn!");
             }
         });
     }
 
     void refreshTableData() {
         // Get current filters from parent controller or re-fetch data
-        boardingData.setAll(petBoardingInfoJPADAO.findAll());
+        List<PetBoardingInfoJPA> allBoardings = petBoardingInfoJPADAO.findAll();
+        boardingData.clear();
+        allBoardings.forEach(boarding -> boardingData.add(new BoardingWrapper(boarding)));
     }
 
     private void showAssignRoomDialog(PetBoardingInfoJPA boarding) {
         // Room assignment dialog implementation would go here
         // This is simplified for the example
-        showAlert("Room Assignment", "Room assignment functionality will be implemented here.");
+        showAlert("Phân phòng", "Chức năng phân phòng sẽ được triển khai tại đây.");
     }
 
     private void showAlert(String title, String content) {
@@ -332,7 +369,7 @@ public class StaffBoardingListController implements Initializable, DashboardCont
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Could not load the staff dashboard view: " + e.getMessage());
+            showAlert("Lỗi", "Không thể tải giao diện bảng điều khiển: " + e.getMessage());
         }
     }
 }

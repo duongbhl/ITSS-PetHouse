@@ -44,7 +44,7 @@
                     </VBox.margin>
                     <children>
                         <!-- "Trạng thái" is prompt text -->
-                        <ComboBox fx:id="statusComboBox" prefHeight="36.0" prefWidth="250.0" promptText="Trạng thái" />
+                        <ComboBox fx:id="statusComboBox" prefHeight="36.0" prefWidth="250.0" promptText="Tất cả" />
                         <!-- Left Side: Status ComboBox -->
                         <VBox alignment="TOP_LEFT" spacing="5.0" />
 

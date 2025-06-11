@@ -62,12 +62,12 @@ public class StaffBoardingManagementController implements Initializable, Dashboa
         }
 
         // Populate status dropdown
-        statusComboBox.getItems().addAll("", "pending", "confirmed", "in_progress", "completed", "cancelled");
-        statusComboBox.setValue(""); // Empty value means "All statuses"
+        statusComboBox.getItems().addAll("Tất cả", "pending", "confirmed", "in_progress", "completed", "cancelled");
+        statusComboBox.setValue("Tất cả"); // Set default value to "Tất cả"
 
-        // Set default date range to last week through next week
-        fromDateDatePicker.setValue(LocalDate.now().minusWeeks(1));
-        toDateDatePicker.setValue(LocalDate.now().plusWeeks(1));
+        // Remove default date values
+        fromDateDatePicker.setValue(null);
+        toDateDatePicker.setValue(null);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class StaffBoardingManagementController implements Initializable, Dashboa
         LocalDate fromDate = fromDateDatePicker.getValue();
         LocalDate toDate = toDateDatePicker.getValue();
 
-        // Validate date range
+        // Validate date range if both dates are selected
         if (fromDate != null && toDate != null && fromDate.isAfter(toDate)) {
             showAlert(Alert.AlertType.ERROR, "Date Error",
                     "The starting date must be before the ending date.");
@@ -105,8 +105,8 @@ public class StaffBoardingManagementController implements Initializable, Dashboa
             // Get filtered pet boarding info from database
             List<PetBoardingInfoJPA> filteredInfoList;
 
-            // Check if status is empty (means all statuses)
-            if (status == null || status.isEmpty()) {
+            // Check if status is "Tất cả" or empty
+            if (status == null || status.isEmpty() || status.equals("Tất cả")) {
                 // Filter by dates only
                 filteredInfoList = petBoardingInfoJPADAO.findByFilters(null, fromDate, toDate);
             } else {

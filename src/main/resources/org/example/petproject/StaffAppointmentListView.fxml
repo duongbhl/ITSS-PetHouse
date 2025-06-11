@@ -52,6 +52,7 @@
                         <TableColumn fx:id="ownerNameColumn" prefWidth="150.0" style="-fx-alignment: CENTER-LEFT;" text="Chủ nuôi" />
                         <TableColumn fx:id="phoneNumberColumn" prefWidth="120.0" style="-fx-alignment: CENTER-LEFT;" text="Điện thoại" />
                         <TableColumn fx:id="appointmentTypeColumn" prefWidth="150.0" style="-fx-alignment: CENTER-LEFT;" text="Loại hẹn" />
+                        <TableColumn fx:id="statusColumn" prefWidth="100.0" style="-fx-alignment: CENTER;" text="Trạng thái" />
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
