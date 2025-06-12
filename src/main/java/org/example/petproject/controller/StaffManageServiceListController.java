@@ -2,6 +2,7 @@ package org.example.petproject.controller;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -24,6 +25,7 @@ import org.example.petproject.controller.Dashboard.StaffDashboardController;
 import org.example.petproject.dao.ServiceBookingDAO;
 import org.example.petproject.model.ServiceBooking;
 import org.example.petproject.model.User;
+import org.example.petproject.controller.StaffServiceListEditDialogController;
 
 import java.io.IOException;
 
@@ -88,7 +90,10 @@ public class StaffManageServiceListController implements Initializable, Dashboar
         selectColumn.setCellFactory(CheckBoxTableCell.forTableColumn(selectColumn));
 
         // Check-in date column
-        checkInColumn.setCellValueFactory(cellData -> cellData.getValue().checkInProperty());
+        checkInColumn.setCellValueFactory(cellData -> {
+            LocalDate date = cellData.getValue().getCheckInDate();
+            return new SimpleStringProperty(date != null ? date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "");
+        });
 
         // Pet name column
         petNameColumn.setCellValueFactory(cellData -> cellData.getValue().petNameProperty());
@@ -104,14 +109,30 @@ public class StaffManageServiceListController implements Initializable, Dashboar
 
         // Action column with buttons
         actionColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button btn = new Button("Xem");
+            private final Button btn = new Button("Chỉnh sửa");
 
             {
-                btn.setStyle("-fx-background-color: #007bff; -fx-text-fill: white;");
+                btn.setStyle("-fx-background-color: #28a745; -fx-text-fill: white;");
                 btn.setOnAction(event -> {
-                    ServiceBookingWrapper booking = getTableView().getItems().get(getIndex());
-                    // View details action
-                    showBookingDetails(booking.getBooking());
+                    ServiceBookingWrapper wrapper = getTableView().getItems().get(getIndex());
+                    ServiceBooking booking = wrapper.getBooking();
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffServiceListEditDiag.fxml"));
+                        DialogPane dialogPane = loader.load();
+                        StaffServiceListEditDialogController controller = loader.getController();
+                        controller.setBooking(booking);
+                        controller.setOnSaveCallback(() -> {
+                            // Cập nhật lại bảng sau khi lưu
+                            serviceTableView.refresh();
+                        });
+                        Dialog<ButtonType> dialog = new Dialog<>();
+                        dialog.setDialogPane(dialogPane);
+                        dialog.setTitle("Chỉnh sửa dịch vụ");
+                        dialog.showAndWait();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        showAlert("Lỗi", "Không thể mở hộp thoại chỉnh sửa: " + e.getMessage());
+                    }
                 });
             }
 
@@ -367,6 +388,10 @@ public class StaffManageServiceListController implements Initializable, Dashboar
 
         public javafx.beans.property.StringProperty statusProperty() {
             return new javafx.beans.property.SimpleStringProperty(getStatus());
+        }
+
+        public LocalDate getCheckInDate() {
+            return booking.getCheckInTime();
         }
     }
 }
