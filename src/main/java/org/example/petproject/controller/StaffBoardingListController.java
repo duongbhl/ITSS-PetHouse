@@ -358,27 +358,47 @@ public class StaffBoardingListController implements Initializable, DashboardCont
             // Update PetBoardingInfoJPA records based on PetBoarding
             for (PetBoarding pb : petBoardings) {
                 boolean exists = false;
+                PetBoardingInfoJPA existingInfo = null;
+                
+                // Check if PetBoardingInfoJPA record exists
                 for (PetBoardingInfoJPA info : allBoardings) {
                     if (info.getPetBoarding() != null && 
                         info.getPetBoarding().getBoardingId().equals(pb.getBoardingId())) {
                         exists = true;
+                        existingInfo = info;
                         break;
                     }
                 }
                 
-                // If PetBoarding exists but not in PetBoardingInfoJPA, create new record
-                if (!exists) {
+                if (exists) {
+                    // Update existing record with latest dates from ServiceBooking
+                    if (pb.getBooking() != null) {
+                        existingInfo.setCheckInDate(pb.getBooking().getCheckInTime().atStartOfDay());
+                        existingInfo.setCheckOutDate(pb.getBooking().getCheckOutTime().atStartOfDay());
+                        existingInfo.setNote(pb.getBooking().getNote());
+                        petBoardingInfoJPADAO.update(existingInfo);
+                    }
+                } else {
+                    // Create new PetBoardingInfoJPA record
                     PetBoardingInfoJPA newInfo = new PetBoardingInfoJPA();
                     newInfo.setPetBoarding(pb);
                     newInfo.setStatus("pending");
-                    if (pb.getBooking() != null && pb.getBooking().getPet() != null) {
-                        newInfo.setPet(pb.getBooking().getPet());
+                    
+                    // Set dates and note from ServiceBooking
+                    if (pb.getBooking() != null) {
+                        newInfo.setCheckInDate(pb.getBooking().getCheckInTime().atStartOfDay());
+                        newInfo.setCheckOutDate(pb.getBooking().getCheckOutTime().atStartOfDay());
+                        newInfo.setNote(pb.getBooking().getNote());
+                        if (pb.getBooking().getPet() != null) {
+                            newInfo.setPet(pb.getBooking().getPet());
+                        }
                     }
+                    
+                    // Set price from room
                     if (pb.getRoom() != null) {
-                        // Calculate price based on room type and dates
-                        // You might want to adjust this logic based on your business rules
                         newInfo.setPrice(pb.getRoom().getPricePerDay().doubleValue());
                     }
+                    
                     petBoardingInfoJPADAO.save(newInfo);
                 }
             }
