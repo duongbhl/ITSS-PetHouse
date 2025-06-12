@@ -25,7 +25,9 @@ import javafx.stage.Stage;
 import org.example.petproject.controller.Dashboard.DashboardControllerBase;
 import org.example.petproject.controller.Dashboard.StaffDashboardController;
 import org.example.petproject.dao.PetBoardingInfoJPADAO;
+import org.example.petproject.dao.PetBoardingDAO;
 import org.example.petproject.model.PetBoardingInfoJPA;
+import org.example.petproject.model.PetBoarding;
 import org.example.petproject.model.User;
 
 import java.io.IOException;
@@ -251,6 +253,9 @@ public class StaffBoardingListController implements Initializable, DashboardCont
                         // Can add more detailed view logic here
                     }
                 });
+                
+        // Refresh data to ensure latest records are shown
+        refreshTableData();
     }
 
     @FXML
@@ -342,10 +347,61 @@ public class StaffBoardingListController implements Initializable, DashboardCont
     }
 
     void refreshTableData() {
-        // Get current filters from parent controller or re-fetch data
-        List<PetBoardingInfoJPA> allBoardings = petBoardingInfoJPADAO.findAll();
-        boardingData.clear();
-        allBoardings.forEach(boarding -> boardingData.add(new BoardingWrapper(boarding)));
+        try {
+            // Get all current boarding records from database
+            List<PetBoardingInfoJPA> allBoardings = petBoardingInfoJPADAO.findAll();
+            
+            // Get all PetBoarding records
+            PetBoardingDAO petBoardingDAO = new PetBoardingDAO();
+            List<PetBoarding> petBoardings = petBoardingDAO.findAll();
+            
+            // Update PetBoardingInfoJPA records based on PetBoarding
+            for (PetBoarding pb : petBoardings) {
+                boolean exists = false;
+                for (PetBoardingInfoJPA info : allBoardings) {
+                    if (info.getPetBoarding() != null && 
+                        info.getPetBoarding().getBoardingId().equals(pb.getBoardingId())) {
+                        exists = true;
+                        break;
+                    }
+                }
+                
+                // If PetBoarding exists but not in PetBoardingInfoJPA, create new record
+                if (!exists) {
+                    PetBoardingInfoJPA newInfo = new PetBoardingInfoJPA();
+                    newInfo.setPetBoarding(pb);
+                    newInfo.setStatus("pending");
+                    if (pb.getBooking() != null && pb.getBooking().getPet() != null) {
+                        newInfo.setPet(pb.getBooking().getPet());
+                    }
+                    if (pb.getRoom() != null) {
+                        // Calculate price based on room type and dates
+                        // You might want to adjust this logic based on your business rules
+                        newInfo.setPrice(pb.getRoom().getPricePerDay().doubleValue());
+                    }
+                    petBoardingInfoJPADAO.save(newInfo);
+                }
+            }
+            
+            // Get updated list after syncing
+            allBoardings = petBoardingInfoJPADAO.findAll();
+            
+            // Clear existing data
+            boardingData.clear();
+            
+            // Add all current records to the table
+            allBoardings.forEach(boarding -> boardingData.add(new BoardingWrapper(boarding)));
+            
+            // Force table refresh
+            boardingTableView.refresh();
+            
+            // Log for debugging
+            System.out.println("Refreshed table with " + allBoardings.size() + " records");
+        } catch (Exception e) {
+            System.err.println("Error refreshing table data: " + e.getMessage());
+            e.printStackTrace();
+            showAlert("Lỗi", "Không thể cập nhật dữ liệu: " + e.getMessage());
+        }
     }
 
     private void showAssignRoomDialog(PetBoardingInfoJPA boarding) {

@@ -286,7 +286,7 @@ public class StaffDashboardController implements Initializable, DashboardControl
                     stage.setHeight(600);
                     stage.centerOnScreen();
 
-                    stage.setTitle("Login");
+                    stage.setTitle("Pet House");
                 } catch (IOException e) {
                     e.printStackTrace();
                     showError("Không thể tải màn hình đăng nhập: " + e.getMessage());
