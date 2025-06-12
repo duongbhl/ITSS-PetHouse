@@ -17,15 +17,19 @@ module org.example.petproject {
     opens org.example.petproject to javafx.graphics, javafx.fxml;
     opens org.example.petproject.controller to javafx.fxml;
     opens org.example.petproject.controller.Dashboard to javafx.fxml;
+    opens org.example.petproject.service to javafx.fxml, org.hibernate.orm.core;
+    opens org.example.petproject.util to javafx.fxml, org.hibernate.orm.core;
 
     // Cho phép Hibernate truy cập entity
     opens org.example.petproject.model to org.hibernate.orm.core;
     opens org.example.petproject.dao to org.hibernate.orm.core;
 
-    // Nếu bạn muốn dùng entity ở bên ngoài (ví dụ tests), thì export
+    // Export các package cần thiết
     exports org.example.petproject.model;
     exports org.example.petproject.controller;
     exports org.example.petproject.controller.Dashboard;
+    exports org.example.petproject.service;
+    exports org.example.petproject.dao;
+    exports org.example.petproject.util;
     exports org.example.petproject;
-
 }

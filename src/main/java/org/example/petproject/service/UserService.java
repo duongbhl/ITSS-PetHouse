@@ -3,6 +3,7 @@ package org.example.petproject.service;
 import org.example.petproject.dao.HibernateUtil;
 import org.example.petproject.dao.AppointmentDAO;
 import org.example.petproject.dao.PetBoardingDAO;
+import org.example.petproject.dao.PetBoardingInfoJPADAO;
 import org.example.petproject.dao.PetDAO;
 import org.example.petproject.dao.ServiceBookingDAO;
 import org.example.petproject.dao.ServiceDAO;
@@ -27,6 +28,7 @@ public class UserService {
     private final AppointmentDAO appointmentDAO = new AppointmentDAO();
     private final ServiceBookingDAO serviceBookingDAO = new ServiceBookingDAO();
     private final PetBoardingDAO petBoardingDAO = new PetBoardingDAO();
+    private final PetBoardingInfoJPADAO petBoardingInfoJPADAO = new PetBoardingInfoJPADAO();
 
     public UserService() {
     }
@@ -167,6 +169,13 @@ public class UserService {
         serviceBookingDAO.save(serviceBooking);
         PetBoarding petBoarding = new PetBoarding(serviceBooking, roomName);
         petBoardingDAO.save(petBoarding);
+        
+        // Create PetBoardingInfoJPA immediately
+        try {
+            petBoardingInfoJPADAO.createOrUpdateFromPetBoarding(petBoarding);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

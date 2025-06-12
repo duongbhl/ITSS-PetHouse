@@ -95,17 +95,84 @@ public class PetBoardingInfoJPADAO extends BaseDAO<PetBoardingInfoJPA, String> {
     }
 
     /**
-     * Create or update a PetBoardingInfoJPA from a PetBoarding entity
+     * Synchronize status between PetBoardingInfoJPA and ServiceBooking
      */
+    private void syncStatusWithServiceBooking(String status, ServiceBooking booking) {
+        if (status == null || booking == null) return;
+
+        try (Session session = getSession()) {
+            Transaction tx = session.beginTransaction();
+            try {
+                // Convert status string to enum
+                ServiceBooking.Status bookingStatus = ServiceBooking.Status.valueOf(status.toUpperCase());
+                
+                // Update ServiceBooking status
+                booking.setStatus(bookingStatus);
+                
+                // Save changes
+                session.merge(booking);
+                session.flush();
+                
+                tx.commit();
+            } catch (Exception e) {
+                if (tx != null) tx.rollback();
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public PetBoardingInfoJPA update(PetBoardingInfoJPA entity) {
+        Session session = null;
+        Transaction tx = null;
+        try {
+            session = getSession();
+            tx = session.beginTransaction();
+
+            // Get the original entity to check status change
+            PetBoardingInfoJPA originalEntity = session.get(PetBoardingInfoJPA.class, entity.getInfoId());
+            String originalStatus = originalEntity != null ? originalEntity.getStatus() : null;
+            String newStatus = entity.getStatus();
+
+            // Update PetBoardingInfoJPA
+            PetBoardingInfoJPA updatedEntity = (PetBoardingInfoJPA) session.merge(entity);
+            session.flush();
+
+            // If status has changed, update ServiceBooking
+            if (newStatus != null && !newStatus.equals(originalStatus)) {
+                PetBoarding petBoarding = updatedEntity.getPetBoarding();
+                if (petBoarding != null) {
+                    ServiceBooking booking = petBoarding.getBooking();
+                    if (booking != null) {
+                        // Sync status with ServiceBooking
+                        syncStatusWithServiceBooking(newStatus, booking);
+                    }
+                }
+            }
+
+            tx.commit();
+            return updatedEntity;
+        } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+            throw new RuntimeException("Error updating pet boarding info", e);
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+    }
+
     public PetBoardingInfoJPA createOrUpdateFromPetBoarding(PetBoarding petBoarding) {
         if (petBoarding == null || petBoarding.getBooking() == null) {
             throw new IllegalArgumentException("PetBoarding or ServiceBooking cannot be null");
         }
 
-        ServiceBooking booking = petBoarding.getBooking();
-
-        try (Session session = getSession()) {
-            Transaction tx = session.beginTransaction();
+        Session session = null;
+        Transaction tx = null;
+        try {
+            session = getSession();
+            tx = session.beginTransaction();
 
             // Check if entry already exists
             Query<PetBoardingInfoJPA> query = session.createQuery(
@@ -119,30 +186,21 @@ public class PetBoardingInfoJPADAO extends BaseDAO<PetBoardingInfoJPA, String> {
             if (boardingInfo == null) {
                 boardingInfo = new PetBoardingInfoJPA();
                 boardingInfo.setPetBoarding(petBoarding);
-                boardingInfo.setPet(booking.getPet());
+                boardingInfo.setPet(petBoarding.getBooking().getPet());
                 isNew = true;
             }
 
-            // Handle check-in time conversion safely
+            // Update basic information
+            ServiceBooking booking = petBoarding.getBooking();
             if (booking.getCheckInTime() != null) {
-                if (booking.getCheckInTime() instanceof LocalDate) {
-                    boardingInfo.setCheckInDate(((LocalDate) booking.getCheckInTime()).atStartOfDay());
-                } else if (booking.getCheckInTime() instanceof LocalDate) {
-                    boardingInfo.setCheckInDate(((LocalDate) booking.getCheckInTime()).atStartOfDay());
-                }
+                boardingInfo.setCheckInDate(((LocalDate) booking.getCheckInTime()).atStartOfDay());
             }
-
-            // Handle check-out time conversion safely
             if (booking.getCheckOutTime() != null) {
-                if (booking.getCheckOutTime() instanceof LocalDate) {
-                    boardingInfo.setCheckOutDate(((LocalDate) booking.getCheckOutTime()).atStartOfDay());
-                } else if (booking.getCheckOutTime() instanceof LocalDate) {
-                    boardingInfo.setCheckOutDate(((LocalDate) booking.getCheckOutTime()).atStartOfDay());
-                }
+                boardingInfo.setCheckOutDate(((LocalDate) booking.getCheckOutTime()).atStartOfDay());
             }
 
-            // Handle status
-            if (booking.getStatus() != null) {
+            // Set status from ServiceBooking for new entries
+            if (isNew && booking.getStatus() != null) {
                 boardingInfo.setStatus(booking.getStatus().toString().toLowerCase());
             }
 
@@ -170,12 +228,23 @@ public class PetBoardingInfoJPADAO extends BaseDAO<PetBoardingInfoJPA, String> {
             } else {
                 session.merge(boardingInfo);
             }
+            session.flush();
+
+            // Ensure ServiceBooking status matches
+            if (boardingInfo.getStatus() != null) {
+                syncStatusWithServiceBooking(boardingInfo.getStatus(), booking);
+            }
 
             tx.commit();
             return boardingInfo;
         } catch (HibernateException e) {
+            if (tx != null) tx.rollback();
             e.printStackTrace();
             throw new RuntimeException("Error creating/updating pet boarding info", e);
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
         }
     }
 

@@ -26,9 +26,12 @@ import org.example.petproject.controller.Dashboard.DashboardControllerBase;
 import org.example.petproject.controller.Dashboard.StaffDashboardController;
 import org.example.petproject.dao.PetBoardingInfoJPADAO;
 import org.example.petproject.dao.PetBoardingDAO;
+import org.example.petproject.dao.ServiceBookingDAO;
+import org.example.petproject.dao.RoomDAO;
 import org.example.petproject.model.PetBoardingInfoJPA;
 import org.example.petproject.model.PetBoarding;
 import org.example.petproject.model.User;
+import org.example.petproject.model.ServiceBooking;
 
 import java.io.IOException;
 import java.net.URL;
@@ -434,19 +437,36 @@ public class StaffBoardingListController implements Initializable, DashboardCont
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffEditBoardingListDialog.fxml"));
             DialogPane dialogPane = loader.load();
-            
             StaffEditBoardingListDialogController controller = loader.getController();
             controller.setBooking(booking);
-            controller.setOnSaveCallback(this::refreshTableData);
-            
+            controller.setOnSaveCallback(() -> {
+                // Update ServiceBooking
+                ServiceBooking serviceBooking = booking.getPetBoarding().getBooking();
+                serviceBooking.setCheckInTime(booking.getCheckInDate().toLocalDate());
+                serviceBooking.setCheckOutTime(booking.getCheckOutDate().toLocalDate());
+                serviceBooking.setNote(booking.getNote());
+                serviceBooking.setStatus(ServiceBooking.Status.valueOf(booking.getStatus().toUpperCase()));
+                new ServiceBookingDAO().update(serviceBooking);
+
+                // Update PetBoarding
+                PetBoarding petBoarding = booking.getPetBoarding();
+                petBoarding.setRoom(new RoomDAO().findByName(booking.getRoomName()));
+                new PetBoardingDAO().update(petBoarding);
+
+                // Update PetBoardingInfoJPA
+                new PetBoardingInfoJPADAO().update(booking);
+
+                // Refresh table data
+                refreshTableData();
+            });
+
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(dialogPane);
             dialog.setTitle("Chỉnh sửa thông tin lưu trú");
-            
             dialog.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Lỗi", "Không thể mở dialog chỉnh sửa: " + e.getMessage());
+            showAlert("Lỗi", "Không thể mở hộp thoại chỉnh sửa: " + e.getMessage());
         }
     }
 

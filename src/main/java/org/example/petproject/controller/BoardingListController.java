@@ -120,11 +120,16 @@ public class BoardingListController {
         List<ServiceBooking> list = serviceBookingDAO.getBookingsByOwnerId(this.ownerID,
                 ServiceBooking.Status.in_progress, "S002");
         for (ServiceBooking serviceBooking : list) {
+            String handlerName = serviceBooking.getHandledBy() != null ? 
+                serviceBooking.getHandledBy().getFullName() : "Chưa có người phụ trách";
+            String handlerPhone = serviceBooking.getHandledBy() != null ? 
+                serviceBooking.getHandledBy().getPhone() : "N/A";
+                
             boardedPetsData.add(new PetBoardingInfo(
                     serviceBooking.getBookingId(),
                     serviceBooking.getPet().getName(),
-                    serviceBooking.getHandledBy().getFullName(),
-                    serviceBooking.getHandledBy().getPhone(),
+                    handlerName,
+                    handlerPhone,
                     petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId()).getRoom().getName(),
                     petBoardingDAO.findPetBoardingByServiceId(serviceBooking.getBookingId()).getRoom().getType()
                             .toString(),

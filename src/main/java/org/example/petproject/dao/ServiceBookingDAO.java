@@ -1,6 +1,9 @@
 package org.example.petproject.dao;
 
 import org.example.petproject.model.ServiceBooking;
+import org.example.petproject.model.PetBoarding;
+import org.example.petproject.model.PetBoardingInfoJPA;
+import org.example.petproject.model.Service;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -74,5 +77,23 @@ public class ServiceBookingDAO extends BaseDAO<ServiceBooking, Long> {
             e.printStackTrace();
             return Collections.emptyList();
         }
+    }
+
+    @Override
+    public ServiceBooking save(ServiceBooking entity) {
+        super.save(entity);
+        
+        // Create PetBoardingInfoJPA if this is a boarding service
+        if (entity.getService().getType().equals("BOARDING")) {
+            PetBoarding petBoarding = new PetBoardingDAO().findPetBoardingByServiceId(entity.getBookingId());
+            if (petBoarding != null) {
+                try {
+                    new PetBoardingInfoJPADAO().createOrUpdateFromPetBoarding(petBoarding);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return entity;
     }
 }

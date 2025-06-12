@@ -8,6 +8,10 @@ import org.example.petproject.model.PetBoardingInfoJPA;
 import org.example.petproject.model.Room;
 import org.example.petproject.dao.PetBoardingInfoJPADAO;
 import org.example.petproject.dao.RoomDAO;
+import org.example.petproject.model.ServiceBooking;
+import org.example.petproject.dao.ServiceBookingDAO;
+import org.example.petproject.model.PetBoarding;
+import org.example.petproject.dao.PetBoardingDAO;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -160,31 +164,57 @@ public class StaffEditBoardingListDialogController {
             return;
         }
 
-        // Update booking information
-        booking.setCheckInDate(checkIn.atStartOfDay());
-        booking.setCheckOutDate(checkOut.atStartOfDay());
-        if (booking.getPet() != null) {
-            booking.getPet().setName(petName);
+        try {
+            // Update ServiceBooking first
+            ServiceBooking serviceBooking = null;
+            if (booking.getPetBoarding() != null && booking.getPetBoarding().getBooking() != null) {
+                serviceBooking = booking.getPetBoarding().getBooking();
+                serviceBooking.setCheckInTime(checkIn);
+                serviceBooking.setCheckOutTime(checkOut);
+                serviceBooking.setNote("Phòng: " + room.getName() + ", Loại phòng: " + room.getType());
+                serviceBooking = new ServiceBookingDAO().update(serviceBooking);
+            }
+
+            // Update PetBoarding
+            PetBoarding petBoarding = null;
+            if (booking.getPetBoarding() != null) {
+                petBoarding = booking.getPetBoarding();
+                petBoarding.setRoom(room);
+                if (serviceBooking != null) {
+                    petBoarding.setBooking(serviceBooking);
+                }
+                petBoarding = new PetBoardingDAO().update(petBoarding);
+            }
+
+            // Update PetBoardingInfoJPA
+            booking.setCheckInDate(checkIn.atStartOfDay());
+            booking.setCheckOutDate(checkOut.atStartOfDay());
+            if (booking.getPet() != null) {
+                booking.getPet().setName(petName);
+            }
+            if (petBoarding != null) {
+                booking.setPetBoarding(petBoarding);
+            }
+            
+            // Calculate and update price
+            long days = ChronoUnit.DAYS.between(checkIn, checkOut);
+            if (days > 0 && room.getPricePerDay() != null) {
+                BigDecimal totalPrice = room.getPricePerDay().multiply(BigDecimal.valueOf(days));
+                booking.setPrice(totalPrice.doubleValue());
+            }
+            
+            // Update database
+            booking = boardingDAO.update(booking);
+            
+            if (onSaveCallback != null) {
+                onSaveCallback.run();
+            }
+            
+            closeDialog();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Không thể cập nhật thông tin: " + e.getMessage());
         }
-        if (booking.getPetBoarding() != null) {
-            booking.getPetBoarding().setRoom(room);
-        }
-        
-        // Calculate and update price
-        long days = ChronoUnit.DAYS.between(checkIn, checkOut);
-        if (days > 0 && room.getPricePerDay() != null) {
-            BigDecimal totalPrice = room.getPricePerDay().multiply(BigDecimal.valueOf(days));
-            booking.setPrice(totalPrice.doubleValue());
-        }
-        
-        // Update database
-        boardingDAO.update(booking);
-        
-        if (onSaveCallback != null) {
-            onSaveCallback.run();
-        }
-        
-        closeDialog();
     }
 
     @FXML

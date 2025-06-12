@@ -26,6 +26,10 @@ import org.example.petproject.dao.ServiceBookingDAO;
 import org.example.petproject.model.ServiceBooking;
 import org.example.petproject.model.User;
 import org.example.petproject.controller.StaffServiceListEditDialogController;
+import org.example.petproject.dao.PetBoardingDAO;
+import org.example.petproject.model.PetBoarding;
+import org.example.petproject.dao.PetBoardingInfoJPADAO;
+import org.example.petproject.model.PetBoardingInfoJPA;
 
 import java.io.IOException;
 
@@ -117,12 +121,26 @@ public class StaffManageServiceListController implements Initializable, Dashboar
                     ServiceBookingWrapper wrapper = getTableView().getItems().get(getIndex());
                     ServiceBooking booking = wrapper.getBooking();
                     try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffServiceListEditDiag.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffServiceListEditDialog.fxml"));
                         DialogPane dialogPane = loader.load();
                         StaffServiceListEditDialogController controller = loader.getController();
                         controller.setBooking(booking);
                         controller.setOnSaveCallback(() -> {
-                            // Cập nhật lại bảng sau khi lưu
+                            // Update ServiceBooking
+                            serviceBookingDAO.update(booking);
+
+                            // If this is a boarding service, update related tables
+                            if (booking.getService().getType().equals("BOARDING")) {
+                                PetBoarding petBoarding = new PetBoardingDAO().findPetBoardingByServiceId(booking.getBookingId());
+                                if (petBoarding != null) {
+                                    // Update PetBoardingInfoJPA
+                                    PetBoardingInfoJPA boardingInfo = new PetBoardingInfoJPADAO()
+                                            .createOrUpdateFromPetBoarding(petBoarding);
+                                    new PetBoardingInfoJPADAO().update(boardingInfo);
+                                }
+                            }
+
+                            // Refresh table
                             serviceTableView.refresh();
                         });
                         Dialog<ButtonType> dialog = new Dialog<>();
