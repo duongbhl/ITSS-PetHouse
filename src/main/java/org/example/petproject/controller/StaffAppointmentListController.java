@@ -12,6 +12,7 @@ import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -64,6 +65,9 @@ public class StaffAppointmentListController implements Initializable, DashboardC
 
     @FXML
     private Label userNameLabel;
+
+    @FXML
+    private Button editButton;
 
     private User currentUser;
 
@@ -238,6 +242,64 @@ public class StaffAppointmentListController implements Initializable, DashboardC
             showAlert("Lỗi", "Không thể từ chối lịch hẹn: " + e.getMessage());
         } finally {
             appointmentDAO.close();
+        }
+    }
+
+    @FXML
+    private void handleEditButtonAction(ActionEvent event) {
+        Appointment selectedAppointment = appointmentTableView.getSelectionModel().getSelectedItem();
+        if (selectedAppointment == null) {
+            showAlert("Cảnh báo", "Vui lòng chọn một lịch hẹn để chỉnh sửa!");
+            return;
+        }
+
+        try {
+            System.out.println("Opening edit dialog for appointment: " + selectedAppointment.getAppointmentId());
+            
+            // Load the edit dialog FXML
+            FXMLLoader loader = new FXMLLoader();
+            URL fxmlUrl = getClass().getResource("/org/example/petproject/StaffEditAppointmentDiag.fxml");
+            if (fxmlUrl == null) {
+                throw new IOException("Cannot find StaffEditAppointmentDiag.fxml");
+            }
+            loader.setLocation(fxmlUrl);
+            Parent page = loader.load();
+
+            // Create the dialog
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Chỉnh sửa lịch hẹn");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(((Node) event.getSource()).getScene().getWindow());
+
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Set the appointment into the controller
+            StaffAppointmentEditDialogController controller = loader.getController();
+            if (controller == null) {
+                throw new IOException("Cannot load StaffAppointmentEditDialogController");
+            }
+            controller.setAppointment(selectedAppointment);
+
+            // Show the dialog and wait until the user closes it
+            dialogStage.showAndWait();
+
+            // If the user clicked Save, refresh the table
+            if (controller.isSaveClicked()) {
+                System.out.println("Appointment was saved, refreshing table...");
+                // Refresh the table data
+                AppointmentDAO appointmentDAO = new AppointmentDAO();
+                try {
+                    List<Appointment> appointments = appointmentDAO.findAll();
+                    appointmentTableView.getItems().clear();
+                    appointmentTableView.getItems().addAll(appointments);
+                } finally {
+                    appointmentDAO.close();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Không thể mở hộp thoại chỉnh sửa: " + e.getMessage());
         }
     }
 

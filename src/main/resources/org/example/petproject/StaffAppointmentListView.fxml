@@ -64,6 +64,7 @@
                         <Insets top="20.0" />
                     </padding>
                     <children>
+                        <Button fx:id="editButton" mnemonicParsing="false" onAction="#handleEditButtonAction" styleClass="primary-button" text="Chỉnh sửa" />
                         <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#handleConfirmButtonAction" styleClass="primary-button" text="Xác nhận" />
                         <Button fx:id="rejectButton" mnemonicParsing="false" onAction="#handleRejectButtonAction" styleClass="secondary-button" text="Từ chối" />
                     </children>
