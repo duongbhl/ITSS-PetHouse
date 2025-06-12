@@ -58,6 +58,8 @@ public class StaffBoardingListController implements Initializable, DashboardCont
     @FXML
     private TableColumn<BoardingWrapper, Double> priceColumn;
     @FXML
+    private TableColumn<BoardingWrapper, Void> editColumn;
+    @FXML
     private ImageView logoImageView;
     @FXML
     private ImageView userAvatarImageView;
@@ -194,6 +196,29 @@ public class StaffBoardingListController implements Initializable, DashboardCont
                 }
             }
         });
+
+        // Add edit column
+        editColumn.setCellFactory(col -> new TableCell<>() {
+            private final Button editButton = new Button("Chỉnh sửa");
+            {
+                editButton.setOnAction(e -> {
+                    BoardingWrapper wrapper = getTableRow().getItem();
+                    if (wrapper != null) {
+                        showEditDialog(wrapper.getBoarding());
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(editButton);
+                }
+            }
+        });
     }
 
     @Override
@@ -327,6 +352,26 @@ public class StaffBoardingListController implements Initializable, DashboardCont
         // Room assignment dialog implementation would go here
         // This is simplified for the example
         showAlert("Phân phòng", "Chức năng phân phòng sẽ được triển khai tại đây.");
+    }
+
+    private void showEditDialog(PetBoardingInfoJPA booking) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/petproject/StaffEditBoardingListDialog.fxml"));
+            DialogPane dialogPane = loader.load();
+            
+            StaffEditBoardingListDialogController controller = loader.getController();
+            controller.setBooking(booking);
+            controller.setOnSaveCallback(this::refreshTableData);
+            
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(dialogPane);
+            dialog.setTitle("Chỉnh sửa thông tin lưu trú");
+            
+            dialog.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Lỗi", "Không thể mở dialog chỉnh sửa: " + e.getMessage());
+        }
     }
 
     private void showAlert(String title, String content) {
