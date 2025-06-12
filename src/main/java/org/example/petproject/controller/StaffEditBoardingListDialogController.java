@@ -3,6 +3,7 @@ package org.example.petproject.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import org.example.petproject.model.PetBoardingInfoJPA;
 import org.example.petproject.model.Room;
 import org.example.petproject.dao.PetBoardingInfoJPADAO;
@@ -37,6 +38,45 @@ public class StaffEditBoardingListDialogController {
         roomTypeComboBox.setOnAction(e -> updateRoomListAndPrice());
         roomComboBox.setOnAction(e -> updatePrice());
         allRooms = roomDAO.findAll();
+
+        // Add cell factory for room display
+        roomComboBox.setCellFactory(param -> new ListCell<Room>() {
+            @Override
+            protected void updateItem(Room room, boolean empty) {
+                super.updateItem(room, empty);
+                if (empty || room == null) {
+                    setText(null);
+                } else {
+                    setText(room.getName() != null ? room.getName() : "");
+                }
+            }
+        });
+
+        // Set button cell to match the cell factory
+        roomComboBox.setButtonCell(new ListCell<Room>() {
+            @Override
+            protected void updateItem(Room room, boolean empty) {
+                super.updateItem(room, empty);
+                if (empty || room == null) {
+                    setText(null);
+                } else {
+                    setText(room.getName() != null ? room.getName() : "");
+                }
+            }
+        });
+
+        // Set converter to handle string conversion
+        roomComboBox.setConverter(new StringConverter<Room>() {
+            @Override
+            public String toString(Room room) {
+                return room != null ? room.getName() : "";
+            }
+
+            @Override
+            public Room fromString(String string) {
+                return null; // Not needed for display-only
+            }
+        });
     }
 
     public void setBooking(PetBoardingInfoJPA booking) {

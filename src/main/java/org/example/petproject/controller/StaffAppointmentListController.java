@@ -95,7 +95,7 @@ public class StaffAppointmentListController implements Initializable, DashboardC
                 }
             }
         });
-
+            // Thiết lập giá trị cho các cột 
         petNameColumn.setCellValueFactory(cellData -> {
             if (cellData.getValue().getPet() != null) {
                 return javafx.beans.binding.Bindings.createStringBinding(
