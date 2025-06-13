@@ -7,6 +7,7 @@ import org.example.petproject.dao.ServiceBookingDAO;
 
 @Entity
 @Table(name = "pet_boarding_info")
+@EntityListeners(PetBoardingInfoJPALifecycleListener.class)
 public class PetBoardingInfoJPA {
 
     @Id

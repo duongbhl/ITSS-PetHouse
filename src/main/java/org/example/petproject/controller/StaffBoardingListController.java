@@ -459,7 +459,7 @@ public class StaffBoardingListController implements Initializable, DashboardCont
                 // Refresh table data
                 refreshTableData();
             });
-
+            
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(dialogPane);
             dialog.setTitle("Chỉnh sửa thông tin lưu trú");

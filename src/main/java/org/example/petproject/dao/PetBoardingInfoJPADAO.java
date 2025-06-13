@@ -193,10 +193,10 @@ public class PetBoardingInfoJPADAO extends BaseDAO<PetBoardingInfoJPA, String> {
             // Update basic information
             ServiceBooking booking = petBoarding.getBooking();
             if (booking.getCheckInTime() != null) {
-                boardingInfo.setCheckInDate(((LocalDate) booking.getCheckInTime()).atStartOfDay());
+                    boardingInfo.setCheckInDate(((LocalDate) booking.getCheckInTime()).atStartOfDay());
             }
             if (booking.getCheckOutTime() != null) {
-                boardingInfo.setCheckOutDate(((LocalDate) booking.getCheckOutTime()).atStartOfDay());
+                    boardingInfo.setCheckOutDate(((LocalDate) booking.getCheckOutTime()).atStartOfDay());
             }
 
             // Set status from ServiceBooking for new entries
